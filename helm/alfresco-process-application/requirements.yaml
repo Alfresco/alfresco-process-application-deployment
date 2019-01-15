@@ -1,0 +1,10 @@
+dependencies:
+  - name: alfresco-process-infrastructure
+    version: 0.1.0
+    repository: https://kubernetes-charts.alfresco.com/incubator
+    condition: alfresco-process-infrastructure.enabled
+  - name: application
+    alias: activiti-cloud-application
+    version: 0.6.1
+    repository: https://activiti.github.io/activiti-cloud-charts
+

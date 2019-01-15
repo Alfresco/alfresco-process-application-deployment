@@ -1,0 +1,1 @@
+APS 2.0 application deployed: {{ .Release.Name }}

@@ -1,0 +1,5 @@
+global:
+  keycloak:
+    url: "http://localhost-k8s/auth"
+  gateway:
+    host: "localhost-k8s"

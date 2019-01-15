@@ -1,0 +1,79 @@
+# Default values for alfresco-process-application.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+  keycloak:
+    realm: alfresco
+alfresco-content-services:
+  enabled: false
+alfresco-infrastructure:
+  alfresco-identity-service:
+    image:
+      repository: jboss/keycloak:4.6.0.Final
+  nginx-ingress:
+    enabled: false
+activiti-cloud-connector:
+  enabled: true
+runtime-bundle:
+  enabled: true
+activiti-cloud-application:
+  activiti-cloud-query:
+    image:
+      repository: quay.io/alfresco/alfresco-process-query-service
+      tag: develop
+    service:
+      name: query
+    javaOpts:
+      other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+    ingress:
+      enabled: true
+      path: /query
+  activiti-cloud-audit:
+    image:
+      repository: quay.io/alfresco/alfresco-process-audit-service
+      tag: develop
+    service:
+      name: audit
+    javaOpts:
+      other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+    ingress:
+      enabled: true
+      path: /audit
+  runtime-bundle:
+    image:
+      repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
+      tag: develop
+    service:
+      name: rb-my-app
+    javaOpts:
+      other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+    extraVolumes:
+      - name: license
+        secret:
+          secretName: licenseaps
+    extraVolumeMounts:
+      - name: license
+        mountPath: "/root/.activiti/enterprise-license/"
+        readOnly: true
+    ingress:
+      enabled: true
+      path: /rb-my-app
+  activiti-cloud-connector:
+    image:
+      repository: activiti/example-cloud-connector
+      tag: 7.0.0.Beta5
+    service:
+      name: example-cloud-connector
+    javaOpts:
+      other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+    extraVolumes:
+      - name: license
+        secret:
+          secretName: licenseaps
+    extraVolumeMounts:
+      - name: license
+        mountPath: "/root/.activiti/enterprise-license/"
+        readOnly: true
+    ingress:
+      enabled: true
+      path: /MYAPP-example-cloud-connector

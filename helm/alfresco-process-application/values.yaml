@@ -3,15 +3,20 @@
 # Declare variables to be passed into your templates.
 global:
   keycloak:
+    url: "https://activiti-keycloak.REPLACEME/auth"
     realm: alfresco
+  gateway:
+    host: &gatewayhost "activiti-cloud-gateway.REPLACEME"
+  ingress-annotations: &ingress-annotations
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/enable-cors: true
+    nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: true
 alfresco-content-services:
   enabled: false
-alfresco-infrastructure:
-  alfresco-identity-service:
-    image:
-      repository: jboss/keycloak:4.6.0.Final
-  nginx-ingress:
-    enabled: false
+alfresco-process-infrastructure:
+  enabled: false
 activiti-cloud-connector:
   enabled: true
 runtime-bundle:
@@ -27,7 +32,8 @@ activiti-cloud-application:
       other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
     ingress:
       enabled: true
-      path: /query
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
   activiti-cloud-audit:
     image:
       repository: quay.io/alfresco/alfresco-process-audit-service
@@ -38,7 +44,8 @@ activiti-cloud-application:
       other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
     ingress:
       enabled: true
-      path: /audit
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
   runtime-bundle:
     image:
       repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
@@ -57,7 +64,8 @@ activiti-cloud-application:
         readOnly: true
     ingress:
       enabled: true
-      path: /rb-my-app
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
   activiti-cloud-connector:
     image:
       repository: activiti/example-cloud-connector
@@ -76,4 +84,5 @@ activiti-cloud-application:
         readOnly: true
     ingress:
       enabled: true
-      path: /MYAPP-example-cloud-connector
+      hostName: *gatewayhost
+      annotations: *ingress-annotations

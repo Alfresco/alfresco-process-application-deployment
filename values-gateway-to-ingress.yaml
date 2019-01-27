@@ -1,0 +1,43 @@
+# helm upgrade --reuse-values activiti-cloud-full-example activiti-cloud-charts/activiti-cloud-full-example $0 --debug -f --dry-run
+
+global:
+  gateway:
+    host: &gatewayhost activiti-cloud-gateway.aps2pentest.envalfresco.com
+  ingress-annotations: &ingress-annotations
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/enable-cors: true
+    nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: true
+
+activiti-cloud-modeling:
+  ingress:
+    enabled: true
+    hostName: *gatewayhost
+    annotations: *ingress-annotations
+
+infrastructure:
+  activiti-cloud-gateway:
+    enabled: false
+
+application:
+  activiti-cloud-query:
+    ingress:
+      enabled: true
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
+  activiti-cloud-audit:
+    ingress:
+      enabled: true
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
+  runtime-bundle:
+    ingress:
+      enabled: true
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
+  activiti-cloud-connector:
+    ingress:
+      enabled: true
+      hostName: *gatewayhost
+      annotations: *ingress-annotations

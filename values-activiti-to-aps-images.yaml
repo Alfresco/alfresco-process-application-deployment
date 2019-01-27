@@ -1,0 +1,38 @@
+# helm upgrade --reuse-values activiti-cloud-full-example activiti-cloud-charts/activiti-cloud-full-example $0 --debug -f --dry-run
+
+application:
+  activiti-cloud-query:
+    image:
+      repository: quay.io/alfresco/alfresco-process-query-service
+      tag: develop
+    extraEnv: |
+      - name: KEYCLOAK_REALM
+        value: "activiti"
+      - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+        value: "false"
+  activiti-cloud-audit:
+    image:
+      repository: quay.io/alfresco/alfresco-process-audit-service
+      tag: develop
+    extraEnv: |
+      - name: KEYCLOAK_REALM
+        value: "activiti"
+      - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+        value: "false"
+  runtime-bundle:
+    image:
+      repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
+      tag: develop
+    extraEnv: |
+      - name: KEYCLOAK_REALM
+        value: "activiti"
+      - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+        value: "false"
+    extraVolumes: |
+      - name: license
+        secret:
+          secretName: licenseaps
+    extraVolumeMounts: |
+      - name: license
+        mountPath: "/root/.activiti/enterprise-license/"
+        readOnly: true

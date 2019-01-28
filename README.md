@@ -46,16 +46,20 @@ A custom extra values file to add settings for _Docker for Desktop_ as specified
 ## Pen Testing Setup
 
 ```bash
+export HELM_OPTS="--debug --dry-run"
+
 export APP_NAME="activiti-cloud-full-example"
 export CHART_NAME="activiti-cloud-full-example"
 export CHART_REPO="activiti-cloud-charts"
 export CHART_VERSION="0.7.0"
-export HELM_OPTS="--debug --dry-run"
 
-helm install ${HELM_OPTS} -f values-aps2pentest-to-https.yaml \
-  -f values-gateway-to-ingress.yaml \
+helm upgrade --install ${HELM_OPTS} \
+  --reuse-values \
+  -f values-aps2pentest-to-https.yaml \
   -f values-activiti-to-aps-images.yaml \
-  --name $APP_NAME ${CHART_REPO}/${CHART_NAME} --version ${CHART_VERSION}  
+  -f values-gateway-to-ingress.yaml \
+  -f values-activiti-to-aps-infrastructure.yaml \
+  $APP_NAME ${CHART_REPO}/${CHART_NAME} --version ${CHART_VERSION}  
 ```
 
 or apply steps one by one with:
@@ -72,7 +76,6 @@ for DEPLOYMENT in activiti-cloud-query activiti-cloud-audit runtime-bundle activ
 do
   kubectl patch deployment ${APP_NAME}-${DEPLOYMENT} --patch '{"spec": {"template": {"spec": {"imagePullSecrets": [{"name": "quay-registry-secret"}]}}}}'
 done
-
 ```
 
 Run acceptance tests:
@@ -84,3 +87,26 @@ export GATEWAY_URL=https://activiti-cloud-gateway.aps2pentest.envalfresco.com
 mvn -pl '!security-policies-acceptance-tests' clean verify serenity:aggregate
 ```
 
+Replace activiti infrastructure with APS one:
+
+```bash
+helm upgrade --install ${HELM_OPTS} \
+  -f values-aps-infrastructure.yaml \
+  infrastructure alfresco-incubator/alfresco-process-infrastructure
+  
+helm upgrade ${HELM_OPTS} --reuse-values \
+  -f values-activiti-to-aps-infrastructure.yaml \
+  $APP_NAME ${CHART_REPO}/${CHART_NAME} --version ${CHART_VERSION}
+```
+
+or just activate alfresco-identity-service:
+
+```bash
+helm upgrade --install ${HELM_OPTS} \
+  -f values-alfresco-identity-service.yaml \
+  alfresco-identity-service alfresco/alfresco-identity-service
+
+helm upgrade ${HELM_OPTS} --reuse-values \
+  -f values-activiti-to-aps-infrastructure.yaml \
+  $APP_NAME ${CHART_REPO}/${CHART_NAME} --version ${CHART_VERSION}
+```

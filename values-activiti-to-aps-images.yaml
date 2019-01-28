@@ -1,33 +1,31 @@
-# helm upgrade --reuse-values activiti-cloud-full-example activiti-cloud-charts/activiti-cloud-full-example $0 --debug -f --dry-run
+# required for helm upgrade to work otherwise: Error: UPGRADE FAILED: no ServiceAccount with the name "activiti-cloud-gateway" found
+infrastructure:
+  activiti-cloud-gateway:
+    enabled: false
+
+global:
+  extraEnv: &extraEnv |
+    - name: KEYCLOAK_REALM
+      value: "activiti"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
 
 application:
   activiti-cloud-query:
     image:
       repository: quay.io/alfresco/alfresco-process-query-service
-      tag: develop
-    extraEnv: |
-      - name: KEYCLOAK_REALM
-        value: "activiti"
-      - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-        value: "false"
+      tag: dev-mteodori-ACTIVITI-2594
+    extraEnv: *extraEnv
   activiti-cloud-audit:
     image:
       repository: quay.io/alfresco/alfresco-process-audit-service
-      tag: develop
-    extraEnv: |
-      - name: KEYCLOAK_REALM
-        value: "activiti"
-      - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-        value: "false"
+      tag: dev-mteodori-ACTIVITI-2594
+    extraEnv: *extraEnv
   runtime-bundle:
     image:
       repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
-      tag: develop
-    extraEnv: |
-      - name: KEYCLOAK_REALM
-        value: "activiti"
-      - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-        value: "false"
+      tag: dev-mteodori-ACTIVITI-2594
+    extraEnv: *extraEnv
     extraVolumes: |
       - name: license
         secret:

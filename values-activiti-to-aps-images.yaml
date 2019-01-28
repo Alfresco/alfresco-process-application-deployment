@@ -14,17 +14,17 @@ application:
   activiti-cloud-query:
     image:
       repository: quay.io/alfresco/alfresco-process-query-service
-      tag: dev-mteodori-ACTIVITI-2594
+      tag: develop
     extraEnv: *extraEnv
   activiti-cloud-audit:
     image:
       repository: quay.io/alfresco/alfresco-process-audit-service
-      tag: dev-mteodori-ACTIVITI-2594
+      tag: develop
     extraEnv: *extraEnv
   runtime-bundle:
     image:
       repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
-      tag: dev-mteodori-ACTIVITI-2594
+      tag: develop
     extraEnv: *extraEnv
     extraVolumes: |
       - name: license

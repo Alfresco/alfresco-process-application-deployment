@@ -25,7 +25,7 @@ Helm command to install application chart:
 
 ### install.sh
 
-Helper script to launch installationd:
+Helper script to launch installation:
 
     HELM_OPTS="--debug --dry-run" ./install.sh
 
@@ -43,7 +43,7 @@ A custom extra values file to add settings for _Docker for Desktop_ as specified
 
     HELM_OPTS="-f docker-for-desktop-values.yaml" ./install.sh
 
-## Pen Testing Setup
+## Pen Testing Environment Setup
 
 ```bash
 export HELM_OPTS="--debug --dry-run"
@@ -52,6 +52,12 @@ export APP_NAME="activiti-cloud-full-example"
 export CHART_NAME="activiti-cloud-full-example"
 export CHART_REPO="activiti-cloud-charts"
 export CHART_VERSION="0.7.0"
+export DOMAIN=aps2pentest.envalfresco.com
+export SSO_HOST=activiti-keycloak.${DOMAIN}
+export SSO_URL=https://${SSO_HOST}.${DOMAIN}/auth
+export REALM=activiti
+export GATEWAY_HOST=activiti-cloud-gateway.${DOMAIN}
+export GATEWAY_URL=https://${GATEWAY_HOST}
 
 helm upgrade --install ${HELM_OPTS} \
   --reuse-values \
@@ -81,9 +87,6 @@ done
 Run acceptance tests:
 ```bash
 cd activiti-cloud-acceptance-scenarios
-export SSO_URL=https://activiti-keycloak.aps2pentest.envalfresco.com/auth
-export REALM=activiti
-export GATEWAY_URL=https://activiti-cloud-gateway.aps2pentest.envalfresco.com
 mvn -pl '!security-policies-acceptance-tests' clean verify serenity:aggregate
 ```
 
@@ -102,6 +105,9 @@ helm upgrade ${HELM_OPTS} --reuse-values \
 or just activate alfresco-identity-service:
 
 ```bash
+# create secret with activiti realm
+kubectl create -f realm-secret.yaml
+
 helm upgrade --install ${HELM_OPTS} \
   -f values-alfresco-identity-service.yaml \
   alfresco-identity-service alfresco/alfresco-identity-service
@@ -109,4 +115,65 @@ helm upgrade --install ${HELM_OPTS} \
 helm upgrade ${HELM_OPTS} --reuse-values \
   -f values-activiti-to-aps-infrastructure.yaml \
   $APP_NAME ${CHART_REPO}/${CHART_NAME} --version ${CHART_VERSION}
+```
+
+then to deploy the process-admin app:
+```bash
+helm upgrade --install --wait \
+  ${HELM_OPTS} \
+  --set registryPullSecrets=quay-registry-secret \
+  --set image.repository=quay.io/alfresco/alfresco-admin-app \
+  --set image.tag=latest \
+  --set image.pullPolicy=Always \
+  --set ingress.hostName="${GATEWAY_HOST}" \
+  --set ingress.path="/alfresco-admin-app" \
+  --set env.APP_CONFIG_BPM_HOST="${GATEWAY_URL}" \
+  --set env.API_URL="${GATEWAY_URL}" \
+  --set env.APP_CONFIG_APPS_DEPLOYED="[{\"name\": \"${APP_NAME}\" }]" \
+  --set env.APP_CONFIG_AUTH_TYPE="OAUTH" \
+  --set env.APP_CONFIG_OAUTH2_HOST="${SSO_URL}/realms/${REALM}" \
+  --set env.APP_CONFIG_IDENTITY_HOST="${SSO_URL}/admin/realms/${REALM}" \
+  --set env.APP_CONFIG_OAUTH2_CLIENTID="activiti" \
+  alfresco-admin-app alfresco-incubator/alfresco-adf-app
+
+``` 
+
+then to deploy the process-workspace app:
+```bash
+helm upgrade --install --wait \
+  ${HELM_OPTS} \
+  --set registryPullSecrets=quay-registry-secret \
+  --set image.repository=quay.io/alfresco/alfresco-process-workspace-app \
+  --set image.tag=latest \
+  --set image.pullPolicy=Always \
+  --set ingress.hostName="${GATEWAY_HOST}" \
+  --set ingress.path="/alfresco-process-workspace-app" \
+  --set env.APP_CONFIG_BPM_HOST="${GATEWAY_URL}" \
+  --set env.API_URL="${GATEWAY_URL}" \
+  --set env.APP_CONFIG_APPS_DEPLOYED="[{\"name\": \"${APP_NAME}\" }]" \
+  --set env.APP_CONFIG_AUTH_TYPE="OAUTH" \
+  --set env.APP_CONFIG_OAUTH2_HOST="${SSO_URL}/realms/${REALM}" \
+  --set env.APP_CONFIG_IDENTITY_HOST="${SSO_URL}/admin/realms/${REALM}" \
+  --set env.APP_CONFIG_OAUTH2_CLIENTID="activiti" \
+  alfresco-process-workspace-app alfresco-incubator/alfresco-adf-app
+
+``` 
+
+## Beer Demo Environment Setup
+
+Setup a cluster on AWS (using Kops, EKS doesn't work using eksctl with the current kubectl version):
+
+```bash
+export KOPS_CLUSTER_NAME="devcon-beer-demo"
+${APS_SCRIPTS_HOME}/create_aws_cluster_with_kops.sh
+```
+
+then add helm and ingress:
+
+```bash
+export CLUSTER_NAME="devcon-beer-demo"
+
+helm init --upgrade
+helm repo update
+helm install stable/nginx-ingress
 ```

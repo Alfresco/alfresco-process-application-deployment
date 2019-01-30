@@ -28,8 +28,6 @@ activiti-cloud-application:
       tag: develop
     service:
       name: query
-    javaOpts:
-      other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
     ingress:
       enabled: true
       hostName: *gatewayhost
@@ -40,8 +38,6 @@ activiti-cloud-application:
       tag: develop
     service:
       name: audit
-    javaOpts:
-      other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
     ingress:
       enabled: true
       hostName: *gatewayhost
@@ -52,8 +48,6 @@ activiti-cloud-application:
       tag: develop
     service:
       name: rb-my-app
-    javaOpts:
-      other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
     extraVolumes:
       - name: license
         secret:
@@ -72,8 +66,6 @@ activiti-cloud-application:
       tag: 7.0.0.Beta5
     service:
       name: example-cloud-connector
-    javaOpts:
-      other: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
     extraVolumes:
       - name: license
         secret:

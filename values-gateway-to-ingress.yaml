@@ -21,21 +21,25 @@ infrastructure:
 application:
   activiti-cloud-query:
     ingress:
+      path: /default-app-query
       enabled: true
       hostName: *gatewayhost
       annotations: *ingress-annotations
   activiti-cloud-audit:
     ingress:
+      path: /default-app-audit
       enabled: true
       hostName: *gatewayhost
       annotations: *ingress-annotations
   runtime-bundle:
     ingress:
+      path: /default-app-rb
       enabled: true
       hostName: *gatewayhost
       annotations: *ingress-annotations
   activiti-cloud-connector:
     ingress:
+      path: /default-app-activiti-cloud-connector
       enabled: true
       hostName: *gatewayhost
       annotations: *ingress-annotations

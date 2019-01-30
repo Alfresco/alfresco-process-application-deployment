@@ -4,9 +4,6 @@ alfresco-infrastructure:
   alfresco-identity-service:
     keycloak:
       keycloak:
-        ingress:
-          hosts:
-            - activiti-keycloak.aps2pentest.envalfresco.com
         image:
           repository: quay.io/alfresco/keycloak
           tag: 4.8.3.Final

@@ -1,55 +1,13 @@
-global:
-  gateway:
-    host: &gatewayhost activiti-cloud-gateway.aps2devcon.envalfresco.com
-  ingress-annotations: &ingress-annotations
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/enable-cors: true
-    nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-    nginx.ingress.kubernetes.io/x-forwarded-prefix: true
-
-activiti-cloud-query:
-  service:
-    name: beerer-query
-  ingress:
-    path: /beerer-query
-    enabled: true
-    hostName: *gatewayhost
-    annotations: *ingress-annotations
-activiti-cloud-audit:
-  service:
-    name: beerer-audit
-  ingress:
-    path: /beerer-audit
-    enabled: true
-    hostName: *gatewayhost
-    annotations: *ingress-annotations
 runtime-bundle:
-  enabled: true
-  service:
-    name: beerer-rb
   image:
     repository: mteodori/beerer-runtime-bundle
     tag: latest
     pullPolicy: Always
-  ingress:
-    path: /beerer-rb
-    enabled: true
-    hostName: *gatewayhost
-    annotations: *ingress-annotations
 activiti-cloud-connector:
-  enabled: true
-  service:
-    name: untappd-cloud-connector
   image:
     repository: mteodori/untappd-cloud-connector
     tag: latest
     pullPolicy: Always
-  ingress:
-    path: /beerer-untappd-cloud-connector
-    enabled: true
-    hostName: *gatewayhost
-    annotations: *ingress-annotations
   extraEnv: |
     - name: UNTAPPD_API_CLIENT_ID
       value: "51B5BAED65B9556BB46B0F1788E83A13A8E22C19"

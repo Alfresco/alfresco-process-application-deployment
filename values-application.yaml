@@ -1,0 +1,32 @@
+global:
+  ingress-annotations: &ingress-annotations
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/enable-cors: true
+    nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: true
+
+activiti-cloud-query:
+  ingress:
+    enabled: true
+    annotations: *ingress-annotations
+activiti-cloud-audit:
+  ingress:
+    enabled: true
+    annotations: *ingress-annotations
+runtime-bundle:
+  enabled: true
+  ingress:
+    enabled: true
+    annotations: *ingress-annotations
+  serviceAccount:
+    create: false
+activiti-cloud-connector:
+  enabled: true
+  ingress:
+    enabled: true
+    annotations: *ingress-annotations
+  serviceAccount:
+    create: false
+  rbac:
+    create: false

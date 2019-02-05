@@ -1,4 +1,7 @@
 global:
+  keycloak:
+    url: "https://activiti-keycloak.REPLACEME/auth"
+    realm: activiti
   gateway:
     host: &gatewayhost "activiti-cloud-gateway.REPLACEME"
   ingress-annotations: &ingress-annotations
@@ -7,8 +10,3 @@ global:
     nginx.ingress.kubernetes.io/enable-cors: true
     nginx.ingress.kubernetes.io/cors-allow-headers: "*"
     nginx.ingress.kubernetes.io/x-forwarded-prefix: true
-
-ingress:
-  enabled: true
-  hostName: *gatewayhost
-  annotations: *ingress-annotations

@@ -7,19 +7,27 @@ global:
     nginx.ingress.kubernetes.io/x-forwarded-prefix: true
 
 activiti-cloud-query:
+  db:
+    deployPostgres: true
   ingress:
     enabled: true
     annotations: *ingress-annotations
 activiti-cloud-audit:
+  db:
+    deployPostgres: true
   ingress:
     enabled: true
     annotations: *ingress-annotations
 runtime-bundle:
   enabled: true
+  db:
+    deployPostgres: true
   ingress:
     enabled: true
     annotations: *ingress-annotations
   serviceAccount:
+    create: false
+  rbac:
     create: false
 activiti-cloud-connector:
   enabled: true
@@ -30,3 +38,5 @@ activiti-cloud-connector:
     create: false
   rbac:
     create: false
+activiti-cloud-notifications-graphql:
+  enabled: true

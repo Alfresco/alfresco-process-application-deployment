@@ -1,0 +1,33 @@
+global:
+  extraEnv: &extraEnv |
+    - name: KEYCLOAK_REALM
+      value: "activiti"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
+
+activiti-cloud-query:
+  image:
+    repository: quay.io/alfresco/alfresco-process-query-service
+    tag: develop
+    pullPolicy: Always
+  extraEnv: *extraEnv
+activiti-cloud-audit:
+  image:
+    repository: quay.io/alfresco/alfresco-process-audit-service
+    tag: develop
+    pullPolicy: Always
+  extraEnv: *extraEnv
+runtime-bundle:
+  image:
+    repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
+    tag: develop
+    pullPolicy: Always
+  extraEnv: *extraEnv
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true

@@ -15,16 +15,19 @@ application:
     image:
       repository: quay.io/alfresco/alfresco-process-query-service
       tag: develop
+      pullPolicy: Always
     extraEnv: *extraEnv
   activiti-cloud-audit:
     image:
       repository: quay.io/alfresco/alfresco-process-audit-service
       tag: develop
+      pullPolicy: Always
     extraEnv: *extraEnv
   runtime-bundle:
     image:
       repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
       tag: develop
+      pullPolicy: Always
     extraEnv: *extraEnv
     extraVolumes: |
       - name: license

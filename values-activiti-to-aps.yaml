@@ -1,0 +1,115 @@
+global:
+  keycloak:
+    url: "${SSO_URL}"
+  gateway:
+    host: &gatewayhost ${GATEWAY_HOST}
+    ingress:
+      annotations: &ingress-annotations
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/rewrite-target: /
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
+  extraEnv: &extraEnv |
+    - name: KEYCLOAK_REALM
+      value: "${REALM}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
+
+infrastructure:
+  activiti-cloud-gateway:
+    enabled: false
+    serviceAccount:
+      create: false
+    rbac:
+      create: false
+  activiti-keycloak:
+    enabled: false
+    keycloak:
+      enabled: false
+      keycloak:
+        ingress:
+          hosts:
+            - "${SSO_HOST}"
+
+activiti-cloud-modeling:
+  enabled: true
+  backend:
+    url: "${GATEWAY_URL}"
+  db:
+    deployPostgres: true
+  ingress:
+    enabled: true
+    hostName: *gatewayhost
+    annotations: *ingress-annotations
+  extraEnv: |
+    - name: KEYCLOAK_REALM
+      value: "${REALM}"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: /activiti-cloud-modeling
+
+application:
+  activiti-cloud-query:
+    db:
+      deployPostgres: true
+    image:
+      repository: quay.io/alfresco/alfresco-process-query-service
+      tag: develop
+      pullPolicy: Always
+    ingress:
+      path: /${APP_NAME}-query
+      enabled: true
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
+    extraEnv: *extraEnv
+  activiti-cloud-audit:
+    db:
+      deployPostgres: true
+    image:
+      repository: quay.io/alfresco/alfresco-process-audit-service
+      tag: develop
+      pullPolicy: Always
+    ingress:
+      path: /${APP_NAME}-audit
+      enabled: true
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
+    extraEnv: *extraEnv
+  runtime-bundle:
+    db:
+      deployPostgres: true
+    image:
+      repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
+      tag: develop
+      pullPolicy: Always
+    extraEnv: *extraEnv
+    ingress:
+      path: /${APP_NAME}-rb
+      enabled: true
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
+    extraVolumes: |
+      - name: license
+        secret:
+          secretName: licenseaps
+    extraVolumeMounts: |
+      - name: license
+        mountPath: "/root/.activiti/enterprise-license/"
+        readOnly: true
+    serviceAccount:
+      create: false
+    rbac:
+      create: false
+  activiti-cloud-connector:
+    enabled: true
+    ingress:
+      enabled: true
+      path: /${APP_NAME}-example-cloud-connector
+      hostName: *gatewayhost
+      annotations: *ingress-annotations
+    serviceAccount:
+      create: false
+    rbac:
+      create: false
+  activiti-cloud-notifications-graphql:
+    enabled: true

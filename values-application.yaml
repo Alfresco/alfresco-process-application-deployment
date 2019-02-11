@@ -1,42 +1,151 @@
 global:
-  ingress-annotations: &ingress-annotations
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/enable-cors: true
-    nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-    nginx.ingress.kubernetes.io/x-forwarded-prefix: true
+  keycloak:
+    url: "${SSO_URL}"
+    realm: "${REALM}"
+  gateway:
+    host: &gateway-host "${GATEWAY_HOST}"
+    ingress:
+      annotations: &ingress-annotations
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
 
 activiti-cloud-query:
+  enabled: true
   db:
     deployPostgres: true
+  service:
+    name: "${APP_NAME}-query"
   ingress:
     enabled: true
+    hostName: *gateway-host
+    path: "/${APP_NAME}-query"
     annotations: *ingress-annotations
+  probePath: "/${APP_NAME}-query/actuator/health"
+  extraEnv: |
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/${APP_NAME}-query"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: KEYCLOAK_REALM
+      value: "${REALM}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+
 activiti-cloud-audit:
+  enabled: true
   db:
     deployPostgres: true
+  service:
+    name: "${APP_NAME}-audit"
   ingress:
     enabled: true
+    hostName: *gateway-host
+    path: "/${APP_NAME}-audit"
     annotations: *ingress-annotations
+  probePath: "/${APP_NAME}-audit/actuator/health"
+  extraEnv: |
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/${APP_NAME}-audit"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: KEYCLOAK_REALM
+      value: "${REALM}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+
 runtime-bundle:
   enabled: true
   db:
     deployPostgres: true
+  service:
+    name: "${APP_NAME}-rb"
   ingress:
     enabled: true
+    hostName: *gateway-host
+    path: "/${APP_NAME}-rb"
     annotations: *ingress-annotations
+  probePath: "/${APP_NAME}-rb/actuator/health"
   serviceAccount:
     create: false
   rbac:
     create: false
+  extraEnv: |
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/${APP_NAME}-rb"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: KEYCLOAK_REALM
+      value: "${REALM}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+
 activiti-cloud-connector:
   enabled: true
+  service:
+    name: "${APP_NAME}-example-cloud-connector"
   ingress:
     enabled: true
+    hostName: *gateway-host
+    path: "/${APP_NAME}-example-cloud-connector"
     annotations: *ingress-annotations
+  probePath: "/${APP_NAME}-example-cloud-connector/actuator/health"
   serviceAccount:
     create: false
   rbac:
     create: false
+  extraEnv: |
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/${APP_NAME}-example-cloud-connector"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: KEYCLOAK_REALM
+      value: "${REALM}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+
 activiti-cloud-notifications-graphql:
-  enabled: true
+  enabled: false
+  service:
+    name: "${APP_NAME}-activiti-cloud-notifications"
+  ingress:
+    enabled: true
+    hostName: *gateway-host
+    web:
+      path: "/${APP_NAME}/graphql"
+    graphiql:
+      path: "/${APP_NAME}/graphiql"
+    ws:
+      path: "/${APP_NAME}/ws/graphql"
+    annotations: *ingress-annotations
+  probePath: "/${APP_NAME}/actuator/health"
+  extraEnv: |
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/${APP_NAME}"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: KEYCLOAK_REALM
+      value: "${REALM}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"

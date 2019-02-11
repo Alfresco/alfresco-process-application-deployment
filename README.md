@@ -37,18 +37,15 @@ Supported optional vars:
 * HELM_OPTS to pass extra options to helm 
 
 
-### run in Docker for Desktop
+## Environment Setup
 
-A custom extra values file to add settings for _Docker for Desktop_ as specified in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#docker-for-desktop---mac) is provided:
+### setup directories
+Adjust as per your environment:
 
-    HELM_OPTS="-f docker-for-desktop-values.yaml" ./install.sh
-
-## AWS Environment Setup
-
-### setup
 ```bash
-export APS_APPLICATION_CHART_HOME=~/src/Alfresco/process-services/alfresco-process-application-deployment
-export ACTIVITI_ACCEPTANCE_TESTS_HOME=~/src/Activiti/activiti-cloud-acceptance-scenarios
+export ACTIVITI_CLOUD_CHARTS_HOME="$HOME/src/Activiti/activiti-cloud-charts"
+export APS_APPLICATION_CHART_HOME="$HOME/src/Alfresco/process-services/alfresco-process-application-deployment"
+export ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME="$HOME/src/Activiti/activiti-cloud-acceptance-scenarios"
 ```
 
 ### set env variables
@@ -57,7 +54,19 @@ export CLUSTER="<cluster>"
 export APP_NAME="<your-app-name>"
 ```
 
-### set variables for Pen Testing environment
+### set variables for Docker for Desktop
+
+In order to deploy _Docker for Desktop_ follow the info in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#docker-for-desktop---mac):
+
+```bash
+export SSO_HOST="localhost-k8s"
+export GATEWAY_HOST="localhost-k8s"
+export PROTOCOL="http"
+```
+
+then set derived [url env variables](#set-derived-url-env-variables) and run `./install.sh`.
+
+### set variables for AWS Pen Testing environment
 ```bash
 export CLUSTER="aps2pentest"
 export APP_NAME="default-app"
@@ -68,7 +77,7 @@ export APP_NAME="another-app"
 ```
 then set [derived](#set-derived-env-variables) and test.
 
-### set variables for Beer Demo DevCon environment
+### set variables for AWS Beer Demo DevCon environment
 
 ```bash
 export CLUSTER="aps2devcon"
@@ -82,11 +91,15 @@ export PROTOCOL="https"
 export REALM="activiti"
 ```
 
-### set derived env variables
+### set derived host env variables
 ```bash
 export SSO_HOST="activiti-keycloak.${DOMAIN}"
-export SSO_URL="${PROTOCOL}://${SSO_HOST}/auth"
 export GATEWAY_HOST="activiti-cloud-gateway.${DOMAIN}"
+```
+
+### set derived url env variables
+```bash
+export SSO_URL="${PROTOCOL}://${SSO_HOST}/auth"
 export GATEWAY_URL="${PROTOCOL}://${GATEWAY_HOST}"
 ```
 
@@ -104,11 +117,6 @@ export GRAPHQL_URL=${GATEWAY_URL}/${APP_NAME}-graphql
 export GRAPHQL_WS_URL=${GATEWAY_URL/http/ws}/ws/${APP_NAME}-graphql
 ```
 
-then patch _serviceaccount_ to pull secrets:
-```bash
-kubectl patch serviceaccount default --patch '{"imagePullSecrets": [{"name": "quay-registry-secret"}]}'
-```
-
 then start with the install:
 
 ```bash
@@ -119,10 +127,7 @@ export CHART_REPO="activiti-cloud-charts"
 helm upgrade \
   --install \
   ${HELM_OPTS} \
-  -f values-aps2pentest-to-https.yaml \
-  -f values-activiti-to-aps-images.yaml \
-  -f values-gateway-to-ingress.yaml \
-  -f values-activiti-to-aps-infrastructure.yaml \
+  -f values-activiti-to-aps.yaml \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
 ```
 
@@ -145,7 +150,7 @@ done
 
 then run acceptance tests:
 ```bash
-cd ${ACTIVITI_ACCEPTANCE_TESTS_HOME}
+cd ${ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME}
 mvn -pl '!security-policies-acceptance-tests' clean verify serenity:aggregate
 ```
 
@@ -203,6 +208,7 @@ and add wildcard *.${DOMAIN} DNS entry with new HTTPS cert and set ELB to send H
 then define app name and set env vars, then set [derived](#set-derived-env-variables) and [helm](#set-helm-variables) vars as above
 
 then add alfresco-identity-service:
+
 ```bash
 CHART_REPO=alfresco
 CHART_NAME=alfresco-identity-service
@@ -226,22 +232,21 @@ CHART_REPO=activiti-cloud-charts
 CHART_NAME=activiti-cloud-modeling
 RELEASE_NAME=${CHART_NAME}
 
+cat ${APS_APPLICATION_CHART_HOME}/values-${CHART_NAME}.yaml | envsubst > values.yaml
+
 helm upgrade --install \
   ${HELM_OPTS} \
-  -f values-ingress.yaml \
-  --set global.keycloak.url=${SSO_URL} \
-  --set global.gateway.host=${GATEWAY_HOST} \
-  --set backend.url=${GATEWAY_URL} \
-  --set ingress.hostName=${GATEWAY_HOST} \
-  --set env.APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI=${GATEWAY_URL}/activiti-cloud-modeling/assets/silent-refresh.html \
+  -f values.yaml \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
+
+rm values.yaml
 ``` 
 
 
 #### run modeling acceptance tests
 
 ```bash
-cd ${ACTIVITI_ACCEPTANCE_TESTS_HOME}
+cd ${ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME}
 mvn -pl 'modeling-acceptance-tests' clean verify serenity:aggregate
 ```
 
@@ -255,31 +260,23 @@ CHART_REPO=activiti-cloud-charts
 CHART_NAME=application
 RELEASE_NAME=${APP_NAME}
 
+sed \
+  -e "s@\${GATEWAY_HOST}@${GATEWAY_HOST}@" \
+  -e "s@\${GATEWAY_URL}@${GATEWAY_URL}@" \
+  -e "s@\${SSO_URL}@${SSO_URL}@" \
+  -e "s@\${REALM}@${REALM}@" \
+  -e "s@\${APP_NAME}@${APP_NAME}@" \
+  ${APS_APPLICATION_CHART_HOME}/values-${CHART_NAME}.yaml > values.yaml
+
+# cat ${APS_APPLICATION_CHART_HOME}/values-${CHART_NAME}.yaml | envsubst > values.yaml   
+
 helm upgrade --install \
   ${HELM_OPTS} \
-  -f values-application.yaml \
+  -f values.yaml \
   -f values-application-${CLUSTER}.yaml \
   -f values-application-to-aps-images.yaml \
-  --set global.keycloak.url=${SSO_URL} \
-  --set global.gateway.host=${GATEWAY_HOST} \
-  --set activiti-cloud-query.service.name=${APP_NAME}-query \
-  --set activiti-cloud-query.ingress.hostName=${GATEWAY_HOST} \
-  --set activiti-cloud-query.ingress.path=/${APP_NAME}-query \
-  --set activiti-cloud-audit.service.name=${APP_NAME}-audit \
-  --set activiti-cloud-audit.ingress.hostName=${GATEWAY_HOST} \
-  --set activiti-cloud-audit.ingress.path=/${APP_NAME}-audit \
-  --set runtime-bundle.service.name=${APP_NAME}-rb \
-  --set runtime-bundle.ingress.hostName=${GATEWAY_HOST} \
-  --set runtime-bundle.ingress.path=/${APP_NAME}-rb \
-  --set activiti-cloud-connector.service.name=${APP_NAME}-example-cloud-connector \
-  --set activiti-cloud-connector.ingress.hostName=${GATEWAY_HOST} \
-  --set activiti-cloud-connector.ingress.path=/${APP_NAME}-example-cloud-connector \
-  --set activiti-cloud-notifications-graphql.service.name=${APP_NAME}-activiti-cloud-notifications \
-  --set activiti-cloud-notifications-graphql.ingress.hostName=${GATEWAY_HOST} \
-  --set activiti-cloud-notifications-graphql.ingress.web.path=/${APP_NAME}-graphql \
-  --set activiti-cloud-notifications-graphql.ingress.graphiql.path=/${APP_NAME}-graphiql \
-  --set activiti-cloud-notifications-graphql.ingress.ws.path=/ws/${APP_NAME}-graphql \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
+
 ```
 
 ### upgrade to use licensed images
@@ -296,7 +293,7 @@ helm upgrade --install \
 
 To test, [set test](#set-test-variables) then run:
 ```bash
-cd ${ACTIVITI_ACCEPTANCE_TESTS_HOME}
+cd ${ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME}
 
 mvn -pl 'runtime-acceptance-tests,multiple-runtime-acceptance-tests' clean verify serenity:aggregate
 ```

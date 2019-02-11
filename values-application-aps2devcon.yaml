@@ -13,3 +13,15 @@ activiti-cloud-connector:
       value: "51B5BAED65B9556BB46B0F1788E83A13A8E22C19"
     - name: UNTAPPD_API_CLIENT_SECRET
       value: "2843392EFC7BA90B8747A754B6201410B1A8CD1D"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/${APP_NAME}-example-cloud-connector"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: KEYCLOAK_REALM
+      value: "${REALM}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"

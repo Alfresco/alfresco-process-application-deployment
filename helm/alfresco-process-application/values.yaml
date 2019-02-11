@@ -7,12 +7,13 @@ global:
     realm: alfresco
   gateway:
     host: &gatewayhost "activiti-cloud-gateway.REPLACEME"
-  ingress-annotations: &ingress-annotations
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/enable-cors: true
-    nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-    nginx.ingress.kubernetes.io/x-forwarded-prefix: true
+    ingress:
+      annotations: &ingress-annotations
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/rewrite-target: /
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
 alfresco-content-services:
   enabled: false
 alfresco-process-infrastructure:
@@ -27,7 +28,7 @@ activiti-cloud-application:
       repository: quay.io/alfresco/alfresco-process-query-service
       tag: develop
     service:
-      name: query
+      name: default-app-query
     ingress:
       enabled: true
       hostName: *gatewayhost
@@ -37,7 +38,7 @@ activiti-cloud-application:
       repository: quay.io/alfresco/alfresco-process-audit-service
       tag: develop
     service:
-      name: audit
+      name: default-app-audit
     ingress:
       enabled: true
       hostName: *gatewayhost
@@ -47,7 +48,7 @@ activiti-cloud-application:
       repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
       tag: develop
     service:
-      name: rb-my-app
+      name: default-app-rb
     extraVolumes:
       - name: license
         secret:
@@ -63,9 +64,9 @@ activiti-cloud-application:
   activiti-cloud-connector:
     image:
       repository: activiti/example-cloud-connector
-      tag: 7.0.0.Beta5
+      tag: 7.0.0.RC1
     service:
-      name: example-cloud-connector
+      name: default-app-example-cloud-connector
     extraVolumes:
       - name: license
         secret:

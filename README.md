@@ -12,7 +12,7 @@ Configure access to pull images from quay.io in the namespace where the app is t
 
 ```bash
 kubectl create secret -n "${KUBE_NAMESPACE}" \
-  docker-registry quay-secret-quay \
+  docker-registry quay-registry-secret \
     --docker-server=quay.io \
     --docker-username="${DOCKER_REGISTRY_USER}" \
     --docker-password="${DOCKER_REGISTRY_PASSWORD}" \
@@ -79,6 +79,7 @@ export PROTOCOL="http"
 then set derived [url env variables](#set-derived-url-env-variables) and run `./install.sh`.
 
 ### set variables for AWS Pen Testing environment
+
 ```bash
 export CLUSTER="aps2pentest"
 export APP_NAME="default-app"
@@ -232,8 +233,7 @@ helm upgrade --install \
 rm values.yaml
 ``` 
 
-
-#### run modeling acceptance tests
+then run modeling acceptance tests
 
 ```bash
 cd ${ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME}

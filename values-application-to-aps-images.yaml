@@ -1,14 +1,17 @@
 activiti-cloud-query:
+  registryPullSecrets: quay-registry-secret
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
     tag: develop
     pullPolicy: Always
 activiti-cloud-audit:
+  registryPullSecrets: quay-registry-secret
   image:
     repository: quay.io/alfresco/alfresco-process-audit-service
     tag: develop
     pullPolicy: Always
 runtime-bundle:
+  registryPullSecrets: quay-registry-secret
   image:
     repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
     tag: develop

@@ -206,7 +206,9 @@ helm install --name nginx-ingress stable/nginx-ingress --version 1.1.2
 export ELB_ADDRESS=$(kubectl get services ${NGINX_INGRESS_RELEASE_NAME}-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname})
 ```
 
-and add wildcard *.${DOMAIN} DNS entry with new HTTPS cert and set ELB to send HTTPS traffic to HTTP.
+and add wildcard *.${DOMAIN} entry to DNS and use the HTTPS setup provided by the Activiti cloud charts on ingress-nginx that works with any cloud provider.
+
+on AWS only you can also generate HTTPS from the certificate manager and set ELB to send HTTPS traffic to HTTP.
 
 then define app name and set env vars, then set [derived](#set-derived-env-variables) and [helm](#set-helm-variables) vars as above
 

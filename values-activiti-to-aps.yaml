@@ -54,7 +54,7 @@ application:
       deployPostgres: true
     image:
       repository: quay.io/alfresco/alfresco-process-query-service
-      tag: develop
+      tag: 7.0.0
       pullPolicy: Always
     ingress:
       path: /${APP_NAME}-query
@@ -67,7 +67,7 @@ application:
       deployPostgres: true
     image:
       repository: quay.io/alfresco/alfresco-process-audit-service
-      tag: develop
+      tag: 7.0.0
       pullPolicy: Always
     ingress:
       path: /${APP_NAME}-audit
@@ -80,7 +80,7 @@ application:
       deployPostgres: true
     image:
       repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
-      tag: develop
+      tag: 7.0.0
       pullPolicy: Always
     extraEnv: *extraEnv
     ingress:

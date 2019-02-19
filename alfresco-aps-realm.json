@@ -1,0 +1,480 @@
+{
+  "realm": "alfresco",
+  "enabled": true,
+  "sslRequired": "none",
+  "loginTheme": "alfresco",
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "de",
+    "no",
+    "ru",
+    "sv",
+    "pt-BR",
+    "lt",
+    "en",
+    "it",
+    "fr",
+    "zh-CN",
+    "es",
+    "ja",
+    "ca",
+    "nl"
+  ],
+  "defaultLocale": "en",
+  "roles": {
+    "realm": [
+      {
+        "name": "ACTIVITI_USER"
+      },
+      {
+        "name": "ACTIVITI_ADMIN"
+      },
+      {
+        "name": "devops",
+        "composites": {
+          "realm": [
+            "ACTIVITI_USER",
+            "ACTIVITI_ADMIN"
+          ]
+        }
+      },
+      {
+        "name": "user",
+        "composites": {
+          "realm": [
+            "ACTIVITI_USER",
+            "ACTIVITI_MODELER"
+          ],
+          "client": {
+            "realm-management": [
+              "view-users"
+            ]
+          }
+        }
+      },
+      {
+        "name": "admin",
+        "composites": {
+          "realm": [
+            "ACTIVITI_ADMIN"
+          ]
+        }
+      },
+      {
+        "name": "modeler",
+        "composites": {
+          "realm": [
+            "ACTIVITI_MODELER"
+          ]
+        }
+      },
+      {
+        "name": "processadmin",
+        "composites": {
+          "realm": [
+            "ACTIVITI_USER",
+            "ACTIVITI_ADMIN"
+          ]
+        }
+      },
+      {
+        "name": "identity",
+        "description": "user is able to see the identity section",
+        "composites": {
+          "client": {
+            "realm-management": [
+              "query-realms",
+              "manage-users",
+              "manage-authorization",
+              "query-clients",
+              "view-users"
+            ]
+          }
+        }
+      },
+      {
+        "name": "ACTIVITI_MODELER"
+      }
+    ],
+    "client": {
+      "activiti": [
+        {
+          "name": "ACTIVITI_USER",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "processadmin",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true
+        }
+      ]
+    }
+  },
+  "groups": [
+    {
+      "name": "hr"
+    },
+    {
+      "name": "testgroup"
+    }
+  ],
+  "users": [
+    {
+      "username": "client",
+      "enabled": true,
+      "firstName": "client",
+      "lastName": "client",
+      "email": "client@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "client"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "offline_access",
+        "uma_authorization"
+      ],
+      "clientRoles": {
+        "realm-management": [
+          "manage-users",
+          "manage-clients",
+          "manage-authorization",
+          "manage-events",
+          "manage-realm",
+          "create-client",
+          "impersonation",
+          "realm-admin"
+        ],
+        "broker": [
+          "read-token"
+        ],
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      }
+    },
+    {
+      "username": "superadminuser",
+      "enabled": true,
+      "firstName": "Super Admin",
+      "lastName": "User",
+      "email": "superadminuser@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "uma_authorization",
+        "user",
+        "identity",
+        "offline_access",
+        "devops",
+        "processadmin"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ],
+        "activiti": [
+          "ACTIVITI_USER",
+          "processadmin"
+        ]
+      }
+    },
+    {
+      "username": "admin",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin"
+        }
+      ],
+      "realmRoles": [
+        "offline_access",
+        "uma_authorization",
+        "admin"
+      ],
+      "clientRoles": {
+        "realm-management": [
+          "manage-users",
+          "manage-clients",
+          "manage-authorization",
+          "manage-events",
+          "manage-realm",
+          "create-client",
+          "impersonation",
+          "realm-admin"
+        ],
+        "broker": [
+          "read-token"
+        ],
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      }
+    },
+    {
+      "username": "devopsuser",
+      "enabled": true,
+      "firstName": "DevOps",
+      "lastName": "User",
+      "email": "devopsuser@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "uma_authorization",
+        "devops",
+        "user",
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ],
+        "activiti": [
+          "ACTIVITI_USER"
+        ]
+      }
+    },
+    {
+      "username": "hruser",
+      "enabled": true,
+      "firstName": "HR",
+      "lastName": "User",
+      "email": "hruser@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "uma_authorization",
+        "user",
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      },
+      "groups": [
+        "/hr"
+      ]
+    },
+    {
+      "username": "processadminuser",
+      "enabled": true,
+      "firstName": "Process Admin",
+      "lastName": "User",
+      "email": "processadminuser@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "uma_authorization",
+        "processadmin",
+        "user",
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ],
+        "activiti": [
+          "processadmin"
+        ]
+      }
+    },
+    {
+      "username": "salesuser",
+      "enabled": true,
+      "firstName": "Sales",
+      "lastName": "User",
+      "email": "salesuser@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "uma_authorization",
+        "user",
+        "devops",
+        "processadmin",
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ],
+        "activiti": [
+          "processadmin"
+        ]
+      }
+    },
+    {
+      "username": "testuser",
+      "enabled": true,
+      "firstName": "Test",
+      "lastName": "User",
+      "email": "testuser@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "uma_authorization",
+        "user",
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      },
+      "groups": [
+        "/testgroup"
+      ]
+    },
+    {
+      "username": "identityuser",
+      "enabled": true,
+      "firstName": "IdentityTest",
+      "lastName": "User",
+      "email": "identity@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "identity",
+        "offline_access",
+        "uma_authorization"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      }
+    },
+    {
+      "username": "modeler",
+      "email": "modeler@alfresco.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "modeler"
+      ]
+    },
+    {
+      "username": "qa-modeler-1",
+      "email": "qa-modeler-1@alfresco.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "4lfQapsswd"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "modeler"
+      ]
+    },
+    {
+      "username": "qa-user-without-permission",
+      "email": "qa-user-without-permission@alfresco.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "4lfQapsswd"
+        }
+      ],
+      "realmRoles": [
+      ]
+    },
+    {
+      "username": "admin.adf",
+      "email": "admin.adf@alfresco.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "adf$2018IloveAngular"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "modeler",
+        "devops",
+        "processadmin"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "activiti",
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "directAccessGrantsEnabled": true,
+      "implicitFlowEnabled": true
+    },
+    {
+      "clientId": "modeling-service",
+      "enabled": true,
+      "authorizationServicesEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "secret": "a2c5f2e6-5d46-4405-889f-f5cc125b768d"
+    },
+    {
+      "clientId": "storage-service",
+      "enabled": true,
+      "authorizationServicesEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "secret": "08102f0f-025c-4226-8a3e-674343bff231"
+    }
+  ]
+}

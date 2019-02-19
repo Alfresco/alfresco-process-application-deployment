@@ -8,13 +8,25 @@ The APS 2.0 infrastructure should be already installed and ingress configured wi
 
 ### add quay-registry-secret
 
-Configure registry authentication with [create_secret.sh](https://git.alfresco.com/process-services/alfresco-process-scripts/raw/master/create_secret.sh): 
+Configure access to pull images from quay.io in the namespace where the app is to be installed: 
 
-    DOCKER_REGISTRY=quay.io \
-    DOCKER_REGISTRY_USER=<quay_user> \
-    DOCKER_REGISTRY_PASSWORD=<quay_password> \
-    DOCKER_REGISTRY_EMAIL=<quay_email> \
-      ./create_secret.sh    
+```bash
+kubectl create secret -n "${KUBE_NAMESPACE}" \
+  docker-registry quay-secret-quay \
+    --docker-server=quay.io \
+    --docker-username="${DOCKER_REGISTRY_USER}" \
+    --docker-password="${DOCKER_REGISTRY_PASSWORD}" \
+    --docker-email="${DOCKER_REGISTRY_EMAIL}"
+```
+
+### add license
+
+Create a secret called licenseaps containing the license file in the namespace where the app is to be installed.
+
+```bash
+kubectl create secret -n "${KUBE_NAMESPACE}" \
+  default licenseaps --from-file=activiti.lic
+```                   
 
 ## Install
 
@@ -51,7 +63,7 @@ export ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME="$HOME/src/Activiti/activiti-cloud-a
 ### set env variables
 ```bash
 export CLUSTER="<cluster>"
-export APP_NAME="<your-app-name>"
+export APP_NAME="default-app"
 ```
 
 ### set variables for Docker for Desktop
@@ -71,10 +83,7 @@ then set derived [url env variables](#set-derived-url-env-variables) and run `./
 export CLUSTER="aps2pentest"
 export APP_NAME="default-app"
 ```
-then repeat installation with:
-```bash
-export APP_NAME="another-app"
-```
+
 then set [derived](#set-derived-env-variables) and test.
 
 ### set variables for AWS Beer Demo DevCon environment
@@ -88,7 +97,7 @@ export APP_NAME="beerer"
 ```bash
 export DOMAIN="${CLUSTER}.envalfresco.com"
 export PROTOCOL="https"
-export REALM="activiti"
+export REALM="alfresco"
 ```
 
 ### set derived host env variables
@@ -113,8 +122,6 @@ export HELM_OPTS="--debug --dry-run"
 export RUNTIME_BUNDLE_URL=${GATEWAY_URL}/${APP_NAME}-rb
 export AUDIT_EVENT_URL=${GATEWAY_URL}/${APP_NAME}-audit
 export QUERY_URL=${GATEWAY_URL}/${APP_NAME}-query
-export GRAPHQL_URL=${GATEWAY_URL}/${APP_NAME}-graphql
-export GRAPHQL_WS_URL=${GATEWAY_URL/http/ws}/ws/${APP_NAME}-graphql
 ```
 
 then start with the install:
@@ -131,53 +138,49 @@ helm upgrade \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
 ```
 
-or apply steps one by one with:
-```bash
-helm upgrade \
-  --reuse-values \
-  ${HELM_OPTS} \
-  -f <values_yaml_file> \
-  ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
-```
-
-then patch images to pull secrets if there are pull errors:
-```bash
-for DEPLOYMENT in activiti-cloud-query activiti-cloud-audit runtime-bundle activiti-cloud-connector
-do
-  kubectl patch deployment ${APP_NAME}-${DEPLOYMENT} --patch '{"spec": {"template": {"spec": {"imagePullSecrets": [{"name": "quay-registry-secret"}]}}}}'
-done
-```
-
 then run acceptance tests:
 ```bash
 cd ${ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME}
 mvn -pl '!security-policies-acceptance-tests' clean verify serenity:aggregate
 ```
 
-replace Activiti infrastructure with APS one:
-```bash
-helm upgrade --install ${HELM_OPTS} \
-  -f values-aps-infrastructure.yaml \
-  infrastructure alfresco-incubator/alfresco-process-infrastructure
-  
-helm upgrade ${HELM_OPTS} --reuse-values \
-  -f values-activiti-to-aps-infrastructure.yaml \
-  ${APP_NAME} ${CHART_REPO}/${CHART_NAME}
-```
+### setup infrastructure
 
-### setup alfresco-identity-service
+Choose one of the two:
+
+#### setup alfresco-process-infrastructure
+
+Setup/replace Activiti infrastructure with APS one:
 
 ```bash
 # create secret with activiti realm
-kubectl create -f realm-secret.yaml
+kubectl create secret generic realm-secret --from-file alfresco-aps-realm.json
+```
+
+```bash
+CHART_REPO=alfresco
+CHART_NAME=alfresco-process-infrastructure
+RELEASE_NAME=infrastructure
 
 helm upgrade --install ${HELM_OPTS} \
-  -f values-alfresco-identity-service.yaml \
-  alfresco-identity-service alfresco/alfresco-identity-service
+  -f values-${CHART_NAME}.yaml \
+  ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
+  
+# ingress hostname is ignored in alfresco-identity-service chart  
+# kubectl edit ingress ${RELEASE_NAME}-alfresco-identity-service
+# add spec.rules[0].host=${SSO_HOST}    
+```
 
-helm upgrade ${HELM_OPTS} --reuse-values \
-  -f values-activiti-to-aps-infrastructure.yaml \
-  ${APP_NAME} ${CHART_REPO}/${CHART_NAME}
+#### setup alfresco-infrastructure
+
+```bash
+CHART_REPO=alfresco
+CHART_NAME=alfresco-infrastructure
+RELEASE_NAME=infrastructure
+
+helm upgrade --install ${HELM_OPTS} \
+  -f values-${CHART_NAME}.yaml \
+  ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
 ```
 
 ## setup cluster on AWS
@@ -207,22 +210,7 @@ and add wildcard *.${DOMAIN} DNS entry with new HTTPS cert and set ELB to send H
 
 then define app name and set env vars, then set [derived](#set-derived-env-variables) and [helm](#set-helm-variables) vars as above
 
-then add alfresco-identity-service:
-
-```bash
-CHART_REPO=alfresco
-CHART_NAME=alfresco-identity-service
-RELEASE_NAME=${CHART_NAME}
-helm upgrade --install \
-  ${HELM_OPTS} \
-  -f values-${CHART_NAME}.yaml \
-  --set keycloak.keycloak.ingress.hosts[0]=${SSO_HOST} \
-  ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
-
-# hostname is ignored in alfresco-identity-service chart  
-# kubectl edit ingress alfresco-identity-service-alfresco-identity-service
-# add spec.rules[0].host=${SSO_HOST}  
-```
+then [setup infrastructure](#setup-infrastructure].
 
 #### install modeling
 
@@ -319,11 +307,11 @@ helm upgrade --install --wait \
   --set env.APP_CONFIG_OAUTH2_HOST="${SSO_URL}/realms/${REALM}" \
   --set env.APP_CONFIG_IDENTITY_HOST="${SSO_URL}/admin/realms/${REALM}" \
   --set env.APP_CONFIG_OAUTH2_CLIENTID="activiti" \
-  --set env.APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI=${GATEWAY_URL}/${FRONTEND_APP_NAME}/assets/silent-refresh.html \
-  --set env.APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/${FRONTEND_APP_NAME}/# \
-  --set env.APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/${FRONTEND_APP_NAME}/# \
+  --set env.APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="${GATEWAY_URL}/${FRONTEND_APP_NAME}/assets/silent-refresh.html" \
+  --set env.APP_CONFIG_OAUTH2_REDIRECT_LOGIN="/${FRONTEND_APP_NAME}/#" \
+  --set env.APP_CONFIG_OAUTH2_REDIRECT_LOGOUT="/${FRONTEND_APP_NAME}/#" \
   ${FRONTEND_APP_NAME} alfresco-incubator/alfresco-adf-app
-``` 
+```
 
 ### deploy process-workspace-app
 

@@ -2,15 +2,18 @@ global:
   keycloak:
     url: "${SSO_URL}"
     realm: "${REALM}"
+  gateway:
+    url: "${GATEWAY_URL}"
+    domain: "${DOMAIN}"
+    host: "${GATEWAY_HOST}"
 
 ingress:
   enabled: true
-  hostName: "${GATEWAY_HOST}"
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-    nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: "null"
   frontend:
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: "/"

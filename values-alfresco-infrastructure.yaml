@@ -1,0 +1,13 @@
+#global
+alfresco-infrastructure:
+  nginx-ingress:
+    enabled: false
+  activemq:
+    enabled: false
+
+#chart
+alfresco-identity-service:
+  keycloak:
+    keycloak:
+      extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
+

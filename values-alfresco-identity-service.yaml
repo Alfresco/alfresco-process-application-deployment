@@ -1,6 +1,0 @@
-keycloak:
-  keycloak:
-    image:
-      repository: quay.io/alfresco/keycloak
-      tag: 4.8.3.Final
-    extraArgs: "-Dkeycloak.import=/realm/activiti-realm.json"

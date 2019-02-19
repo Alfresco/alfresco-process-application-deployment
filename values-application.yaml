@@ -3,29 +3,27 @@ global:
     url: "${SSO_URL}"
     realm: "${REALM}"
   gateway:
-    host: &gateway-host "${GATEWAY_HOST}"
+    host: "${GATEWAY_HOST}"
     ingress:
       annotations: &ingress-annotations
         kubernetes.io/ingress.class: nginx
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-        nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
 
 activiti-cloud-query:
   enabled: true
   db:
     deployPostgres: true
   service:
-    name: "${APP_NAME}-query"
+    name: "{{ .Release.Name }}-query"
   ingress:
     enabled: true
-    hostName: *gateway-host
-    path: "/${APP_NAME}-query"
+    path: "/{{ .Release.Name }}-query"
     annotations: *ingress-annotations
-  probePath: "/${APP_NAME}-query/actuator/health"
+  probePath: "/{{ .Release.Name }}-query/actuator/health"
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/${APP_NAME}-query"
+      value: "/{{ .Release.Name }}-query"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
@@ -42,16 +40,15 @@ activiti-cloud-audit:
   db:
     deployPostgres: true
   service:
-    name: "${APP_NAME}-audit"
+    name: "{{ .Release.Name }}-audit"
   ingress:
     enabled: true
-    hostName: *gateway-host
-    path: "/${APP_NAME}-audit"
+    path: "/{{ .Release.Name }}-audit"
     annotations: *ingress-annotations
-  probePath: "/${APP_NAME}-audit/actuator/health"
+  probePath: "/{{ .Release.Name }}-audit/actuator/health"
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/${APP_NAME}-audit"
+      value: "/{{ .Release.Name }}-audit"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
@@ -68,20 +65,19 @@ runtime-bundle:
   db:
     deployPostgres: true
   service:
-    name: "${APP_NAME}-rb"
+    name: "{{ .Release.Name }}-rb"
   ingress:
     enabled: true
-    hostName: *gateway-host
-    path: "/${APP_NAME}-rb"
+    path: "/{{ .Release.Name }}-rb"
     annotations: *ingress-annotations
-  probePath: "/${APP_NAME}-rb/actuator/health"
+  probePath: "/{{ .Release.Name }}-rb/actuator/health"
   serviceAccount:
     create: false
   rbac:
     create: false
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/${APP_NAME}-rb"
+      value: "/{{ .Release.Name }}-rb"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
@@ -96,20 +92,19 @@ runtime-bundle:
 activiti-cloud-connector:
   enabled: true
   service:
-    name: "${APP_NAME}-example-cloud-connector"
+    name: "{{ .Release.Name }}-example-cloud-connector"
   ingress:
     enabled: true
-    hostName: *gateway-host
-    path: "/${APP_NAME}-example-cloud-connector"
+    path: "/{{ .Release.Name }}-example-cloud-connector"
     annotations: *ingress-annotations
-  probePath: "/${APP_NAME}-example-cloud-connector/actuator/health"
+  probePath: "/{{ .Release.Name }}-example-cloud-connector/actuator/health"
   serviceAccount:
     create: false
   rbac:
     create: false
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/${APP_NAME}-example-cloud-connector"
+      value: "/{{ .Release.Name }}-example-cloud-connector"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
@@ -124,21 +119,8 @@ activiti-cloud-connector:
 activiti-cloud-notifications-graphql:
   enabled: false
   service:
-    name: "${APP_NAME}-activiti-cloud-notifications"
-  ingress:
-    enabled: true
-    hostName: *gateway-host
-    web:
-      path: "/${APP_NAME}/graphql"
-    graphiql:
-      path: "/${APP_NAME}/graphiql"
-    ws:
-      path: "/${APP_NAME}/ws/graphql"
-    annotations: *ingress-annotations
-  probePath: "/${APP_NAME}/actuator/health"
+    name: "{{ .Release.Name }}-activiti-cloud-notifications"
   extraEnv: |
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/${APP_NAME}"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES

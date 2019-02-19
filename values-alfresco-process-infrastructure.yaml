@@ -1,13 +1,14 @@
+#global
 alfresco-infrastructure:
   nginx-ingress:
     enabled: false
+  activemq:
+    enabled: false
+  #chart
   alfresco-identity-service:
     keycloak:
       keycloak:
-        image:
-          repository: quay.io/alfresco/keycloak
-          tag: 4.8.3.Final
-        extraArgs: "-Dkeycloak.import=/realm/activiti-realm.json"
+        extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
 
 alfresco-content-services:
   enabled: false

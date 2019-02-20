@@ -33,8 +33,10 @@ activiti-cloud-audit:
     tag: develop
     pullPolicy: Always
   ingress:
-    path: "/{{ .Release.Name }}-audit"
     enabled: true
+    path: "/{{ .Release.Name }}-audit"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/" # TODO: fix in the base chart
   extraEnv: |
     - name: KEYCLOAK_REALM
       value: "{{ .Values.global.keycloak.realm }}"
@@ -47,14 +49,14 @@ runtime-bundle:
     repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
     tag: develop
     pullPolicy: Always
+  ingress:
+    enabled: true
+    path: "/{{ .Release.Name }}-rb"
   extraEnv: |
     - name: KEYCLOAK_REALM
       value: "{{ .Values.global.keycloak.realm }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
-  ingress:
-    path: "/{{ .Release.Name }}-rb"
-    enabled: true
   extraVolumes: |
     - name: license
       secret:

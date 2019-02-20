@@ -20,7 +20,7 @@ activiti-cloud-connector:
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
     - name: KEYCLOAK_REALM
-      value: "${REALM}"
+      value: "{{ .Values.global.keycloak.realm }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE

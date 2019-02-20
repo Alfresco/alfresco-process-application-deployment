@@ -60,67 +60,58 @@ Supported optional vars:
 
 ### setup directories
 Adjust as per your environment:
-
 ```bash
 export ACTIVITI_CLOUD_CHARTS_HOME="$HOME/src/Activiti/activiti-cloud-charts"
 export APS_APPLICATION_CHART_HOME="$HOME/src/Alfresco/process-services/alfresco-process-application-deployment"
 export ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME="$HOME/src/Activiti/activiti-cloud-acceptance-scenarios"
 ```
 
-### set env variables
+### set main variables
 ```bash
 export CLUSTER="<cluster>"
 export APP_NAME="default-app"
+export REALM="alfresco"
 ```
 
-### set variables for Docker for Desktop
+### set environment specific variables
+
+#### for Docker for Desktop
 
 In order to deploy _Docker for Desktop_ follow the info in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#docker-for-desktop---mac):
 
 ```bash
 export SSO_HOST="localhost-k8s"
 export GATEWAY_HOST="localhost-k8s"
+export APP_NAME="default-app"
 export PROTOCOL="http"
 ```
 
-then set derived [url env variables](#set-derived-url-env-variables) and run `./install.sh`.
-
-### set variables for AWS Pen Testing environment
+#### for AWS Pen Testing environment
 
 ```bash
 export CLUSTER="aps2pentest"
 export APP_NAME="default-app"
+export PROTOCOL="https"
 ```
 
-then set [derived](#set-derived-env-variables) and test.
-
-### set variables for AWS Beer Demo DevCon environment
+### for AWS Beer Demo DevCon environment
 
 ```bash
 export CLUSTER="aps2devcon"
 export APP_NAME="beerer"
+export PROTOCOL="https"
 ```
 
-### set env variables
+### set derived env variables
 ```bash
 export DOMAIN="${CLUSTER}.envalfresco.com"
-export PROTOCOL="https"
-export REALM="alfresco"
-```
-
-### set derived host env variables
-```bash
 export SSO_HOST="activiti-keycloak.${DOMAIN}"
 export GATEWAY_HOST="activiti-cloud-gateway.${DOMAIN}"
-```
-
-### set derived url env variables
-```bash
 export SSO_URL="${PROTOCOL}://${SSO_HOST}/auth"
 export GATEWAY_URL="${PROTOCOL}://${GATEWAY_HOST}"
 ```
 
-### set helm variables
+### set helm env variables
 ```bash
 export HELM_OPTS="--debug --dry-run"
 ```
@@ -132,7 +123,7 @@ export AUDIT_EVENT_URL=${GATEWAY_URL}/${APP_NAME}-audit
 export QUERY_URL=${GATEWAY_URL}/${APP_NAME}-query
 ```
 
-then start with the install:
+then install application:
 
 ```bash
 export RELEASE_NAME="${APP_NAME}"
@@ -142,6 +133,7 @@ export CHART_REPO="activiti-cloud-charts"
 helm upgrade \
   --install \
   ${HELM_OPTS} \
+  --set global.gateway.domain="${DOMAIN}" \
   -f values-global.yaml \
   -f values-activiti-to-aps.yaml \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
@@ -154,10 +146,6 @@ mvn -pl '!security-policies-acceptance-tests' clean verify serenity:aggregate
 ```
 
 ### setup infrastructure
-
-Choose one of the two:
-
-#### setup alfresco-process-infrastructure
 
 Setup/replace Activiti infrastructure with APS one:
 
@@ -189,22 +177,23 @@ ${APS_SCRIPTS_HOME}/create_aws_cluster_with_kops.sh
 helm init --upgrade
 helm repo update
 ```
+
 ### install nginx-ingress
 Use nginx-ingress 1.1.2 (tested with ELB):
 
 ```bash
 NGINX_INGRESS_RELEASE_NAME=nginx-ingress
-helm install --name nginx-ingress stable/nginx-ingress --version 1.1.2
+helm install --name ${NGINX_INGRESS_RELEASE_NAME} stable/nginx-ingress --version 1.1.2
 export ELB_ADDRESS=$(kubectl get services ${NGINX_INGRESS_RELEASE_NAME}-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname})
 ```
 
-and add wildcard *.${DOMAIN} entry to DNS and use the HTTPS setup provided by the Activiti cloud charts on ingress-nginx that works with any cloud provider.
+and add wildcard `*.${DOMAIN}` entry to DNS and use the HTTPS setup provided by the Activiti cloud charts on ingress-nginx that works with any cloud provider.
 
 on AWS only you can also generate HTTPS from the certificate manager and set ELB to send HTTPS traffic to HTTP.
 
 then define app name and set env vars, then set [derived](#set-derived-env-variables) and [helm](#set-helm-variables) vars as above
 
-then [setup infrastructure](#setup-infrastructure].
+then [setup infrastructure](#setup-infrastructure).
 
 #### install modeling
 
@@ -225,7 +214,7 @@ helm upgrade --install \
 then run modeling acceptance tests
 
 ```bash
-cd $ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME
+cd ${ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME}
 mvn -pl 'modeling-acceptance-tests' clean verify serenity:aggregate
 ```
 
@@ -240,22 +229,19 @@ CHART_NAME=application
 RELEASE_NAME=${APP_NAME}
 
 sed \
-  -e "s@\${GATEWAY_HOST}@${GATEWAY_HOST}@" \
-  -e "s@\${GATEWAY_URL}@${GATEWAY_URL}@" \
-  -e "s@\${SSO_URL}@${SSO_URL}@" \
-  -e "s@\${REALM}@${REALM}@" \
-  -e "s@\${APP_NAME}@${APP_NAME}@" \
+  -e "s@\{{ .Release.Name }}@${APP_NAME}@" \
   ${APS_APPLICATION_CHART_HOME}/values-${CHART_NAME}.yaml > values.yaml
 
-# cat ${APS_APPLICATION_CHART_HOME}/values-${CHART_NAME}.yaml | envsubst > values.yaml   
+# cat ${APS_APPLICATION_CHART_HOME}/values-${CHART_NAME}.yaml | envsubst > values.yaml 
 
 helm upgrade --install \
   ${HELM_OPTS} \
-  -f values.yaml \
-  -f values-application-${CLUSTER}.yaml \
+  --set global.gateway.domain="${DOMAIN}" \
+  -f values-global.yaml \
+  -f values-application.yaml \
   -f values-application-to-aps-images.yaml \
+  -f values-application-${CLUSTER}.yaml \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
-
 ```
 
 ### upgrade to use licensed images

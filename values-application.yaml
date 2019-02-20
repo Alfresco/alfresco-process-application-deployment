@@ -1,37 +1,24 @@
-global:
-  keycloak:
-    url: "${SSO_URL}"
-    realm: "${REALM}"
-  gateway:
-    host: "${GATEWAY_HOST}"
-    ingress:
-      annotations: &ingress-annotations
-        kubernetes.io/ingress.class: nginx
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-
 activiti-cloud-query:
   enabled: true
   db:
     deployPostgres: true
-  service:
-    name: "{{ .Release.Name }}-query"
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-query"
-    annotations: *ingress-annotations
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-query/actuator/health"
   extraEnv: |
+    - name: KEYCLOAK_REALM
+      value: "{{ .Values.global.keycloak.realm }}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}-query"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: KEYCLOAK_REALM
-      value: "${REALM}"
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
 
@@ -39,24 +26,23 @@ activiti-cloud-audit:
   enabled: true
   db:
     deployPostgres: true
-  service:
-    name: "{{ .Release.Name }}-audit"
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-audit"
-    annotations: *ingress-annotations
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-audit/actuator/health"
   extraEnv: |
+    - name: KEYCLOAK_REALM
+      value: "{{ .Values.global.keycloak.realm }}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}-audit"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: KEYCLOAK_REALM
-      value: "${REALM}"
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
 
@@ -64,70 +50,61 @@ runtime-bundle:
   enabled: true
   db:
     deployPostgres: true
-  service:
-    name: "{{ .Release.Name }}-rb"
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-rb"
-    annotations: *ingress-annotations
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-rb/actuator/health"
-  serviceAccount:
-    create: false
-  rbac:
-    create: false
   extraEnv: |
+    - name: KEYCLOAK_REALM
+      value: "{{ .Values.global.keycloak.realm }}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}-rb"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: KEYCLOAK_REALM
-      value: "${REALM}"
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
 
 activiti-cloud-connector:
   enabled: true
-  service:
-    name: "{{ .Release.Name }}-example-cloud-connector"
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-example-cloud-connector"
-    annotations: *ingress-annotations
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-example-cloud-connector/actuator/health"
-  serviceAccount:
-    create: false
-  rbac:
-    create: false
   extraEnv: |
+    - name: KEYCLOAK_REALM
+      value: "{{ .Values.global.keycloak.realm }}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}-example-cloud-connector"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: KEYCLOAK_REALM
-      value: "${REALM}"
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
 
 activiti-cloud-notifications-graphql:
-  enabled: false
-  service:
-    name: "{{ .Release.Name }}-activiti-cloud-notifications"
+  enabled: true
+  ingress:
+    # path: "/{{ .Release.Name }}"
+    enabled: true
   extraEnv: |
+    - name: KEYCLOAK_REALM
+      value: "{{ .Values.global.keycloak.realm }}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: KEYCLOAK_REALM
-      value: "${REALM}"
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"

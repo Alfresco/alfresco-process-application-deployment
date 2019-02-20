@@ -1,19 +1,7 @@
 # Default values for alfresco-process-application.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-global:
-  keycloak:
-    url: "https://activiti-keycloak.REPLACEME/auth"
-    realm: alfresco
-  gateway:
-    host: &gatewayhost "activiti-cloud-gateway.REPLACEME"
-    ingress:
-      annotations: &ingress-annotations
-        kubernetes.io/ingress.class: nginx
-        nginx.ingress.kubernetes.io/rewrite-target: /
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-        nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
+
 alfresco-content-services:
   enabled: false
 alfresco-process-infrastructure:
@@ -22,60 +10,49 @@ activiti-cloud-connector:
   enabled: true
 runtime-bundle:
   enabled: true
+
 activiti-cloud-application:
+  activiti-cloud-notifications-graphql:
+    enabled: true
+    ingress:
+      enabled: true
   activiti-cloud-query:
     image:
       repository: quay.io/alfresco/alfresco-process-query-service
       tag: develop
-    service:
-      name: default-app-query
     ingress:
       enabled: true
-      hostName: *gatewayhost
-      annotations: *ingress-annotations
   activiti-cloud-audit:
     image:
       repository: quay.io/alfresco/alfresco-process-audit-service
       tag: develop
-    service:
-      name: default-app-audit
     ingress:
       enabled: true
-      hostName: *gatewayhost
-      annotations: *ingress-annotations
   runtime-bundle:
     image:
       repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
       tag: develop
-    service:
-      name: default-app-rb
-    extraVolumes:
+    extraVolumes: |
       - name: license
         secret:
           secretName: licenseaps
-    extraVolumeMounts:
+    extraVolumeMounts: |
       - name: license
         mountPath: "/root/.activiti/enterprise-license/"
         readOnly: true
     ingress:
       enabled: true
-      hostName: *gatewayhost
-      annotations: *ingress-annotations
   activiti-cloud-connector:
     image:
       repository: activiti/example-cloud-connector
-      tag: 7.0.0.RC1
-    service:
-      name: default-app-example-cloud-connector
-    extraVolumes:
+      tag: 7.0.0.GA
+    extraVolumes: |
       - name: license
         secret:
           secretName: licenseaps
-    extraVolumeMounts:
+    extraVolumeMounts: |
       - name: license
         mountPath: "/root/.activiti/enterprise-license/"
         readOnly: true
     ingress:
       enabled: true
-      hostName: *gatewayhost
-      annotations: *ingress-annotations

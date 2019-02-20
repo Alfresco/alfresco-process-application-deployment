@@ -54,7 +54,7 @@ activiti-cloud-query:
     tag: develop
     pullPolicy: Always
   ingress:
-    path: "/{{ .Release.Name }}/query"
+    path: "/{{ .Release.Name }}-query"
     enabled: true
   extraEnv: |
     - name: KEYCLOAK_REALM
@@ -69,7 +69,7 @@ activiti-cloud-audit:
     tag: develop
     pullPolicy: Always
   ingress:
-    path: "/{{ .Release.Name }}/audit"
+    path: "/{{ .Release.Name }}-audit"
     enabled: true
   extraEnv: |
     - name: KEYCLOAK_REALM
@@ -89,7 +89,7 @@ runtime-bundle:
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
   ingress:
-    path: "/{{ .Release.Name }}/rb"
+    path: "/{{ .Release.Name }}-rb"
     enabled: true
   extraVolumes: |
     - name: license
@@ -103,7 +103,7 @@ activiti-cloud-connector:
   enabled: true
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/example-cloud-connector"
+    path: "/{{ .Release.Name }}-example-cloud-connector"
 
 activiti-cloud-notifications-graphql:
   enabled: true

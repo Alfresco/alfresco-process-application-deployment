@@ -4,11 +4,6 @@ alfresco-infrastructure:
     enabled: false
   activemq:
     enabled: false
-  #chart
-  alfresco-identity-service:
-    keycloak:
-      keycloak:
-        extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
 
 alfresco-content-services:
   enabled: false

@@ -21,32 +21,39 @@ kubectl create secret -n "${KUBE_NAMESPACE}" \
 
 ### add license
 
-Create a secret called licenseaps containing the license file in the namespace where the app is to be installed.
+Create a secret called _licenseaps_ containing the license file in the namespace where the app is to be installed.
 
 ```bash
 kubectl create secret -n "${KUBE_NAMESPACE}" \
-  default licenseaps --from-file=activiti.lic
+  generic licenseaps --from-file activiti.lic
 ```                   
 
 ## Install
 
 Helm command to install application chart:
 
-    helm install ./helm/alfresco-process-application \
-      --namespace=$DESIRED_NAMESPACE
+```bash
+helm install ./helm/alfresco-process-application \
+  -n "${KUBE_NAMESPACE}"
+  --namespace=$DESIRED_NAMESPACE
+```
 
 ### install.sh
 
 Helper script to launch installation:
 
-    HELM_OPTS="--debug --dry-run" ./install.sh
+Helm command to install application chart:
+
+```bash
+HELM_OPTS="--debug --dry-run" ./install.sh
+```
 
 Verify the k8s yaml output than launch again without `--dry-run`.
 
 Supported optional vars:
 
-* RELEASE_NAME to handle upgrade or a non auto-generated release name
-* HELM_OPTS to pass extra options to helm 
+* **RELEASE_NAME** to handle upgrade or a non auto-generated release name
+* **HELM_OPTS** to pass extra options to helm 
 
 
 ## Environment Setup

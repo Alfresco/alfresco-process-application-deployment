@@ -142,6 +142,7 @@ export CHART_REPO="activiti-cloud-charts"
 helm upgrade \
   --install \
   ${HELM_OPTS} \
+  -f values-global.yaml \
   -f values-activiti-to-aps.yaml \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
 ```
@@ -161,14 +162,9 @@ Choose one of the two:
 Setup/replace Activiti infrastructure with APS one:
 
 ```bash
-# create secret with activiti realm
-kubectl create secret generic realm-secret --from-file alfresco-aps-realm.json
-```
-
-```bash
-CHART_REPO=alfresco
-CHART_NAME=alfresco-process-infrastructure
-RELEASE_NAME=infrastructure
+export CHART_REPO=alfresco
+export CHART_NAME=alfresco-process-infrastructure
+export RELEASE_NAME=infrastructure
 
 helm upgrade --install ${HELM_OPTS} \
   -f values-${CHART_NAME}.yaml \
@@ -177,18 +173,6 @@ helm upgrade --install ${HELM_OPTS} \
 # ingress hostname is ignored in alfresco-identity-service chart  
 # kubectl edit ingress ${RELEASE_NAME}-alfresco-identity-service
 # add spec.rules[0].host=${SSO_HOST}    
-```
-
-#### setup alfresco-infrastructure
-
-```bash
-CHART_REPO=alfresco
-CHART_NAME=alfresco-infrastructure
-RELEASE_NAME=infrastructure
-
-helm upgrade --install ${HELM_OPTS} \
-  -f values-${CHART_NAME}.yaml \
-  ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
 ```
 
 ## setup cluster on AWS
@@ -226,24 +210,22 @@ then [setup infrastructure](#setup-infrastructure].
 
 Install:
 ```bash
-CHART_REPO=activiti-cloud-charts
-CHART_NAME=activiti-cloud-modeling
-RELEASE_NAME=${CHART_NAME}
-
-cat ${APS_APPLICATION_CHART_HOME}/values-${CHART_NAME}.yaml | envsubst > values.yaml
+export CHART_REPO=activiti-cloud-charts
+export CHART_NAME=activiti-cloud-modeling
+export RELEASE_NAME=${CHART_NAME}
 
 helm upgrade --install \
   ${HELM_OPTS} \
-  -f values.yaml \
+  --set global.gateway.domain="${DOMAIN}" \
+  -f values-global.yaml \
+  -f values-${CHART_NAME}.yaml \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
-
-rm values.yaml
 ``` 
 
 then run modeling acceptance tests
 
 ```bash
-cd ${ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME}
+cd $ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME
 mvn -pl 'modeling-acceptance-tests' clean verify serenity:aggregate
 ```
 

@@ -1,9 +1,7 @@
 #global
 alfresco-infrastructure:
-  nginx-ingress:
-    enabled: false
-  activemq:
-    enabled: false
+  persistence:
+    enabled: true
 
 alfresco-content-services:
   enabled: false

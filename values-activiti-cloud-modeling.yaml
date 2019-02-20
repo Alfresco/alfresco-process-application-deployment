@@ -1,41 +1,24 @@
-global:
-  keycloak:
-    url: "${SSO_URL}"
-    realm: "${REALM}"
-  gateway:
-    url: "${GATEWAY_URL}"
-    domain: "${DOMAIN}"
-    host: "${GATEWAY_HOST}"
+db:
+  deployPostgres: true
 
 ingress:
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-    nginx.ingress.kubernetes.io/rewrite-target: "null"
   frontend:
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: "/"
 
 backend:
-  url: "${GATEWAY_URL}"
   probePath: "/activiti-cloud-modeling-backend/actuator/health"
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/activiti-cloud-modeling-backend"
+    - name: KEYCLOAK_REALM
+      value: "{{ .Values.global.keycloak.realm }}"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: KEYCLOAK_REALM
-      value: "${REALM}"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
     - name: ACTIVITI_CLOUD_MODELING_URL
       value: "http://127.0.0.1:8080/activiti-cloud-modeling-backend"
-
-frontend:
-  extraEnv: |
-    - name: APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI
-      value: "${GATEWAY_URL}/activiti-cloud-modeling/assets/silent-refresh.html"

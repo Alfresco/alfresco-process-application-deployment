@@ -9,6 +9,7 @@ ingress:
 
 backend:
   probePath: "/activiti-cloud-modeling-backend/actuator/health"
+  # TODO: fix KEYCLOAK_REALM missing for backend in the base chart
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/activiti-cloud-modeling-backend"

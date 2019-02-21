@@ -9,8 +9,6 @@ activiti-cloud-query:
       nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-query/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_REALM
-      value: "{{ .Values.global.keycloak.realm }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -33,8 +31,6 @@ activiti-cloud-audit:
       nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-audit/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_REALM
-      value: "{{ .Values.global.keycloak.realm }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -57,8 +53,6 @@ runtime-bundle:
       nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-rb/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_REALM
-      value: "{{ .Values.global.keycloak.realm }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -79,8 +73,6 @@ activiti-cloud-connector:
       nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-example-cloud-connector/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_REALM
-      value: "{{ .Values.global.keycloak.realm }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -98,8 +90,6 @@ activiti-cloud-notifications-graphql:
     # path: "/{{ .Release.Name }}"
     enabled: true
   extraEnv: |
-    - name: KEYCLOAK_REALM
-      value: "{{ .Values.global.keycloak.realm }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: SERVER_USEFORWARDHEADERS

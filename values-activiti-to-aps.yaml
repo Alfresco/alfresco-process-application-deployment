@@ -8,8 +8,6 @@ activiti-cloud-query:
   ingress:
     path: "/{{ .Release.Name }}-query"
     enabled: true
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-query/actuator/health"
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -25,8 +23,6 @@ activiti-cloud-audit:
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-audit"
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-audit/actuator/health"
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -44,8 +40,6 @@ runtime-bundle:
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-rb"
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-rb/actuator/health"
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -64,8 +58,6 @@ activiti-cloud-connector:
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-example-cloud-connector"
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: "null"
   probePath: "/{{ .Release.Name }}-example-cloud-connector/actuator/health"
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -74,7 +66,7 @@ activiti-cloud-connector:
 activiti-cloud-notifications-graphql:
   enabled: true
   ingress:
-    # path: "/{{ .Release.Name }}" # TODO fix graphiql app configuration 
+    # path: "/{{ .Release.Name }}" # TODO fix graphiql context path configuration 
     enabled: true
   # probePath: "/{{ .Release.Name }}/actuator/health"
   # extraEnv: |

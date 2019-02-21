@@ -29,6 +29,8 @@ activiti-cloud-audit:
       value: "false"
 
 runtime-bundle:
+  service:
+    name: rb-my-app  
   db:
     deployPostgres: true
   image:

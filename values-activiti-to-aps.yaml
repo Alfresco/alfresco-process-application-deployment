@@ -8,9 +8,12 @@ activiti-cloud-query:
   ingress:
     path: "/{{ .Release.Name }}-query"
     enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "null"
+  probePath: "/{{ .Release.Name }}-query/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/{{ .Release.Name }}-query"
 
 activiti-cloud-audit:
   db:
@@ -23,10 +26,11 @@ activiti-cloud-audit:
     enabled: true
     path: "/{{ .Release.Name }}-audit"
     annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: "/" # TODO: fix in the base chart
+      nginx.ingress.kubernetes.io/rewrite-target: "null"
+  probePath: "/{{ .Release.Name }}-audit/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/{{ .Release.Name }}-audit"
 
 runtime-bundle:
   service:
@@ -40,9 +44,12 @@ runtime-bundle:
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-rb"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "null"
+  probePath: "/{{ .Release.Name }}-rb/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/{{ .Release.Name }}-rb"
   extraVolumes: |
     - name: license
       secret:
@@ -57,15 +64,19 @@ activiti-cloud-connector:
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-example-cloud-connector"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "null"
+  probePath: "/{{ .Release.Name }}-example-cloud-connector/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/{{ .Release.Name }}-example-cloud-connector"
 
 activiti-cloud-notifications-graphql:
   enabled: true
   ingress:
-    # path: "/{{ .Release.Name }}"
+    # path: "/{{ .Release.Name }}" # TODO fix graphiql app configuration 
     enabled: true
-  extraEnv: |
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
+  # probePath: "/{{ .Release.Name }}/actuator/health"
+  # extraEnv: |
+  #   - name: SERVER_SERVLET_CONTEXTPATH
+  #     value: "/{{ .Release.Name }}"

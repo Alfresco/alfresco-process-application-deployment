@@ -16,6 +16,11 @@ global:
     resource: "activiti"
     client: "activiti"
 
+    ## Use Yaml formatted string to add keycloak properties to deployments
+    extraEnv: |
+      - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+        value: "false" 
+
   gateway:
     ## Set to configure single domain name for all services, i.e. "activiti-cloud-gateway.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
     host: "activiti-cloud-gateway.{{ .Values.global.gateway.domain }}"
@@ -33,3 +38,17 @@ global:
     ## Configure global annotations for all service ingresses, i.e. 
     annotations: 
       certmanager.k8s.io/issuer: "letsencrypt-prod"
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+      nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
+  
+  # Use Yaml formatted string to add extra environment properties to all deployments
+  extraEnv: |
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+

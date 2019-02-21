@@ -26,7 +26,7 @@ Create a secret called _licenseaps_ containing the license file in the namespace
 ```bash
 kubectl create secret -n "${KUBE_NAMESPACE}" \
   generic licenseaps --from-file activiti.lic
-```                   
+```
 
 ## Install
 
@@ -142,7 +142,7 @@ helm upgrade \
 then run acceptance tests:
 ```bash
 cd ${ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME}
-mvn -pl '!security-policies-acceptance-tests' clean verify serenity:aggregate
+mvn -pl 'runtime-acceptance-tests' clean verify serenity:aggregate
 ```
 
 ### setup infrastructure
@@ -179,12 +179,12 @@ helm repo update
 ```
 
 ### install nginx-ingress
-Use nginx-ingress 1.1.2 (tested with ELB):
-
 ```bash
 NGINX_INGRESS_RELEASE_NAME=nginx-ingress
-helm install --name ${NGINX_INGRESS_RELEASE_NAME} stable/nginx-ingress --version 1.1.2
-export ELB_ADDRESS=$(kubectl get services ${NGINX_INGRESS_RELEASE_NAME}-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname})
+helm upgrade --install ${NGINX_INGRESS_RELEASE_NAME} stable/nginx-ingress
+NGINX_INGRESS_CONTROLLER_NAME=nginx-ingress-controller
+[[ "$NGINX_INGRESS_RELEASE_NAME" != 'nginx-ingress' ]] && NGINX_INGRESS_CONTROLLER_NAME=${NGINX_INGRESS_RELEASE_NAME}-${NGINX_INGRESS_CONTROLLER_NAME}
+export ELB_ADDRESS=$(kubectl get services ${NGINX_INGRESS_CONTROLLER_NAME} -o jsonpath={.status.loadBalancer.ingress[0].hostname})
 ```
 
 and add wildcard `*.${DOMAIN}` entry to DNS and use the HTTPS setup provided by the Activiti cloud charts on ingress-nginx that works with any cloud provider.

@@ -1,7 +1,0 @@
-#global
-alfresco-infrastructure:
-  persistence:
-    enabled: true
-
-alfresco-content-services:
-  enabled: false

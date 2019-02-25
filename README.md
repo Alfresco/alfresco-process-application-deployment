@@ -38,9 +38,7 @@ helm install ./helm/alfresco-process-application
 
 ### install.sh
 
-Helper script to launch installation:
-
-Helm command to install application chart:
+Helper script to launch installation, to install application chart:
 
 ```bash
 HELM_OPTS="--debug --dry-run" ./install.sh
@@ -79,7 +77,7 @@ export REALM="alfresco"
 
 ```bash
 export PROTOCOL="http"
-export DOMAIN="default"
+export DOMAIN="local"
 ```
 
 #### for AWS Pen Testing environment
@@ -126,6 +124,7 @@ export HELM_OPTS="--debug
 ```
 
 ### set test variables
+
 ```bash
 export RUNTIME_BUNDLE_URL=${GATEWAY_URL}/${APP_NAME}-rb
 export AUDIT_EVENT_URL=${GATEWAY_URL}/${APP_NAME}-audit
@@ -142,17 +141,27 @@ ${APS_SCRIPTS_HOME}/create_aws_cluster_with_kops.sh
 ```
 
 ### install helm
+
+Install helm server on the cluster:
+
 ```bash
 helm init --upgrade
+```
+
+then configure the required helm chart repositories:
+```
 helm repo add activiti-cloud-charts https://activiti.github.io/activiti-cloud-charts
 helm repo add alfresco https://kubernetes-charts.alfresco.com/stable
 helm repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator
 helm repo update
 ```
 
-### helm/kubectl tips
+### helm tips
 
 For any command on helm, please verify the output with `--dry-run` option, then execute without.
+
+### kubectl tips
+
 Check deployment progress with `kubectl get pods --watch` until all containers are running.
 If anything is stuck check events with `kubectl get events --watch`.
 
@@ -169,15 +178,21 @@ helm upgrade --install \
   --set-string controller.config.ssl-redirect="false" \
   --version 1.1.5 \
   ${NGINX_INGRESS_RELEASE_NAME} stable/nginx-ingress
+```
 
+then add wildcard `*.${DOMAIN}` entry to DNS, for HTTPS use the setup provided by the Activiti cloud charts on ingress-nginx that works with any cloud provider.
+
+#### for AWS
+
+```bash
 NGINX_INGRESS_CONTROLLER_NAME=nginx-ingress-controller
 [[ "$NGINX_INGRESS_RELEASE_NAME" != 'nginx-ingress' ]] && NGINX_INGRESS_CONTROLLER_NAME=${NGINX_INGRESS_RELEASE_NAME}-${NGINX_INGRESS_CONTROLLER_NAME}
 export ELB_ADDRESS=$(kubectl get services ${NGINX_INGRESS_CONTROLLER_NAME} -o jsonpath={.status.loadBalancer.ingress[0].hostname})
 ```
 
-and add wildcard `*.${DOMAIN}` entry to DNS and use the HTTPS setup provided by the Activiti cloud charts on ingress-nginx that works with any cloud provider.
-
-on AWS only you can also generate HTTPS from the certificate manager and set ELB to send HTTPS traffic to HTTP.
+For HTTPS you have two options:
+* use ELB and generate certificate on from the AWS certificate manager and set ELB to send SSL traffic to TCP with proxy protocol
+* use NLB and install certificate manager on k8s and terminate SLL on ingress
 
 ### setup infrastructure
 
@@ -202,6 +217,8 @@ helm upgrade --install ${HELM_OPTS} \
 
 Install:
 ```bash
+cd ${APS_APPLICATION_CHART_HOME}
+
 export CHART_REPO=activiti-cloud-charts
 export CHART_NAME=activiti-cloud-modeling
 export RELEASE_NAME=${CHART_NAME}
@@ -232,13 +249,14 @@ RELEASE_NAME=${APP_NAME}
 
 [[ -f values-application-${CLUSTER}.yaml ]] && HELM_OPTS="${HELM_OPTS} -f values-application-${CLUSTER}.yaml" 
 
-helm upgrade \
-  --install \
+helm upgrade --install \
   ${HELM_OPTS} \
   -f values-global.yaml \
   -f values-activiti-to-aps.yaml \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
 ```
+
+then [follow installation progress](#kubectl-tips).
 
 #### run application acceptance tests
 

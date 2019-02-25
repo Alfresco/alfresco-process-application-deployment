@@ -2,36 +2,84 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-alfresco-content-services:
-  enabled: false
 alfresco-process-infrastructure:
   enabled: false
+  persistence:
+    enabled: true
+
+alfresco-content-services:
+  enabled: false
+
 activiti-cloud-connector:
   enabled: true
+
 runtime-bundle:
   enabled: true
 
-activiti-cloud-application:
-  activiti-cloud-notifications-graphql:
+activiti-cloud-modeling:
+  enabled: false
+  db:
+    deployPostgres: true
+  ingress:
     enabled: true
-    ingress:
-      enabled: true
+    frontend:
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: "/"
+  backend:
+    probePath: "/activiti-cloud-modeling-backend/actuator/health"
+    extraEnv: |
+      - name: SERVER_SERVLET_CONTEXTPATH
+        value: "/activiti-cloud-modeling-backend"
+      - name: ACTIVITI_CLOUD_MODELING_URL
+        value: "http://127.0.0.1:8080/activiti-cloud-modeling-backend"
+
+activiti-cloud-application:
   activiti-cloud-query:
+    db:
+      deployPostgres: true
     image:
       repository: quay.io/alfresco/alfresco-process-query-service
       tag: develop
+      pullPolicy: Always
     ingress:
+      path: "/{{ .Release.Name }}-query"
       enabled: true
+    probePath: "/{{ .Release.Name }}-query/actuator/health"
+    extraEnv: |
+      - name: SERVER_SERVLET_CONTEXTPATH
+        value: "/{{ .Release.Name }}-query"
+
   activiti-cloud-audit:
+    db:
+      deployPostgres: true
     image:
       repository: quay.io/alfresco/alfresco-process-audit-service
       tag: develop
+      pullPolicy: Always
     ingress:
       enabled: true
+      path: "/{{ .Release.Name }}-audit"
+    probePath: "/{{ .Release.Name }}-audit/actuator/health"
+    extraEnv: |
+      - name: SERVER_SERVLET_CONTEXTPATH
+        value: "/{{ .Release.Name }}-audit"
+
   runtime-bundle:
+    service:
+      name: rb-my-app
+    db:
+      deployPostgres: true
     image:
-      repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
+      repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
       tag: develop
+      pullPolicy: Always
+    ingress:
+      enabled: true
+      path: "/{{ .Release.Name }}-rb"
+    probePath: "/{{ .Release.Name }}-rb/actuator/health"
+    extraEnv: |
+      - name: SERVER_SERVLET_CONTEXTPATH
+        value: "/{{ .Release.Name }}-rb"
     extraVolumes: |
       - name: license
         secret:
@@ -40,19 +88,47 @@ activiti-cloud-application:
       - name: license
         mountPath: "/root/.activiti/enterprise-license/"
         readOnly: true
-    ingress:
-      enabled: true
-  activiti-cloud-connector:
-    image:
-      repository: activiti/example-cloud-connector
-      tag: 7.0.0.GA
-    extraVolumes: |
-      - name: license
-        secret:
-          secretName: licenseaps
-    extraVolumeMounts: |
-      - name: license
-        mountPath: "/root/.activiti/enterprise-license/"
-        readOnly: true
-    ingress:
-      enabled: true
+
+alfresco-admin-app:
+  enabled: false
+  registryPullSecrets: quay-registry-secret
+  image:
+    repository: quay.io/alfresco/alfresco-admin-app
+    tag: latest
+    pullPolicy: Always
+  ingress:
+    hostName: "{{ .Values.global.gateway.host }}"
+    path: /alfresco-admin-app
+  env:
+    APP_CONFIG_BPM_HOST: "{{ .Values.global.gateway.url }}"
+    API_URL: "{{ .Values.global.gateway.url }}"
+    APP_CONFIG_APPS_DEPLOYED: "[{\"name\": \"{{ .Release.Name }}\" }]"
+    APP_CONFIG_AUTH_TYPE: OAUTH
+    APP_CONFIG_OAUTH2_HOST: "{{ .Values.global.keycloak.url }}/realms/{{ .Values.global.keycloak.realm }}"
+    APP_CONFIG_IDENTITY_HOST: "{{ .Values.global.keycloak.url }}/admin/realms/{{ .Values.global.keycloak.realm }}"
+    APP_CONFIG_OAUTH2_CLIENTID: "{{ .Values.global.keycloak.resource }}"
+    APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "{{ .Values.global.gateway.url }}/{{ .Values.alfresco-admin-app.ingress.path }}/assets/silent-refresh.html"
+    APP_CONFIG_OAUTH2_REDIRECT_LOGIN: "/{{ .Values.alfresco-admin-app.ingress.path }}/#"
+    APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: "/{{ .Values.alfresco-admin-app.ingress.path }}/#"
+
+alfresco-process-workspace-app:
+  enabled: false
+  registryPullSecrets: quay-registry-secret
+  image:
+    repository: quay.io/alfresco/alfresco-process-workspace-app
+    tag: latest
+    pullPolicy: Always
+  ingress:
+    hostName: "{{ .Values.global.gateway.host }}"
+    path: /alfresco-process-workspace-app
+  env:
+    APP_CONFIG_BPM_HOST: "{{ .Values.global.gateway.url }}"
+    API_URL: "{{ .Values.global.gateway.url }}"
+    APP_CONFIG_APPS_DEPLOYED: "[{\"name\": \"{{ .Release.Name }}\" }]"
+    APP_CONFIG_AUTH_TYPE: OAUTH
+    APP_CONFIG_OAUTH2_HOST: "{{ .Values.global.keycloak.url }}/realms/{{ .Values.global.keycloak.realm }}"
+    APP_CONFIG_IDENTITY_HOST: "{{ .Values.global.keycloak.url }}/admin/realms/{{ .Values.global.keycloak.realm }}"
+    APP_CONFIG_OAUTH2_CLIENTID: "{{ .Values.global.keycloak.resource }}"
+    APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "{{ .Values.global.gateway.url }}/{{ .Values.alfresco-process-workspace-app.ingress.path }}/assets/silent-refresh.html"
+    APP_CONFIG_OAUTH2_REDIRECT_LOGIN: "/{{ .Values.alfresco-process-workspace-app.ingress.path }}/#"
+    APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: "/{{ .Values.alfresco-process-workspace-app.ingress.path }}/#"

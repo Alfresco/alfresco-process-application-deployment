@@ -10,6 +10,8 @@ activiti-cloud-query:
     enabled: true
   probePath: "/{{ .Release.Name }}-query/actuator/health"
   extraEnv: |
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}-query"
 
@@ -25,6 +27,8 @@ activiti-cloud-audit:
     path: "/{{ .Release.Name }}-audit"
   probePath: "/{{ .Release.Name }}-audit/actuator/health"
   extraEnv: |
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}-audit"
 
@@ -42,6 +46,8 @@ runtime-bundle:
     path: "/{{ .Release.Name }}-rb"
   probePath: "/{{ .Release.Name }}-rb/actuator/health"
   extraEnv: |
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}-rb"
   extraVolumes: |

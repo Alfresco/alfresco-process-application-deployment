@@ -108,10 +108,10 @@ export SSO_URL="${PROTOCOL}://${SSO_HOST}/auth"
 export GATEWAY_URL="${PROTOCOL}://${GATEWAY_HOST}"
 ```
 
-If using _Docker for Desktop_ you need to add an entry in your hosts files to map SSO_HOST and GATEWAY_HOST to the address on the network of your machine as in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#8-add-local-dns):
+If using _Docker for Desktop_ you need to add an entry in your hosts files to map SSO_HOST and GATEWAY_HOST to a localhost alias:
 
 ```bash
-sudo sh -c "echo \"$(ipconfig getifaddr en0)     $SSO_HOST $GATEWAY_HOST # entries for APS2\" >> /etc/hosts"; cat /etc/hosts
+sudo sh -c "ifconfig lo0 alias 127.0.0.2; echo \"127.0.0.2       $SSO_HOST $GATEWAY_HOST # entries for APS2\" >> /etc/hosts"; cat /etc/hosts
 ```
 
 
@@ -126,6 +126,7 @@ export HELM_OPTS="--debug
 ### set test variables
 
 ```bash
+export RUNTIME_BUNDLE_SERVICE_NAME=${APP_NAME}-rb
 export RUNTIME_BUNDLE_URL=${GATEWAY_URL}/${APP_NAME}-rb
 export AUDIT_EVENT_URL=${GATEWAY_URL}/${APP_NAME}-audit
 export QUERY_URL=${GATEWAY_URL}/${APP_NAME}-query
@@ -288,8 +289,6 @@ helm upgrade --install --wait \
   --set env.APP_CONFIG_IDENTITY_HOST="${SSO_URL}/admin/realms/${REALM}" \
   --set env.APP_CONFIG_OAUTH2_CLIENTID="activiti" \
   --set env.APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="${GATEWAY_URL}/${FRONTEND_APP_NAME}/assets/silent-refresh.html" \
-  --set env.APP_CONFIG_OAUTH2_REDIRECT_LOGIN="/${FRONTEND_APP_NAME}/#" \
-  --set env.APP_CONFIG_OAUTH2_REDIRECT_LOGOUT="/${FRONTEND_APP_NAME}/#" \
   ${FRONTEND_APP_NAME} alfresco-incubator/alfresco-adf-app
 ```
 

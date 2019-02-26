@@ -33,8 +33,11 @@ activiti-cloud-audit:
       value: "/{{ .Release.Name }}-audit"
 
 runtime-bundle:
-  service:
-    name: rb-my-app  
+  nameOverride: rb
+  serviceAccount:
+    create: false
+  rbac:
+    create: false
   db:
     deployPostgres: true
   image:
@@ -61,6 +64,10 @@ runtime-bundle:
 
 activiti-cloud-connector:
   enabled: true
+  serviceAccount:
+    create: false
+  rbac:
+    create: false
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}-example-cloud-connector"

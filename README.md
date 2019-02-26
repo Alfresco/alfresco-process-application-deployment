@@ -108,10 +108,10 @@ export SSO_URL="${PROTOCOL}://${SSO_HOST}/auth"
 export GATEWAY_URL="${PROTOCOL}://${GATEWAY_HOST}"
 ```
 
-If using _Docker for Desktop_ you need to add an entry in your hosts files to map SSO_HOST and GATEWAY_HOST to a localhost alias:
+If using _Docker for Desktop_ you need to add an entry in your hosts files to map SSO_HOST and GATEWAY_HOST to the address on the network of your machine as in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#8-add-local-dns):
 
 ```bash
-sudo sh -c "ifconfig lo0 alias 127.0.0.2; echo \"127.0.0.2       $SSO_HOST $GATEWAY_HOST # entries for APS2\" >> /etc/hosts"; cat /etc/hosts
+sudo sh -c "echo \"$(ipconfig getifaddr en0)     $SSO_HOST $GATEWAY_HOST # entries for APS2\" >> /etc/hosts"; cat /etc/hosts
 ```
 
 

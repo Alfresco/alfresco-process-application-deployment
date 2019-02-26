@@ -64,6 +64,8 @@ export APS_APPLICATION_CHART_HOME="$HOME/src/Alfresco/process-services/alfresco-
 export ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME="$HOME/src/Activiti/activiti-cloud-acceptance-scenarios"
 ```
 
+**NB** ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME should be on branch __7.0.0.GA-patched-for-notification-service-tests__ in order for tests to work.
+
 ### set main variables
 
 ```bash

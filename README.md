@@ -75,6 +75,8 @@ export REALM="alfresco"
 
 ### set environment specific variables
 
+Define a **PROTOCOL** (_http_ or _https_) and **DOMAIN** for your environment.
+
 #### for Docker for Desktop
 
 ```bash
@@ -82,11 +84,10 @@ export PROTOCOL="http"
 export DOMAIN="local"
 ```
 
-#### for AWS Pen Testing environment
+#### for a AWS Pen Testing environment
 
 ```bash
 export CLUSTER="aps2pentest"
-export APP_NAME="default-app"
 export PROTOCOL="https"
 export DOMAIN="${CLUSTER}.envalfresco.com"
 ```

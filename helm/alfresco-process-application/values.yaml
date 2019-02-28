@@ -105,7 +105,7 @@ alfresco-admin-app:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_OAUTH2_HOST: "{{ .Values.global.keycloak.url }}/realms/{{ .Values.global.keycloak.realm }}"
     APP_CONFIG_IDENTITY_HOST: "{{ .Values.global.keycloak.url }}/admin/realms/{{ .Values.global.keycloak.realm }}"
-    APP_CONFIG_OAUTH2_CLIENTID: "{{ .Values.global.keycloak.resource }}"
+    APP_CONFIG_OAUTH2_CLIENTID: "{{ .Values.global.keycloak.client }}"
     APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "{{ .Values.global.gateway.url }}/{{ .Values.alfresco-admin-app.ingress.path }}/assets/silent-refresh.html"
 
 alfresco-process-workspace-app:
@@ -125,5 +125,5 @@ alfresco-process-workspace-app:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_OAUTH2_HOST: "{{ .Values.global.keycloak.url }}/realms/{{ .Values.global.keycloak.realm }}"
     APP_CONFIG_IDENTITY_HOST: "{{ .Values.global.keycloak.url }}/admin/realms/{{ .Values.global.keycloak.realm }}"
-    APP_CONFIG_OAUTH2_CLIENTID: "{{ .Values.global.keycloak.resource }}"
+    APP_CONFIG_OAUTH2_CLIENTID: "{{ .Values.global.keycloak.client }}"
     APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "{{ .Values.global.gateway.url }}/{{ .Values.alfresco-process-workspace-app.ingress.path }}/assets/silent-refresh.html"

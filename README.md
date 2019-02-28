@@ -30,7 +30,7 @@ kubectl create secret \
 
 ## Install
 
-Helm command to install application chart:
+Helm command to install application chart (review and adjust values.yaml before):
 
 ```bash
 helm install ./helm/alfresco-process-application
@@ -38,7 +38,7 @@ helm install ./helm/alfresco-process-application
 
 ### install.sh
 
-Helper script to launch installation, to install application chart:
+Helper script to launch installation:
 
 ```bash
 HELM_OPTS="--debug --dry-run" ./install.sh
@@ -60,7 +60,7 @@ Adjust as per your environment:
 
 ```bash
 export ACTIVITI_CLOUD_CHARTS_HOME="$HOME/src/Activiti/activiti-cloud-charts"
-export APS_APPLICATION_CHART_HOME="$HOME/src/Alfresco/process-services/alfresco-process-application-deployment"
+export APS_APPLICATION_CHART_HOME="$HOME/src/Alfresco/process-services-public/alfresco-process-application-deployment"
 export ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME="$HOME/src/Activiti/activiti-cloud-acceptance-scenarios"
 ```
 
@@ -135,14 +135,10 @@ export AUDIT_EVENT_URL=${GATEWAY_URL}/${APP_NAME}-audit
 export QUERY_URL=${GATEWAY_URL}/${APP_NAME}-query
 ```
 
-## setup cluster on AWS
+## setup cluster
 
-Setup a cluster on AWS using Kops (EKS doesn't work using eksctl with the current kubectl version):
+Setup a Kubernetes cluster using the guidelines in the [Alfresco DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#alfresco-digital-business-platform-deployment).
 
-```bash
-export KOPS_CLUSTER_NAME=${CLUSTER}
-${APS_SCRIPTS_HOME}/create_aws_cluster_with_kops.sh
-```
 
 ### install helm
 
@@ -163,6 +159,8 @@ helm repo update
 ### helm tips
 
 For any command on helm, please verify the output with `--dry-run` option, then execute without.
+
+To install from the development chart repo, use `alfresco-incubator` rather than `alfresco` as **CHART_REPO** variable.
 
 ### kubectl tips
 
@@ -203,7 +201,7 @@ For HTTPS you have two options:
 Setup/replace Activiti infrastructure with APS one:
 
 ```bash
-export CHART_REPO=alfresco-incubator
+export CHART_REPO=alfresco
 export CHART_NAME=alfresco-process-infrastructure
 export RELEASE_NAME=infrastructure
 
@@ -276,6 +274,9 @@ mvn -pl 'runtime-acceptance-tests' clean verify serenity:aggregate
 ```bash
 export FRONTEND_APP_NAME="alfresco-admin-app"
 
+export CHART_REPO=alfresco
+export CHART_NAME=alfresco-adf-app
+export RELEASE_NAME=${FRONTEND_APP_NAME}
 helm upgrade --install --wait \
   ${HELM_OPTS} \
   --set registryPullSecrets=quay-registry-secret \
@@ -292,7 +293,7 @@ helm upgrade --install --wait \
   --set env.APP_CONFIG_IDENTITY_HOST="${SSO_URL}/admin/realms/${REALM}" \
   --set env.APP_CONFIG_OAUTH2_CLIENTID="activiti" \
   --set env.APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="${GATEWAY_URL}/${FRONTEND_APP_NAME}/assets/silent-refresh.html" \
-  ${FRONTEND_APP_NAME} alfresco-incubator/alfresco-adf-app
+  ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
 ```
 
 ### deploy process-workspace-app

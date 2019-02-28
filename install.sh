@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CHART_REPO="${CHART_REPO:-alfresco-incubator}"
+CHART_REPO="${CHART_REPO:-alfresco}"
 CHART_NAME="${CHART_NAME:-alfresco-process-application}"
 
 helm repo add activiti-cloud-charts https://activiti.github.io/activiti-cloud-charts

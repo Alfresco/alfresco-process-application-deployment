@@ -6,14 +6,14 @@ activiti-cloud-query:
     tag: develop
     pullPolicy: Always
   ingress:
-    path: "/{{ .Release.Name }}-query"
     enabled: true
-  probePath: "/{{ .Release.Name }}-query/actuator/health"
+    path: "/{{ .Release.Name }}/query"
+  probePath: "/{{ .Release.Name }}/query/actuator/health"
   extraEnv: |
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/{{ .Release.Name }}-query"
+      value: "/{{ .Release.Name }}/query"
 
 activiti-cloud-audit:
   db:
@@ -24,13 +24,13 @@ activiti-cloud-audit:
     pullPolicy: Always
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}-audit"
-  probePath: "/{{ .Release.Name }}-audit/actuator/health"
+    path: "/{{ .Release.Name }}/audit"
+  probePath: "/{{ .Release.Name }}/audit/actuator/health"
   extraEnv: |
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/{{ .Release.Name }}-audit"
+      value: "/{{ .Release.Name }}/audit"
 
 runtime-bundle:
   nameOverride: rb
@@ -46,13 +46,13 @@ runtime-bundle:
     pullPolicy: Always
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}-rb"
-  probePath: "/{{ .Release.Name }}-rb/actuator/health"
+    path: "/{{ .Release.Name }}/rb"
+  probePath: "/{{ .Release.Name }}/rb/actuator/health"
   extraEnv: |
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/{{ .Release.Name }}-rb"
+      value: "/{{ .Release.Name }}/rb"
   extraVolumes: |
     - name: license
       secret:
@@ -70,18 +70,18 @@ activiti-cloud-connector:
     create: false
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}-example-cloud-connector"
-  probePath: "/{{ .Release.Name }}-example-cloud-connector/actuator/health"
+    path: "/{{ .Release.Name }}/example-cloud-connector"
+  probePath: "/{{ .Release.Name }}/example-cloud-connector/actuator/health"
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/{{ .Release.Name }}-example-cloud-connector"
+      value: "/{{ .Release.Name }}/example-cloud-connector"
 
 activiti-cloud-notifications-graphql:
   enabled: true
   ingress:
-    # path: "/{{ .Release.Name }}" # TODO fix graphiql context path configuration 
     enabled: true
-  # probePath: "/{{ .Release.Name }}/actuator/health"
-  # extraEnv: |
-  #   - name: SERVER_SERVLET_CONTEXTPATH
-  #     value: "/{{ .Release.Name }}"
+    path: "/{{ .Release.Name }}"
+  probePath: "/{{ .Release.Name }}/actuator/health"
+  extraEnv: |
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/{{ .Release.Name }}"

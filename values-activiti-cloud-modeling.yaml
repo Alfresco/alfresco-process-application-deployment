@@ -12,5 +12,3 @@ backend:
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/activiti-cloud-modeling-backend"
-    - name: ACTIVITI_CLOUD_MODELING_URL
-      value: "http://127.0.0.1:8080/activiti-cloud-modeling-backend"

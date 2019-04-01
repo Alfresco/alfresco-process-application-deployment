@@ -81,58 +81,55 @@ Define a **PROTOCOL** (_http_ or _https_) and **DOMAIN** for your environment.
 
 ```bash
 export PROTOCOL="http"
-export DOMAIN="local"
+export GATEWAY_HOST="localhost"
+export SSO_HOST="host.docker.internal"
 ```
 
-#### for a AWS Pen Testing environment
+You need to add an entry in your hosts files to map the magic docker hostname to localhost for keycloak to work, similar to what is documented in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#8-add-local-dns):
 
 ```bash
-export CLUSTER="aps2pentest"
-export PROTOCOL="https"
-export DOMAIN="${CLUSTER}.envalfresco.com"
+sudo sh -c "echo \"127.0.0.1 host.docker.internal # entry for docker-for-desktop\" >> /etc/hosts"; cat /etc/hosts
 ```
 
-### for AWS Beer Demo DevCon environment
+
+#### for AWS DevCon example demo environment
 
 ```bash
 export CLUSTER="aps2devcon"
-export APP_NAME="beerer"
 export PROTOCOL="https"
 export DOMAIN="${CLUSTER}.envalfresco.com"
+export GATEWAY_HOST="${GATEWAY_HOST:-activiti-cloud-gateway.${DOMAIN}}"
+export SSO_HOST="${SSO_HOST:-activiti-keycloak.${DOMAIN}}"
 ```
 
 ### set derived env variables
 
 ```bash
 if [[ "${PROTOCOL}" == "http" ]]; then export HTTP=true; else export HTTP=false; fi  
-export SSO_HOST="activiti-keycloak.${DOMAIN}"
-export GATEWAY_HOST="activiti-cloud-gateway.${DOMAIN}"
-export SSO_URL="${PROTOCOL}://${SSO_HOST}/auth"
 export GATEWAY_URL="${PROTOCOL}://${GATEWAY_HOST}"
+export SSO_URL="${PROTOCOL}://${SSO_HOST}/auth"
 ```
-
-If using _Docker for Desktop_ you need to add an entry in your hosts files to map SSO_HOST and GATEWAY_HOST to the address on the network of your machine as in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#8-add-local-dns):
-
-```bash
-sudo sh -c "echo \"$(ipconfig getifaddr en0)     $SSO_HOST $GATEWAY_HOST # entries for APS2\" >> /etc/hosts"; cat /etc/hosts
-```
-
 
 ### set helm env variables
 
 ```bash
 export HELM_OPTS="--debug
   --set global.gateway.http=${HTTP}
-  --set global.gateway.domain=${DOMAIN}"
+  --set global.gateway.host=${GATEWAY_HOST}
+  --set global.keycloak.host=${SSO_HOST}
+  --set global.keycloak.realm=${REALM}"
 ```
 
 ### set test variables
 
 ```bash
+export MODELING_URL=${GATEWAY_URL}/activiti-cloud-modeling-backend
 export RUNTIME_BUNDLE_SERVICE_NAME=${APP_NAME}-rb
-export RUNTIME_BUNDLE_URL=${GATEWAY_URL}/${APP_NAME}-rb
-export AUDIT_EVENT_URL=${GATEWAY_URL}/${APP_NAME}-audit
-export QUERY_URL=${GATEWAY_URL}/${APP_NAME}-query
+export RUNTIME_BUNDLE_URL=${GATEWAY_URL}/${APP_NAME}/rb
+export AUDIT_EVENT_URL=${GATEWAY_URL}/${APP_NAME}/audit
+export QUERY_URL=${GATEWAY_URL}/${APP_NAME}/query
+export GRAPHQL_URL=${GATEWAY_URL}/${APP_NAME}/graphql
+export GRAPHQL_WS_URL=${GATEWAY_URL/http/ws}/${APP_NAME}/ws/graphql
 ```
 
 ## setup cluster
@@ -201,13 +198,11 @@ For HTTPS you have two options:
 Setup/replace Activiti infrastructure with APS one:
 
 ```bash
-export CHART_REPO=alfresco
+export CHART_REPO=alfresco-incubator
 export CHART_NAME=alfresco-process-infrastructure
 export RELEASE_NAME=infrastructure
 
 helm upgrade --install ${HELM_OPTS} \
-  --set alfresco-infrastructure.persistence.enabled=true \
-  --set alfresco-content-services.enabled=false \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
   
 # ingress hostname is ignored in alfresco-identity-service chart  
@@ -274,25 +269,18 @@ mvn -pl 'runtime-acceptance-tests' clean verify serenity:aggregate
 ```bash
 export FRONTEND_APP_NAME="alfresco-admin-app"
 
-export CHART_REPO=alfresco
+export CHART_REPO=alfresco-incubator
 export CHART_NAME=alfresco-adf-app
 export RELEASE_NAME=${FRONTEND_APP_NAME}
 helm upgrade --install --wait \
   ${HELM_OPTS} \
-  --set registryPullSecrets=quay-registry-secret \
+  -f values-global.yaml \
   --set image.repository=quay.io/alfresco/${FRONTEND_APP_NAME} \
   --set image.tag=latest \
   --set image.pullPolicy=Always \
-  --set ingress.hostName="${GATEWAY_HOST}" \
-  --set ingress.path="/${FRONTEND_APP_NAME}" \
-  --set env.APP_CONFIG_BPM_HOST="${GATEWAY_URL}" \
-  --set env.API_URL="${GATEWAY_URL}" \
+  --set ingress.path="/${APP_NAME}/${FRONTEND_APP_NAME}" \
   --set env.APP_CONFIG_APPS_DEPLOYED="[{\"name\": \"${APP_NAME}\" }]" \
-  --set env.APP_CONFIG_AUTH_TYPE="OAUTH" \
-  --set env.APP_CONFIG_OAUTH2_HOST="${SSO_URL}/realms/${REALM}" \
-  --set env.APP_CONFIG_IDENTITY_HOST="${SSO_URL}/admin/realms/${REALM}" \
-  --set env.APP_CONFIG_OAUTH2_CLIENTID="activiti" \
-  --set env.APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="${GATEWAY_URL}/${FRONTEND_APP_NAME}/assets/silent-refresh.html" \
+  -f values-${FRONTEND_APP_NAME}.yaml \
   ${RELEASE_NAME} ${CHART_REPO}/${CHART_NAME}
 ```
 
@@ -302,6 +290,7 @@ helm upgrade --install --wait \
 export FRONTEND_APP_NAME="alfresco-process-workspace-app"
 ```
 then [as above](#deploy-process-admin-app).
+
 
 ### override Docker images with internal Docker Registry
 
@@ -316,3 +305,42 @@ make values-registry.yaml
 export HELM_OPTS="${HELM_OPTS} -f values-registry.yaml"
 ```
 then [as install application](#install-application)
+
+
+## Testing
+
+### Notification Service
+
+Open GraphiQL UI and login with an admin user like _testadmin:password_:
+```bash
+open ${GATEWAY_URL}/${APP_NAME}/graphiql
+```
+
+and input the following GraphQL query after running acceptance tests to see _process instances_:
+```
+{
+  ProcessInstances {
+    select {
+      id
+      status
+      name
+      processDefinitionId
+      processDefinitionKey
+      processDefinitionVersion
+      tasks {
+        id
+        name
+        status
+        assignee
+      }
+      variables {
+        id
+        name
+        type
+        value
+      }
+    }
+  }
+}
+```
+

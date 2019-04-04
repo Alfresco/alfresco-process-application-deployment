@@ -175,6 +175,7 @@ alfresco-admin-app:
     path: "/{{ .Release.Name }}/alfresco-admin-app"
   env:
     APP_CONFIG_OAUTH2_ADMIN_HOST: "{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"
+    APP_CONFIG_APPS_DEPLOYED: "[{\"name\": \"{{ .Release.Name }}\" }]"
 
 alfresco-process-workspace-app:
   enabled: false

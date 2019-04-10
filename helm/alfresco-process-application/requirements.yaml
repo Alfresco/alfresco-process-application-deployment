@@ -13,11 +13,11 @@ dependencies:
     condition: activiti-cloud-modeling.enabled
   - name: alfresco-adf-app
     alias: alfresco-admin-app
-    version: 2.1.1
+    version: 2.1.2
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-admin-app.enabled
   - name: alfresco-adf-app
     alias: alfresco-process-workspace-app
-    version: 2.1.1
+    version: 2.1.2
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-process-workspace-app.enabled

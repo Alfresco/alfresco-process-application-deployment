@@ -177,6 +177,7 @@ alfresco-admin-app:
   ingress:
     path: "/{{ .Release.Name }}/alfresco-admin-app"
   env:
+    APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_OAUTH2_ADMIN_HOST: "{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"
     APP_CONFIG_APPS_DEPLOYED: "[{\"name\": \"{{ .Release.Name }}\" }]"
 
@@ -189,5 +190,6 @@ alfresco-process-workspace-app:
   ingress:
     path: "/{{ .Release.Name }}/alfresco-process-workspace-app"
   env:
+    APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_BPM_HOST: "{{ include \"common.gateway-url\" . }}"
     APP_CONFIG_APPS_DEPLOYED: "[{\"name\": \"{{ .Release.Name }}\" }]"

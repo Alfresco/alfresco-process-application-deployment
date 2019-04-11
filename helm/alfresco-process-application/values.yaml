@@ -185,7 +185,7 @@ alfresco-process-workspace-app:
   enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
-    tag: latest
+    tag: master-40 # Fixes the problem in 2.0.0 with empty base href tag in index.thml
     pullPolicy: Always
   ingress:
     path: "/{{ .Release.Name }}/alfresco-process-workspace-app"

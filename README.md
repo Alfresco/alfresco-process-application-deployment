@@ -344,3 +344,77 @@ and input the following GraphQL query after running acceptance tests to see _pro
 }
 ```
 
+then input the following GraphQL to create a subscription and run processes to see events arriving via websockets:
+```
+subscription {
+ engineEvents {
+   serviceName
+   appName
+   businessKey
+   PROCESS_STARTED {
+     id
+     timestamp
+     entity {
+       id
+       parentId
+       name
+       description
+       businessKey
+       initiator
+     }
+   }
+   PROCESS_COMPLETED {
+     id
+     timestamp
+     entity {
+       id
+       parentId
+       name
+       description
+       businessKey
+       initiator
+     }
+   }
+   TASK_CREATED {
+     id
+     entity {
+       id
+       priority
+       status
+       assignee
+       dueDate
+       createdDate
+       claimedDate
+       description
+     }
+   }
+   TASK_ASSIGNED {
+     id
+     entity {
+       id
+       priority
+       status
+       assignee
+       dueDate
+       createdDate
+       claimedDate
+       description
+     }
+   }
+   TASK_COMPLETED {
+     id
+     entity {
+       id
+       priority
+       status
+       assignee
+       dueDate
+       createdDate
+       claimedDate
+       description
+     }
+   }
+ }
+}
+```
+

@@ -302,3 +302,17 @@ helm upgrade --install --wait \
 export FRONTEND_APP_NAME="alfresco-process-workspace-app"
 ```
 then [as above](#deploy-process-admin-app).
+
+### override Docker images with internal Docker Registry
+
+```bash
+
+export APS_REGISTRY_HOST=internal.registry.io
+
+make login
+
+make values-registry.yaml
+
+export HELM_OPTS="${HELM_OPTS} -f values-registry.yaml"
+```
+then [as install application](#install-application)

@@ -13,7 +13,9 @@ busybox@latest \
 rabbitmq@3.7-alpine \
 kbudde/rabbitmq-exporter@v0.29.0 \
 quay.io/alfresco/alfresco-admin-app@latest \
-quay.io/alfresco/alfresco-process-workspace-app@latest
+quay.io/alfresco/alfresco-process-workspace-app@latest \
+activiti/activiti-cloud-modeling@7.0.0.GA \
+activiti/activiti-modeling-app@7.0.0.GA
 
 .PHONY: $(IMAGES) 
 

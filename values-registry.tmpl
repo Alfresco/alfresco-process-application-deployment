@@ -1,55 +1,56 @@
-activiti-cloud-audit:
-  image:
-    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-audit-service
-    tag: develop
-activiti-cloud-connector:
-  image:
-    repository: ${DOCKER_REGISTRY}/activiti/example-cloud-connector
-    tag: 7.0.0.GA
-activiti-cloud-notifications-graphql:
-  image:
-    repository: ${DOCKER_REGISTRY}/activiti/activiti-cloud-notifications-graphql
-    tag: 7.0.0.GA
-activiti-cloud-query:
-  image:
-    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-query-service
-    tag: develop
-runtime-bundle:
-  image:
-    pullPolicy: Always
-    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-example-process-runtime-bundle-service
-    tag: develop
-  init:
+activiti-cloud-application:
+  activiti-cloud-audit:
     image:
-      repository: ${DOCKER_REGISTRY}/alpine
-      tag: 3.8
-postgres:
-  image:
-    registry: ${DOCKER_REGISTRY}
-    repository: bitnami/postgresql
-    tag: 10.7.0
-  metrics:
+      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-audit-service
+      tag: develop
+  activiti-cloud-connector:
     image:
-      registry: ${DOCKER_REGISTRY}
-      repository: wrouesnel/postgres_exporter
-      tag: v0.4.7
-  volumePermissions:
+      repository: ${DOCKER_REGISTRY}/activiti/example-cloud-connector
+      tag: 7.0.0.GA
+  activiti-cloud-notifications-graphql:
     image:
-      registry: ${DOCKER_REGISTRY}
-      repository: bitnami/minideb
-      tag: latest
-rabbitmq:
-  busyboxImage:
-    repository: ${DOCKER_REGISTRY}/busybox
-    tag: latest
-  image:
-    repository: ${DOCKER_REGISTRY}/rabbitmq
-    tag: 3.7-alpine
-  prometheus:
-    exporter:
+      repository: ${DOCKER_REGISTRY}/activiti/activiti-cloud-notifications-graphql
+      tag: 7.0.0.GA
+  activiti-cloud-query:
+    image:
+      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-query-service
+      tag: develop
+  runtime-bundle:
+    image:
+      pullPolicy: Always
+      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-example-process-runtime-bundle-service
+      tag: develop
+    init:
       image:
-        repository: ${DOCKER_REGISTRY}/kbudde/rabbitmq-exporter
-        tag: v0.29.0
+        repository: ${DOCKER_REGISTRY}/alpine
+        tag: 3.8
+  postgres:
+    image:
+      registry: ${DOCKER_REGISTRY}
+      repository: bitnami/postgresql
+      tag: 10.7.0
+    metrics:
+      image:
+        registry: ${DOCKER_REGISTRY}
+        repository: wrouesnel/postgres_exporter
+        tag: v0.4.7
+    volumePermissions:
+      image:
+        registry: ${DOCKER_REGISTRY}
+        repository: bitnami/minideb
+        tag: latest
+  rabbitmq:
+    busyboxImage:
+      repository: ${DOCKER_REGISTRY}/busybox
+      tag: latest
+    image:
+      repository: ${DOCKER_REGISTRY}/rabbitmq
+      tag: 3.7-alpine
+    prometheus:
+      exporter:
+        image:
+          repository: ${DOCKER_REGISTRY}/kbudde/rabbitmq-exporter
+          tag: v0.29.0
 alfresco-admin-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-admin-app
@@ -58,3 +59,12 @@ alfresco-process-workspace-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-workspace-app
     tag: latest
+activiti-cloud-modeling:
+  backend:
+    image:
+      repository: ${DOCKER_REGISTRY}/activiti/activiti-cloud-modeling
+      tag: 7.0.0.GA
+  frontend:
+    image:
+      repository: ${DOCKER_REGISTRY}/activiti/activiti-modeling-app
+      tag: 7.0.0.GA

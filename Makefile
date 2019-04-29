@@ -1,23 +1,24 @@
 DOCKER_REGISTRY := $(or $(DOCKER_REGISTRY),$(APS_REGISTRY_HOST))
+VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
-IMAGES := quay.io/alfresco/alfresco-process-audit-service@develop \
-activiti/example-cloud-connector@7.0.0.GA \
+IMAGES := activiti/example-cloud-connector@7.0.0.GA \
 activiti/activiti-cloud-notifications-graphql@7.0.0.GA \
+activiti/activiti-cloud-modeling@7.0.0.GA \
+activiti/activiti-modeling-app@7.0.0.GA \
+quay.io/alfresco/alfresco-process-audit-service@develop \
 quay.io/alfresco/alfresco-process-query-service@develop \
 quay.io/alfresco/alfresco-example-process-runtime-bundle-service@develop \
+quay.io/alfresco/alfresco-admin-app@latest \
+quay.io/alfresco/alfresco-process-workspace-app@latest \
 alpine@3.8 \
 bitnami/postgresql@10.7.0 \
 wrouesnel/postgres_exporter@v0.4.7 \
 bitnami/minideb@latest \
 busybox@latest \
 rabbitmq@3.7-alpine \
-kbudde/rabbitmq-exporter@v0.29.0 \
-quay.io/alfresco/alfresco-admin-app@latest \
-quay.io/alfresco/alfresco-process-workspace-app@latest \
-activiti/activiti-cloud-modeling@7.0.0.GA \
-activiti/activiti-modeling-app@7.0.0.GA
+kbudde/rabbitmq-exporter@v0.29.0
 
-.PHONY: $(IMAGES) 
+.PHONY: $(IMAGES)
 
 values-registry.yaml: test pull tag push values
 
@@ -35,7 +36,7 @@ tag: $(foreach image,$(IMAGES),$(image)\tag)
 push: $(foreach image,$(IMAGES),$(image)\push)
 
 values: test
-	@envsubst < values-registry.tmpl > values-registry.yaml
+	@envsubst < $(VALUES_REGISTRY_TMPL) > values-registry.yaml
 	@echo Values generated in values-registry.yaml
 
 print: $(foreach image,$(IMAGES),$(image)\print)

@@ -7,6 +7,9 @@ global:
   registryPullSecrets:
     - "quay-registry-secret"
 
+  image:
+    pullPolicy: "Always"
+    
   keycloak:
     ## Configure Activiti Keycloak host template, i.e. "activiti-keycloak.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
     host: 'activiti-keycloak.{{ include "common.gateway-domain" . }}'
@@ -63,10 +66,15 @@ activiti-cloud-modeling:
   ingress:
     enabled: true
     frontend:
-      path: /activiti-cloud-modeling/?(.*)
-      annotations:
-        nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+      path: /activiti-cloud-modeling
+  frontend:
+    image:
+      repository: activiti/activiti-modeling-app
+      tag: 7.1.0.M1
   backend:
+    image: 
+      repository: activiti/activiti-cloud-modeling
+      tag: 7.1.0.M1
     probePath: "/activiti-cloud-modeling-backend/actuator/health"
     extraEnv: |
       - name: SERVER_SERVLET_CONTEXTPATH
@@ -78,33 +86,31 @@ activiti-cloud-application:
       deployPostgres: true
     image:
       repository: quay.io/alfresco/alfresco-process-query-service
-      tag: develop
-      pullPolicy: Always
+      tag: "2.1.0"
     ingress:
-      path: "/{{ .Release.Name }}-query"
+      path: "/{{ .Release.Name }}/query"
       enabled: true
-    probePath: "/{{ .Release.Name }}-query/actuator/health"
+    probePath: "/{{ .Release.Name }}/query/actuator/health"
     extraEnv: |
       - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
         value: "false"
       - name: SERVER_SERVLET_CONTEXTPATH
-        value: "/{{ .Release.Name }}-query"
+        value: "/{{ .Release.Name }}/query"
   activiti-cloud-audit:
     db:
       deployPostgres: true
     image:
       repository: quay.io/alfresco/alfresco-process-audit-service
-      tag: develop
-      pullPolicy: Always
+      tag: "2.1.0"
     ingress:
       enabled: true
-      path: "/{{ .Release.Name }}-audit"
-    probePath: "/{{ .Release.Name }}-audit/actuator/health"
+      path: "/{{ .Release.Name }}/audit"
+    probePath: "/{{ .Release.Name }}/audit/actuator/health"
     extraEnv: |
       - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
         value: "false"
       - name: SERVER_SERVLET_CONTEXTPATH
-        value: "/{{ .Release.Name }}-audit"
+        value: "/{{ .Release.Name }}/audit"
   runtime-bundle:
     nameOverride: rb
     serviceAccount:
@@ -114,18 +120,17 @@ activiti-cloud-application:
     db:
       deployPostgres: true
     image:
-      repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
-      tag: develop
-      pullPolicy: Always
+      repository: docker.io/activiti/example-runtime-bundle
+      tag: "7.1.0.M1"
     ingress:
       enabled: true
-      path: "/{{ .Release.Name }}-rb"
-    probePath: "/{{ .Release.Name }}-rb/actuator/health"
+      path: "/{{ .Release.Name }}/rb"
+    probePath: "/{{ .Release.Name }}/rb/actuator/health"
     extraEnv: |
       - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
         value: "false"
       - name: SERVER_SERVLET_CONTEXTPATH
-        value: "/{{ .Release.Name }}-rb"
+        value: "/{{ .Release.Name }}/rb"
       - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
         value: "{{ .Release.Name }}"
     extraVolumes: |
@@ -142,6 +147,9 @@ activiti-cloud-application:
       create: false
     rbac:
       create: false
+    image:
+      repository: docker.io/activiti/example-cloud-connector
+      tag: "7.1.0.M1"
     ingress:
       enabled: true
       path: "/{{ .Release.Name }}/example-cloud-connector"
@@ -151,22 +159,20 @@ activiti-cloud-application:
         value: "/{{ .Release.Name }}/example-cloud-connector"
   activiti-cloud-notifications-graphql:
     enabled: true
+    image:
+      repository: quay.io/alfresco/alfresco-process-notifications-graphql-service
+      tag: "2.1.0"
     ingress:
       enabled: true
-      path: "/{{ .Release.Name }}"
-    probePath: "/{{ .Release.Name }}/actuator/health"
-    extraEnv: |
-      - name: SERVER_SERVLET_CONTEXTPATH
-        value: "/{{ .Release.Name }}"
+      path: "/{{ .Release.Name }}/notifications"
 
 alfresco-admin-app:
   enabled: true
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: latest
-    pullPolicy: Always
+    tag: "2.1.0" 
   ingress:
-    path: "/{{ .Release.Name }}/alfresco-admin-app"
+    path: "/alfresco-admin-app"
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_OAUTH2_ADMIN_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
@@ -176,10 +182,9 @@ alfresco-process-workspace-app:
   enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
-    tag: master-40 # Fixes the problem in 2.0.0 with empty base href tag in index.thml
-    pullPolicy: Always
+    tag: "2.1.0" 
   ingress:
-    path: "/{{ .Release.Name }}/alfresco-process-workspace-app"
+    path: "/alfresco-process-workspace-app"
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'

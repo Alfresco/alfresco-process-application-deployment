@@ -50,15 +50,6 @@ global:
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
 
-
-alfresco-process-infrastructure:
-  enabled: false
-#  persistence:
-#    enabled: true
-
-#alfresco-content-services:
-#  enabled: false
-
 activiti-cloud-connector:
   enabled: true
 

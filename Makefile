@@ -1,29 +1,37 @@
 DOCKER_REGISTRY := $(or $(DOCKER_REGISTRY),$(APS_REGISTRY_HOST))
 VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
-IMAGES := activiti/example-cloud-connector@7.0.0.GA \
-activiti/activiti-cloud-notifications-graphql@7.0.0.GA \
-activiti/activiti-cloud-modeling@7.0.0.GA \
-activiti/activiti-modeling-app@7.0.0.GA \
-quay.io/alfresco/alfresco-process-audit-service@develop \
-quay.io/alfresco/alfresco-process-query-service@develop \
-quay.io/alfresco/alfresco-example-process-runtime-bundle-service@develop \
-quay.io/alfresco/alfresco-admin-app@latest \
-quay.io/alfresco/alfresco-process-workspace-app@latest \
-alpine@3.8 \
-bitnami/postgresql@10.7.0 \
-wrouesnel/postgres_exporter@v0.4.7 \
-bitnami/minideb@latest \
-busybox@latest \
-rabbitmq@3.7-alpine \
-kbudde/rabbitmq-exporter@v0.29.0
+.EXPORT_ALL_VARIABLES:
+
+AC_TAG := 7.1.0.M1
+AAE_TAG := 2.1.0
+RABBITMQ_TAG := 3.7-alpine
+POSTGRESQL_TAG := 10.7.0
+ALPINE_TAG := 3.8
+BUSYBOX_TAG := 1.30.1 
+MINIDEB_TAG := stretch
+
+IMAGES := activiti/example-cloud-connector@$(AC_TAG) \
+activiti/example-runtime-bundle@$(AC_TAG) \
+activiti/activiti-cloud-modeling@$(AC_TAG) \
+activiti/activiti-modeling-app@$(AC_TAG) \
+quay.io/alfresco/alfresco-process-audit-service@$(AAE_TAG) \
+quay.io/alfresco/alfresco-process-query-service@$(AAE_TAG) \
+quay.io/alfresco/alfresco-admin-app@$(AAE_TAG) \
+quay.io/alfresco/alfresco-process-notifications-graphql-service@$(AAE_TAG) \
+quay.io/alfresco/alfresco-process-workspace-app@$(AAE_TAG) \
+alpine@$(ALPINE_TAG) \
+bitnami/postgresql@$(POSTGRESQL_TAG) \
+bitnami/minideb@$(MINIDEB_TAG) \
+busybox@$(BUSYBOX_TAG) \
+rabbitmq@$(RABBITMQ_TAG)
 
 .PHONY: $(IMAGES)
 
-values-registry.yaml: test pull tag push values
+all: images values
 
 test:
-	test $(DOCKER_REGISTRY)
+	@if test -z "$(DOCKER_REGISTRY)"; then echo "Error: missing DOCKER_REGISTRY argument or env variable."; exit 1; fi
 
 login: test
 	docker login quay.io
@@ -31,15 +39,17 @@ login: test
 
 pull: $(foreach image,$(IMAGES),$(image)\pull)
 
-tag: $(foreach image,$(IMAGES),$(image)\tag)
+tag: test $(foreach image,$(IMAGES),$(image)\tag)
 
-push: $(foreach image,$(IMAGES),$(image)\push)
+push: test $(foreach image,$(IMAGES),$(image)\push)
 
-values: test
+images: test pull tag push
+
+values: 
 	@envsubst < $(VALUES_REGISTRY_TMPL) > values-registry.yaml
 	@echo Values generated in values-registry.yaml
 
-print: $(foreach image,$(IMAGES),$(image)\print)
+list: $(foreach image,$(IMAGES),$(image)\print)
 
 clean:
 	rm values-registry.yaml || true

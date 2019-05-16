@@ -2,69 +2,58 @@ activiti-cloud-application:
   activiti-cloud-audit:
     image:
       repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-audit-service
-      tag: develop
+      tag: ${AAE_TAG}
   activiti-cloud-connector:
     image:
       repository: ${DOCKER_REGISTRY}/activiti/example-cloud-connector
-      tag: 7.0.0.GA
+      tag: ${AC_TAG}
   activiti-cloud-notifications-graphql:
     image:
-      repository: ${DOCKER_REGISTRY}/activiti/activiti-cloud-notifications-graphql
-      tag: 7.0.0.GA
+      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-notifications-graphql-service
+      tag: ${AAE_TAG}
   activiti-cloud-query:
     image:
       repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-query-service
-      tag: develop
+      tag: ${AAE_TAG}
   runtime-bundle:
     image:
-      pullPolicy: Always
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-example-process-runtime-bundle-service
-      tag: develop
+      repository: ${DOCKER_REGISTRY}/activiti/example-runtime-bundle
+      tag: ${AC_TAG}
     init:
       image:
         repository: ${DOCKER_REGISTRY}/alpine
-        tag: 3.8
+        tag: ${ALPINE_TAG}
   postgres:
     image:
       registry: ${DOCKER_REGISTRY}
       repository: bitnami/postgresql
-      tag: 10.7.0
-    metrics:
-      image:
-        registry: ${DOCKER_REGISTRY}
-        repository: wrouesnel/postgres_exporter
-        tag: v0.4.7
+      tag: ${POSTGRESQL_TAG}
     volumePermissions:
       image:
         registry: ${DOCKER_REGISTRY}
         repository: bitnami/minideb
-        tag: latest
+        tag: ${MINIDEB_TAG}
   rabbitmq:
     busyboxImage:
       repository: ${DOCKER_REGISTRY}/busybox
-      tag: latest
+      tag: ${BUSYBOX_TAG}
     image:
       repository: ${DOCKER_REGISTRY}/rabbitmq
-      tag: 3.7-alpine
-    prometheus:
-      exporter:
-        image:
-          repository: ${DOCKER_REGISTRY}/kbudde/rabbitmq-exporter
-          tag: v0.29.0
+      tag: ${RABBITMQ_TAG}
 alfresco-admin-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-admin-app
-    tag: latest
+    tag: ${AAE_TAG}
 alfresco-process-workspace-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-workspace-app
-    tag: latest
+    tag: ${AAE_TAG}
 activiti-cloud-modeling:
   backend:
     image:
       repository: ${DOCKER_REGISTRY}/activiti/activiti-cloud-modeling
-      tag: 7.0.0.GA
+      tag: ${AC_TAG}
   frontend:
     image:
       repository: ${DOCKER_REGISTRY}/activiti/activiti-modeling-app
-      tag: 7.0.0.GA
+      tag: ${AC_TAG}

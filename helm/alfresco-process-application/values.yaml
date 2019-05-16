@@ -170,7 +170,7 @@ alfresco-admin-app:
   enabled: true
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: "2.1.0" 
+    tag: "2.1.1" 
   ingress:
     path: "/alfresco-admin-app"
   env:

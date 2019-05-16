@@ -5,6 +5,8 @@ VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
 AC_TAG := 7.1.0.M1
 AAE_TAG := 2.1.0
+APW_APP_TAG := 2.1.0
+APA_APP_TAG := 2.1.1
 RABBITMQ_TAG := 3.7-alpine
 POSTGRESQL_TAG := 10.7.0
 ALPINE_TAG := 3.8
@@ -17,9 +19,9 @@ activiti/activiti-cloud-modeling@$(AC_TAG) \
 activiti/activiti-modeling-app@$(AC_TAG) \
 quay.io/alfresco/alfresco-process-audit-service@$(AAE_TAG) \
 quay.io/alfresco/alfresco-process-query-service@$(AAE_TAG) \
-quay.io/alfresco/alfresco-admin-app@$(AAE_TAG) \
+quay.io/alfresco/alfresco-admin-app@$(APW_APP_TAG) \
 quay.io/alfresco/alfresco-process-notifications-graphql-service@$(AAE_TAG) \
-quay.io/alfresco/alfresco-process-workspace-app@$(AAE_TAG) \
+quay.io/alfresco/alfresco-process-workspace-app@$(APW_APP_TAG) \
 alpine@$(ALPINE_TAG) \
 bitnami/postgresql@$(POSTGRESQL_TAG) \
 bitnami/minideb@$(MINIDEB_TAG) \

@@ -1,45 +1,57 @@
-activiti-cloud-application:
-  activiti-cloud-audit:
+activiti-cloud-audit:
+  image:
+    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-audit-service
+    tag: ${AAE_TAG}
+activiti-cloud-connector:
+  image:
+    repository: ${DOCKER_REGISTRY}/activiti/example-cloud-connector
+    tag: ${AC_TAG}
+activiti-cloud-notifications-graphql:
+  image:
+    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-notifications-graphql-service
+    tag: ${AAE_TAG}
+activiti-cloud-query:
+  image:
+    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-query-service
+    tag: ${AAE_TAG}
+runtime-bundle:
+  image:
+    repository: ${DOCKER_REGISTRY}/activiti/example-runtime-bundle
+    tag: ${AC_TAG}
+  init:
     image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-audit-service
-      tag: ${AAE_TAG}
-  activiti-cloud-connector:
-    image:
-      repository: ${DOCKER_REGISTRY}/activiti/example-cloud-connector
-      tag: ${AC_TAG}
-  activiti-cloud-notifications-graphql:
-    image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-notifications-graphql-service
-      tag: ${AAE_TAG}
-  activiti-cloud-query:
-    image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-query-service
-      tag: ${AAE_TAG}
-  runtime-bundle:
-    image:
-      repository: ${DOCKER_REGISTRY}/activiti/example-runtime-bundle
-      tag: ${AC_TAG}
-    init:
-      image:
-        repository: ${DOCKER_REGISTRY}/alpine
-        tag: ${ALPINE_TAG}
-  postgres:
+      repository: ${DOCKER_REGISTRY}/alpine
+      tag: ${ALPINE_TAG}
+alfresco-dmn-service:
+  image:
+    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-dmn-runtime-service
+    tag: ${AAE_TAG}
+alfresco-form-service:
+  image:
+    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-form-service
+    tag: ${AAE_TAG}
+alfresco-preference-service:
+  image:
+    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-preference-service
+    tag: ${AAE_TAG}
+
+postgres:
+  image:
+    registry: ${DOCKER_REGISTRY}
+    repository: bitnami/postgresql
+    tag: ${POSTGRESQL_TAG}
+  volumePermissions:
     image:
       registry: ${DOCKER_REGISTRY}
-      repository: bitnami/postgresql
-      tag: ${POSTGRESQL_TAG}
-    volumePermissions:
-      image:
-        registry: ${DOCKER_REGISTRY}
-        repository: bitnami/minideb
-        tag: ${MINIDEB_TAG}
-  rabbitmq:
-    busyboxImage:
-      repository: ${DOCKER_REGISTRY}/busybox
-      tag: ${BUSYBOX_TAG}
-    image:
-      repository: ${DOCKER_REGISTRY}/rabbitmq
-      tag: ${RABBITMQ_TAG}
+      repository: bitnami/minideb
+      tag: ${MINIDEB_TAG}
+rabbitmq:
+  busyboxImage:
+    repository: ${DOCKER_REGISTRY}/busybox
+    tag: ${BUSYBOX_TAG}
+  image:
+    repository: ${DOCKER_REGISTRY}/rabbitmq
+    tag: ${RABBITMQ_TAG}
 alfresco-admin-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-admin-app
@@ -48,12 +60,3 @@ alfresco-process-workspace-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-workspace-app
     tag: ${APW_APP_TAG}
-activiti-cloud-modeling:
-  backend:
-    image:
-      repository: ${DOCKER_REGISTRY}/activiti/activiti-cloud-modeling
-      tag: ${AC_TAG}
-  frontend:
-    image:
-      repository: ${DOCKER_REGISTRY}/activiti/activiti-modeling-app
-      tag: ${AC_TAG}

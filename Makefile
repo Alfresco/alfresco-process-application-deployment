@@ -1,9 +1,9 @@
-DOCKER_REGISTRY := $(or $(DOCKER_REGISTRY),$(APS_REGISTRY_HOST))
+DOCKER_REGISTRY := $(or $(DOCKER_REGISTRY),$(REGISTRY_HOST))
 VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
 .EXPORT_ALL_VARIABLES:
 
-AC_TAG := 7.1.0.M1
+AC_TAG := 7.1.0.M2
 AAE_TAG := 2.1.0
 APW_APP_TAG := 2.1.0
 APA_APP_TAG := 2.1.1
@@ -15,13 +15,14 @@ MINIDEB_TAG := stretch
 
 IMAGES := activiti/example-cloud-connector@$(AC_TAG) \
 activiti/example-runtime-bundle@$(AC_TAG) \
-activiti/activiti-cloud-modeling@$(AC_TAG) \
-activiti/activiti-modeling-app@$(AC_TAG) \
 quay.io/alfresco/alfresco-process-audit-service@$(AAE_TAG) \
 quay.io/alfresco/alfresco-process-query-service@$(AAE_TAG) \
 quay.io/alfresco/alfresco-admin-app@$(APW_APP_TAG) \
 quay.io/alfresco/alfresco-process-notifications-graphql-service@$(AAE_TAG) \
 quay.io/alfresco/alfresco-process-workspace-app@$(APW_APP_TAG) \
+quay.io/alfresco/alfresco-dmn-runtime-service@$(AAE_TAG) \
+quay.io/alfresco/alfresco-form-service@$(AAE_TAG) \
+quay.io/alfresco/alfresco-preference-service@$(AAE_TAG) \
 alpine@$(ALPINE_TAG) \
 bitnami/postgresql@$(POSTGRESQL_TAG) \
 bitnami/minideb@$(MINIDEB_TAG) \

@@ -296,7 +296,7 @@ then [as above](#deploy-process-admin-app).
 
 ```bash
 
-export APS_REGISTRY_HOST=internal.registry.io
+export REGISTRY_HOST=internal.registry.io
 
 make login
 

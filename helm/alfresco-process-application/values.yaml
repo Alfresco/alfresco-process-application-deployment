@@ -63,7 +63,7 @@ activiti-cloud-query:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: develop
+    tag: "2.2.0"
   ingress:
     path: "/{{ .Release.Name }}/query"
     enabled: true
@@ -86,7 +86,7 @@ activiti-cloud-audit:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-audit-service
-    tag: develop
+    tag: "2.2.0"
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
@@ -155,7 +155,7 @@ activiti-cloud-notifications-graphql:
   nameOverride: notifications
   image:
     repository: quay.io/alfresco/alfresco-process-notifications-graphql-service
-    tag: develop
+    tag: "2.2.0"
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/notifications"
@@ -182,7 +182,7 @@ alfresco-dmn-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-dmn-runtime-service
-    tag: develop
+    tag: "2.2.0"
     pullPolicy: Always
   postgres:
     enabled: true
@@ -252,7 +252,7 @@ alfresco-preference-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-preference-service
-    tag: develop
+    tag: "2.2.0"
     pullPolicy: Always
   postgres:
     enabled: true

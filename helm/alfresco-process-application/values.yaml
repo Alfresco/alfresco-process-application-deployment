@@ -59,8 +59,8 @@ global:
 
 activiti-cloud-query:
   nameOverride: query
-  db:
-    deployPostgres: true
+  postgres:
+    enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
     tag: develop
@@ -82,8 +82,8 @@ activiti-cloud-query:
 
 activiti-cloud-audit:
   nameOverride: audit
-  db:
-    deployPostgres: true
+  postgres:
+    enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-audit-service
     tag: develop
@@ -110,8 +110,8 @@ runtime-bundle:
     create: false
   rbac:
     create: false
-  db:
-    deployPostgres: true
+  postgres:
+    enabled: true
   image:
     repository: activiti/example-runtime-bundle
     tag: "7.1.0.M2"

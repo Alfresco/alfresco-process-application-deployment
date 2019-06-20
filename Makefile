@@ -4,20 +4,20 @@ VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 .EXPORT_ALL_VARIABLES:
 
 AC_TAG := 7.1.0.M2
-AAE_TAG := 2.1.0
-APW_APP_TAG := 2.1.0
-APA_APP_TAG := 2.1.1
+AAE_TAG := 2.2.0
+APW_APP_TAG := 2.2.0
+APA_APP_TAG := 2.2.0
 RABBITMQ_TAG := 3.7-alpine
 POSTGRESQL_TAG := 10.7.0
 ALPINE_TAG := 3.8
-BUSYBOX_TAG := 1.30.1 
+BUSYBOX_TAG := 1.30.1
 MINIDEB_TAG := stretch
 
 IMAGES := activiti/example-cloud-connector@$(AC_TAG) \
 activiti/example-runtime-bundle@$(AC_TAG) \
 quay.io/alfresco/alfresco-process-audit-service@$(AAE_TAG) \
 quay.io/alfresco/alfresco-process-query-service@$(AAE_TAG) \
-quay.io/alfresco/alfresco-admin-app@$(APW_APP_TAG) \
+quay.io/alfresco/alfresco-admin-app@$(APA_APP_TAG) \
 quay.io/alfresco/alfresco-process-notifications-graphql-service@$(AAE_TAG) \
 quay.io/alfresco/alfresco-process-workspace-app@$(APW_APP_TAG) \
 quay.io/alfresco/alfresco-dmn-runtime-service@$(AAE_TAG) \

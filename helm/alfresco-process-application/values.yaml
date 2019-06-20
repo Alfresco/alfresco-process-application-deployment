@@ -52,46 +52,59 @@ global:
       value: ".*"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
-
-activiti-cloud-connector:
-  enabled: true
-
-runtime-bundle:
-  enabled: true
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "false"
+    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
+      value: "{{ .Release.Name }}"
 
 activiti-cloud-query:
+  nameOverride: query
   db:
     deployPostgres: true
   image:
-    repository: activiti/activiti-cloud-query
-    tag: "7.1.0.M2"
+    repository: quay.io/alfresco/alfresco-process-query-service
+    tag: develop
   ingress:
     path: "/{{ .Release.Name }}/query"
     enabled: true
-  probePath: "/{{ .Release.Name }}/query/actuator/health"
+  probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/{{ .Release.Name }}/query"
+      value: "{{ tpl .Values.ingress.path . }}"
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
 
 activiti-cloud-audit:
+  nameOverride: audit
   db:
     deployPostgres: true
   image:
-    repository: activiti/activiti-cloud-audit
-    tag: "7.1.0.M2"
+    repository: quay.io/alfresco/alfresco-process-audit-service
+    tag: develop
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/audit"
-  probePath: "/{{ .Release.Name }}/audit/actuator/health"
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+  probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/{{ .Release.Name }}/audit"
+      value: "{{ tpl .Values.ingress.path . }}"
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
 
 runtime-bundle:
+  enabled: true
   nameOverride: rb
   serviceAccount:
     create: false
@@ -104,15 +117,11 @@ runtime-bundle:
     tag: "7.1.0.M2"
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/rb"
-  probePath: "/{{ .Release.Name }}/rb/actuator/health"
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+  probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
   extraEnv: |
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/{{ .Release.Name }}/rb"
-    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
-      value: "{{ .Release.Name }}"
+      value: "{{ tpl .Values.ingress.path . }}"
   extraVolumes: |
     - name: license
       secret:
@@ -124,6 +133,8 @@ runtime-bundle:
 
 activiti-cloud-connector:
   enabled: true
+  nameOverride: example-cloud-connector
+  enabled: true
   serviceAccount:
     create: false
   rbac:
@@ -133,29 +144,219 @@ activiti-cloud-connector:
     tag: "7.1.0.M2"
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/example-cloud-connector"
-  probePath: "/{{ .Release.Name }}/example-cloud-connector/actuator/health"
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+  probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/{{ .Release.Name }}/example-cloud-connector"
+      value: "{{ tpl .Values.ingress.path . }}"
 
 activiti-cloud-notifications-graphql:
   enabled: true
+  nameOverride: notifications
   image:
-    repository: activiti/activiti-cloud-notifications-graphql
-    tag: "7.1.0.M2"
+    repository: quay.io/alfresco/alfresco-process-notifications-graphql-service
+    tag: develop
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/notifications"
 
+alfresco-dmn-service:
+  enabled: true
+  nameOverride: dmn
+  rbac:
+    create: false
+  serviceAccount:
+    create: false
+  ingress:
+    enabled: false
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+  image:
+    repository: quay.io/alfresco/alfresco-dmn-service
+    # temporary until released
+    tag: develop
+    pullPolicy: Always
+  postgres:
+    enabled: false
+  probePath: "{{ .Values.ingress.path }}/actuator/health"
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ .Values.ingress.path }}"
+
+alfresco-dmn-service:
+  enabled: true
+  nameOverride: dmn
+  rbac:
+    create: false
+  serviceAccount:
+    create: false
+  ingress:
+    enabled: true
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/?(.*)"
+    annotations: 
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+  image:
+    repository: quay.io/alfresco/alfresco-dmn-runtime-service
+    tag: develop
+    pullPolicy: Always
+  postgres:
+    enabled: true
+  probePath: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+    - name: ACT_RB_SERVICE_URL
+      value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
+
+alfresco-form-service:
+  enabled: true
+  nameOverride: form
+  rbac:
+    create: false
+  serviceAccount:
+    create: false
+  ingress:
+    enabled: true
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/?(.*)"
+    annotations: 
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+  image:
+    repository: quay.io/alfresco/alfresco-form-service
+    tag: latest
+    pullPolicy: Always
+  postgres:
+    enabled: true
+  probePath: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+    - name: ACT_RB_SERVICE_URL
+      value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
+
+alfresco-preference-service:
+  enabled: true
+  nameOverride: preference
+  rbac:
+    create: false
+  serviceAccount:
+    create: false
+  ingress:
+    enabled: true
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/?(.*)"
+    annotations: 
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+  image:
+    repository: quay.io/alfresco/alfresco-preference-service
+    tag: develop
+    pullPolicy: Always
+  postgres:
+    enabled: true
+  probePath: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+
 alfresco-process-workspace-app:
   enabled: true
+  nameOverride: workspace-app
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
-    tag: "2.1.0" 
+    tag: "2.1.0"
   ingress:
-    path: "/workspace"
+    path: "/{{ .Release.Name }}/workspace"
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
+
+alfresco-admin-app:
+  enabled: true
+  nameOverride: admin-app
+  ingress:
+    path: "/{{ .Release.Name }}/admin"
+  image:
+    repository: quay.io/alfresco/alfresco-admin-app
+    tag: "2.1.1"
+    pullPolicy: Always
+  env:
+    APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
+    APP_CONFIG_AUTH_TYPE: "OAUTH"
+    APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
+    APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
+
+postgres:
+  enabled: true
+  postgresqlPassword: password
+  resources:
+    requests:
+      cpu: 350m
+      memory: 512Mi
+
+rabbitmq:
+  enabled: true
+  service:
+    clusterIP: None
+  persistentVolume:
+    enabled: true
+  rabbitmqUsername: "guest"
+  rabbitmqPassword: "guest"
+  rabbitmqErlangCookie: 124567890abcdefghijklmnopqrstuv
+  rabbitmqSTOMPPlugin:
+    enabled: true
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 350m
+      memory: 512Mi
+  rbac:
+    create: true
+  replicaCount: 1
+  ingress:
+    enabled: false
+    #hostName: "REPLACEME"
+    path: /rabbitmq
+    # annotations: 
+      # kubernetes.io/ingress.class: nginx
+      # nginx.ingress.kubernetes.io/enable-cors: "true"
+      # nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+      # nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"

@@ -1,48 +1,48 @@
 dependencies:
-  - name: "activiti-cloud-query"
-    repository: "https://activiti.github.io/activiti-cloud-helm-charts/"
-    version: "7.1.105"
-    condition: "activiti-cloud-query.enabled"
-  - name: "activiti-cloud-audit"
-    repository: "https://activiti.github.io/activiti-cloud-helm-charts/"
-    version: "7.1.110"
-    condition: "activiti-cloud-audit.enabled"
-  - name: "rabbitmq-ha"
-    repository: "https://kubernetes-charts.storage.googleapis.com"
-    version: "1.19.0"
-    condition: "rabbitmq.enabled"
-    alias: "rabbitmq"
-  - name: "postgresql"
-    repository: "https://kubernetes-charts.storage.googleapis.com"
-    version: "3.11.3"
-    condition: "postgres.enabled"
-    alias: "postgres"
-  - name: "runtime-bundle"
-    repository: "https://activiti.github.io/activiti-cloud-helm-charts/"
-    version: "7.1.140"
-    condition: "runtime-bundle.enabled"
-  - name: "activiti-cloud-connector"
-    repository: "https://activiti.github.io/activiti-cloud-helm-charts/"
-    version: "7.1.121"
-    condition: "activiti-cloud-connector.enabled"
-  - name: "activiti-cloud-notifications-graphql"
-    repository: "https://activiti.github.io/activiti-cloud-helm-charts/"
-    version: "7.1.104"
-    condition: "activiti-cloud-notifications-graphql.enabled"
+  - name: activiti-cloud-query
+    repository: https://activiti.github.io/activiti-cloud-helm-charts
+    version: 7.1.105
+    condition: activiti-cloud-query.enabled
+  - name: activiti-cloud-audit
+    repository: https://activiti.github.io/activiti-cloud-helm-charts
+    version: 7.1.110
+    condition: activiti-cloud-audit.enabled
+  - name: rabbitmq-ha
+    repository: https://kubernetes-charts.storage.googleapis.com
+    version: 1.19.0
+    condition: rabbitmq.enabled
+    alias: rabbitmq
+  - name: postgresql
+    repository: https://kubernetes-charts.storage.googleapis.com
+    version: 3.11.3
+    condition: postgres.enabled
+    alias: postgres
+  - name: runtime-bundle
+    repository: https://activiti.github.io/activiti-cloud-helm-charts
+    version: 7.1.140
+    condition: runtime-bundle.enabled
+  - name: activiti-cloud-connector
+    repository: https://activiti.github.io/activiti-cloud-helm-charts
+    version: 7.1.121
+    condition: activiti-cloud-connector.enabled
+  - name: activiti-cloud-notifications-graphql
+    repository: https://activiti.github.io/activiti-cloud-helm-charts
+    version: 7.1.104
+    condition: activiti-cloud-notifications-graphql.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-form-service
     version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/incubator    
+    repository: https://kubernetes-charts.alfresco.com/incubator
     condition:  alfresco-form-service.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-dmn-service
     version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/incubator    
+    repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-dmn-service.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-preference-service
     version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/incubator    
+    repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-preference-service.enabled
   - name: alfresco-adf-app
     alias: alfresco-process-workspace-app

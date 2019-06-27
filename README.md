@@ -1,10 +1,10 @@
 # alfresco-process-application-deployment
 
-Helm chart to install an AAE 2.2.0 application.
+Helm chart to install an AAE application.
 
 ## Prerequisites
 
-The APS 2.2.0 infrastructure should be already installed and ingress configured with the external URLs.
+The [AAE infrastructure](https://git.alfresco.com/process-services-public/alfresco-process-infrastructure-deployment) should be already installed and ingress configured with the external URLs.
 
 ### add quay-registry-secret
 

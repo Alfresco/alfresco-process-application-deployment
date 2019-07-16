@@ -58,6 +58,7 @@ global:
       value: "{{ .Release.Name }}"
 
 activiti-cloud-query:
+  enabled: true
   nameOverride: query
   postgres:
     enabled: true
@@ -81,6 +82,7 @@ activiti-cloud-query:
       readOnly: true
 
 activiti-cloud-audit:
+  enabled: true
   nameOverride: audit
   postgres:
     enabled: true

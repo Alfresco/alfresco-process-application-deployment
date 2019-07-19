@@ -134,9 +134,8 @@ runtime-bundle:
       readOnly: true
 
 activiti-cloud-connector:
-  enabled: true
+  enabled: false
   nameOverride: example-cloud-connector
-  enabled: true
   serviceAccount:
     create: false
   rbac:
@@ -266,7 +265,7 @@ alfresco-preference-service:
       value: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
 
 alfresco-process-workspace-app:
-  enabled: true
+  enabled: false
   nameOverride: workspace-app
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
@@ -279,7 +278,7 @@ alfresco-process-workspace-app:
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
 
 alfresco-admin-app:
-  enabled: true
+  enabled: false
   nameOverride: admin-app
   ingress:
     path: "/{{ .Release.Name }}/admin"

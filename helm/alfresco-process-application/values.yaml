@@ -124,6 +124,10 @@ runtime-bundle:
   extraEnv: |
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "{{ tpl .Values.ingress.path . }}"
+    - name: ACT_KEYCLOAK_RESOURCE
+      value: "{{ .Release.Name }}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "true"
   extraVolumes: |
     - name: license
       secret:

@@ -7,7 +7,7 @@ Helm chart to install an AAE application.
 The [AAE infrastructure](https://git.alfresco.com/process-services-public/alfresco-process-infrastructure-deployment) should be already installed and ingress configured with the external URLs.
 
 A keycloak security client(https://www.keycloak.org/docs/6.0/server_admin/#oidc-clients)
-must be created before installing the helm chart.
+must be created with the same name of the application before installing the helm chart.
 By default the runtime bundle api will validate the user token against that client.
 
 The expected client level roles are ACTIVITI_USER and ACTIVITI_ADMIN, and of course

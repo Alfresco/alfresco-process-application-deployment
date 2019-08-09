@@ -116,7 +116,7 @@ runtime-bundle:
     enabled: true
   image:
     repository: activiti/example-runtime-bundle
-    tag: "7.1.0.M3"
+    tag: "7.1.0.M3.1"
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
@@ -146,7 +146,7 @@ activiti-cloud-connector:
     create: false
   image:
     repository: activiti/example-cloud-connector
-    tag: "7.1.0.M3"
+    tag: "7.1.0.M3.1"
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"

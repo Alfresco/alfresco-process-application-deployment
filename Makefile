@@ -3,7 +3,7 @@ VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
 .EXPORT_ALL_VARIABLES:
 
-AC_TAG := 7.1.0.M3
+AC_TAG := 7.1.0.M3.1
 AAE_TAG := 2.3.0
 APW_APP_TAG := 2.3.0
 APA_APP_TAG := 2.3.0

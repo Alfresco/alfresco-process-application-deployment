@@ -1,11 +1,11 @@
 dependencies:
   - name: activiti-cloud-query
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.153
+    version: 7.1.188
     condition: activiti-cloud-query.enabled
   - name: activiti-cloud-audit
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.159
+    version: 7.1.193
     condition: activiti-cloud-audit.enabled
   - name: rabbitmq-ha
     repository: https://kubernetes-charts.storage.googleapis.com
@@ -19,15 +19,15 @@ dependencies:
     alias: postgres
   - name: runtime-bundle
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.193
+    version: 7.1.230
     condition: runtime-bundle.enabled
   - name: activiti-cloud-connector
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.171
+    version: 7.1.205
     condition: activiti-cloud-connector.enabled
   - name: activiti-cloud-notifications-graphql
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.156
+    version: 7.1.192
     condition: activiti-cloud-notifications-graphql.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-form-service

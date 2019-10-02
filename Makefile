@@ -3,10 +3,10 @@ VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
 .EXPORT_ALL_VARIABLES:
 
-AC_TAG := 7.1.0.M3.1
-AAE_TAG := 2.3.0
-APW_APP_TAG := 2.3.0
-APA_APP_TAG := 2.3.0
+AC_TAG := 7.1.0.M4
+AAE_TAG := 7.1.0.M4
+APW_APP_TAG := 7.1.0.M4
+APA_APP_TAG := 7.1.0.M4
 RABBITMQ_TAG := 3.7-alpine
 POSTGRESQL_TAG := 10.7.0
 ALPINE_TAG := 3.8
@@ -48,7 +48,7 @@ push: test $(foreach image,$(IMAGES),$(image)\push)
 
 images: test pull tag push
 
-values: 
+values:
 	@envsubst < $(VALUES_REGISTRY_TMPL) > values-registry.yaml
 	@echo Values generated in values-registry.yaml
 

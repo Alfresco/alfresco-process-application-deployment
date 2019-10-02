@@ -48,5 +48,5 @@ docker run -it --rm \
   --env ACT_KEYCLOAK_CLIENT_USER=client \
   --env ACT_KEYCLOAK_CLIENT_PASSWORD=client \
   --volume "$PWD":/tmp/app \
-  quay.io/alfresco/alfresco-deployment-cli:develop /tmp/app/application.json
+  quay.io/alfresco/alfresco-deployment-cli:7.1.0.M4 /tmp/app/application.json
 ```

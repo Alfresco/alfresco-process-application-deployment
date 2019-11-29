@@ -174,9 +174,7 @@ alfresco-dmn-service:
     create: false
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/?(.*)"
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /$1
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
   extraVolumes: |
     - name: license
       secret:
@@ -209,9 +207,7 @@ alfresco-form-service:
     create: false
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/?(.*)"
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /$1
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
   extraVolumes: |
     - name: license
       secret:
@@ -244,9 +240,7 @@ alfresco-preference-service:
     create: false
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/?(.*)"
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /$1
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
   extraVolumes: |
     - name: license
       secret:

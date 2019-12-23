@@ -1,5 +1,7 @@
 # alfresco-process-application-deployment
 
+[![Build Status](https://travis-ci.org/Alfresco/alfresco-process-application-deployment.svg?branch=develop)](https://travis-ci.org/Alfresco/alfresco-process-application-deployment)
+
 Helm chart to install an AAE application.
 
 ## Prerequisites
@@ -304,4 +306,10 @@ subscription {
  }
 }
 ```
+## CI/CD
 
+Running on Travis, requires the following environment variable to be set:
+
+| Name | Description |
+|------|-------------|
+| GITHUB_TOKEN | GitHub token to clone/push helm repo |

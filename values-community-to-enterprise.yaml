@@ -1,10 +1,6 @@
 activiti-cloud-query:
-  db:
-    deployPostgres: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: develop
-    pullPolicy: Always
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/query"
@@ -16,12 +12,8 @@ activiti-cloud-query:
       value: "/{{ .Release.Name }}/query"
 
 activiti-cloud-audit:
-  db:
-    deployPostgres: true
   image:
     repository: quay.io/alfresco/alfresco-process-audit-service
-    tag: develop
-    pullPolicy: Always
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/audit"
@@ -32,25 +24,29 @@ activiti-cloud-audit:
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}/audit"
 
+activiti-cloud-notifications-graphql:
+  enabled: true
+  image:
+    repository: quay.io/alfresco/alfresco-cloud-notifications-graphql-service
+  ingress:
+    enabled: true
+    path: "/{{ .Release.Name }}"
+  probePath: "/{{ .Release.Name }}/actuator/health"
+  extraEnv: |
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "/{{ .Release.Name }}"
+
 runtime-bundle:
   nameOverride: rb
-  serviceAccount:
-    create: false
-  rbac:
-    create: false
-  db:
-    deployPostgres: true
   image:
     repository: quay.io/alfresco/alfresco-example-process-runtime-bundle-service
-    tag: develop
-    pullPolicy: Always
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/rb"
   probePath: "/{{ .Release.Name }}/rb/actuator/health"
   extraEnv: |
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
+      value: "true"
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}/rb"
   extraVolumes: |
@@ -64,10 +60,6 @@ runtime-bundle:
 
 activiti-cloud-connector:
   enabled: true
-  serviceAccount:
-    create: false
-  rbac:
-    create: false
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/example-cloud-connector"
@@ -76,12 +68,3 @@ activiti-cloud-connector:
     - name: SERVER_SERVLET_CONTEXTPATH
       value: "/{{ .Release.Name }}/example-cloud-connector"
 
-activiti-cloud-notifications-graphql:
-  enabled: true
-  ingress:
-    enabled: true
-    path: "/{{ .Release.Name }}"
-  probePath: "/{{ .Release.Name }}/actuator/health"
-  extraEnv: |
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "/{{ .Release.Name }}"

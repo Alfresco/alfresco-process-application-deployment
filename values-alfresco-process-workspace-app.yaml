@@ -1,2 +1,0 @@
-env:
-  APP_CONFIG_BPM_HOST: "{{ include \"common.gateway-url\" . }}"

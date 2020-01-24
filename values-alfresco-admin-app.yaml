@@ -1,2 +1,0 @@
-env:
-  APP_CONFIG_OAUTH2_ADMIN_HOST: "{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"

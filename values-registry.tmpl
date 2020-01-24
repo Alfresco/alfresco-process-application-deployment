@@ -22,9 +22,13 @@ runtime-bundle:
     image:
       repository: ${DOCKER_REGISTRY}/alpine
       tag: ${ALPINE_TAG}
-alfresco-dmn-service:
+alfresco-dmn-runtime-service:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-dmn-runtime-service
+    tag: ${AAE_TAG}
+alfresco-script-runtime-service:
+  image:
+    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-script-runtime-service
     tag: ${AAE_TAG}
 alfresco-form-service:
   image:
@@ -34,7 +38,6 @@ alfresco-preference-service:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-preference-service
     tag: ${AAE_TAG}
-
 postgres:
   image:
     registry: ${DOCKER_REGISTRY}

@@ -1,21 +1,27 @@
 # alfresco-process-application-deployment
 
-[![Build Status](https://travis-ci.org/Alfresco/alfresco-process-application-deployment.svg?branch=develop)](https://travis-ci.org/Alfresco/alfresco-process-application-deployment)
+[![Build Status](https://travis-ci.com/Alfresco/alfresco-process-application-deployment.svg?branch=develop)](https://travis-ci.com/Alfresco/alfresco-process-application-deployment)
 
 Helm chart to install an AAE application.
 
 ## Prerequisites
 
-The [AAE infrastructure](https://git.alfresco.com/process-services-public/alfresco-process-infrastructure-deployment) should be already installed and ingress configured with the external URLs.
+Setup a Kubernetes cluster with the [AAE infrastructure](https://git.alfresco.com/process-services-public/alfresco-process-infrastructure-deployment):
 
-A keycloak security client (https://www.keycloak.org/docs/6.0/server_admin/#oidc-clients)
+```bash
+HELM_OPTS+=" --set alfresco-deployment-service.enabled=false"
+
+helm upgrade aae-infra alfresco-incubator/alfresco-process-infrastructure --version 7.1.0-M6 ${HELM_OPTS} --install --wait
+```
+
+A keycloak security client (<https://www.keycloak.org/docs/4.8/server_admin/#oidc-clients>)
 must be created with the same name of the application before installing the helm chart.
 By default the runtime bundle api will validate the user token against that client.
 
-The expected client level roles are ACTIVITI_USER and ACTIVITI_ADMIN, and of course
+The expected client level roles are `ACTIVITI_USER` and `ACTIVITI_ADMIN`, and of course
 users must be associated to either one of the client level roles.
 
-[This procedure can be automated as follows via the alfresco-deployment-cli](docs/create_application_security_client.md).
+[This procedure can be automated via the alfresco-deployment-cli](docs/create_application_security_client.md).
 
 ### add quay-registry-secret
 
@@ -25,9 +31,9 @@ Configure access to pull images from quay.io in the namespace where the app is t
 kubectl create secret \
   docker-registry quay-registry-secret \
     --docker-server=quay.io \
-    --docker-username="${DOCKER_REGISTRY_USER}" \
+    --docker-username="${DOCKER_REGISTRY_USERNAME}" \
     --docker-password="${DOCKER_REGISTRY_PASSWORD}" \
-    --docker-email="${DOCKER_REGISTRY_EMAIL}"
+    --docker-email="none"
 ```
 
 ### add license secret
@@ -52,7 +58,7 @@ helm upgrade application ./helm/alfresco-process-application --install --set glo
 Helper script to launch installation:
 
 ```bash
-HELM_OPTS="--debug --dry-run" ./install.sh
+HELM_OPTS+=" --debug --dry-run" ./install.sh
 ```
 
 Verify the k8s yaml output than launch again without `--dry-run`.
@@ -69,8 +75,7 @@ Supported optional vars:
 Adjust as per your environment:
 
 ```bash
-export ACTIVITI_CLOUD_CHARTS_HOME="$HOME/src/Activiti/activiti-cloud-charts"
-export APS_APPLICATION_CHART_HOME="$HOME/src/Alfresco/process-services-public/alfresco-process-application-deployment"
+export AAE_APPLICATION_CHART_HOME="$HOME/src/Alfresco/alfresco-process-application-deployment"
 export ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME="$HOME/src/Activiti/activiti-cloud-acceptance-scenarios"
 ```
 
@@ -85,92 +90,43 @@ export REALM="alfresco"
 
 Define a **PROTOCOL** (_http_ or _https_) and **DOMAIN** for your environment.
 
-#### for Docker for Desktop
+#### for Docker Desktop
 
 ```bash
 export PROTOCOL="http"
 export GATEWAY_HOST="localhost"
-export SSO_HOST="host.docker.internal"
+export SSO_HOST="kubernetes.docker.internal"
 ```
 
-You need to add an entry in your hosts files to map the magic docker hostname to localhost for keycloak to work, similar to what is documented in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#8-add-local-dns):
+#### for AAE dev example environment
 
 ```bash
-sudo sh -c "echo \"127.0.0.1 host.docker.internal # entry for docker-for-desktop\" >> /etc/hosts"; cat /etc/hosts
-```
-
-
-#### for AWS DevCon example demo environment
-
-```bash
-export CLUSTER="aps2devcon"
+export CLUSTER="aaedev"
 export PROTOCOL="https"
 export DOMAIN="${CLUSTER}.envalfresco.com"
-export GATEWAY_HOST="${GATEWAY_HOST:-activiti-cloud-gateway.${DOMAIN}}"
-export SSO_HOST="${SSO_HOST:-activiti-keycloak.${DOMAIN}}"
-```
-
-### set derived env variables
-
-```bash
-if [[ "${PROTOCOL}" == "http" ]]; then export HTTP=true; else export HTTP=false; fi  
-export GATEWAY_URL="${PROTOCOL}://${GATEWAY_HOST}"
-export SSO_URL="${PROTOCOL}://${SSO_HOST}/auth"
+export GATEWAY_HOST="${GATEWAY_HOST:-gateway.${DOMAIN}}"
+export SSO_HOST="${SSO_HOST:-identity.${DOMAIN}}"
 ```
 
 ### set helm env variables
 
 ```bash
-export HELM_OPTS="--debug
-  --set global.gateway.http=${HTTP}
-  --set global.gateway.host=${GATEWAY_HOST}
-  --set global.keycloak.host=${SSO_HOST}
-  --set global.keycloak.realm=${REALM}"
+export HELM_OPTS="
+  --debug \
+  --set global.gateway.http=$(if [[ "${PROTOCOL}" == "http" ]]; then echo true; else echo false; fi) \
+  --set global.gateway.host=${GATEWAY_HOST} \
+  --set global.keycloak.host=${SSO_HOST} \
+  --set global.keycloak.realm=${REALM}
+"
 ```
 
 ### set test variables
 
 ```bash
-export MODELING_URL=${GATEWAY_URL}/modeling-service
-export RUNTIME_BUNDLE_URL=${GATEWAY_URL}/${APP_NAME}/rb
-export AUDIT_EVENT_URL=${GATEWAY_URL}/${APP_NAME}/audit
-export QUERY_URL=${GATEWAY_URL}/${APP_NAME}/query
-export GRAPHQL_URL=${GATEWAY_URL}/${APP_NAME}/notifications/graphql
-export GRAPHQL_WS_URL=${GATEWAY_URL/http/ws}/${APP_NAME}/notifications/ws/graphql
+export MODELING_URL=${PROTOCOL}://${GATEWAY_HOST}/modeling-service
+export GATEWAY_URL=${PROTOCOL}://${GATEWAY_HOST}/${APP_NAME}
+export SSO_URL=${PROTOCOL}://${SSO_HOST}/auth
 ```
-
-## setup cluster
-
-Setup a Kubernetes cluster using the guidelines in the [Alfresco DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#alfresco-digital-business-platform-deployment).
-
-
-### install helm
-
-Install helm server on the cluster:
-
-```bash
-helm init --upgrade
-```
-
-then configure the required helm chart repositories:
-```
-helm repo add activiti-cloud-charts https://activiti.github.io/activiti-cloud-charts
-helm repo add activiti-cloud-helm-charts https://activiti.github.io/activiti-cloud-helm-charts
-helm repo add alfresco https://kubernetes-charts.alfresco.com/stable
-helm repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator
-helm repo update
-```
-
-### helm tips
-
-For any command on helm, please verify the output with `--dry-run` option, then execute without.
-
-To install from the development chart repo, use `alfresco-incubator` rather than `alfresco` as **CHART_REPO** variable.
-
-### kubectl tips
-
-Check deployment progress with `kubectl get pods --watch` until all containers are running.
-If anything is stuck check events with `kubectl get events --watch`.
 
 #### run application acceptance tests
 
@@ -191,7 +147,7 @@ make login
 
 make values-registry.yaml
 
-export HELM_OPTS="${HELM_OPTS} -f values-registry.yaml"
+HELM_OPTS+="-f values-registry.yaml"
 ```
 then [as install application](#install-application)
 
@@ -202,7 +158,7 @@ then [as install application](#install-application)
 
 Open GraphiQL UI and login with an admin user like _testadmin:password_:
 ```bash
-open ${GATEWAY_URL}/${APP_NAME}/graphiql
+open ${GATEWAY_URL}/graphiql
 ```
 
 and input the following GraphQL query after running acceptance tests to see _process instances_:

@@ -1,56 +1,62 @@
+---
 dependencies:
   - name: activiti-cloud-query
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.196
-    condition: activiti-cloud-query.enabled
+    version: 7.1.319
+    condition: application.activiti-cloud-query.enabled,activiti-cloud-query.enabled
   - name: activiti-cloud-audit
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.204
-    condition: activiti-cloud-audit.enabled
+    version: 7.1.311
+    condition: application.activiti-cloud-audit.enabled,activiti-cloud-audit.enabled
   - name: rabbitmq-ha
     repository: https://kubernetes-charts.storage.googleapis.com
-    version: 1.19.0
-    condition: rabbitmq.enabled
+    version: 1.38.1
+    condition: application.rabbitmq.enabled,rabbitmq.enabled
     alias: rabbitmq
   - name: postgresql
     repository: https://kubernetes-charts.storage.googleapis.com
     version: 3.11.3
-    condition: postgres.enabled
+    condition: application.postgres.enabled,postgres.enabled
     alias: postgres
   - name: runtime-bundle
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.239
-    condition: runtime-bundle.enabled
+    version: 7.1.374
+    condition: application.runtime-bundle.enabled,runtime-bundle.enabled
   - name: activiti-cloud-connector
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.215
-    condition: activiti-cloud-connector.enabled
+    version: 7.1.326
+    condition: application.activiti-cloud-connector.enabled,activiti-cloud-connector.enabled
   - name: activiti-cloud-notifications-graphql
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.200
-    condition: activiti-cloud-notifications-graphql.enabled
+    version: 7.1.344
+    condition: application.activiti-cloud-notifications-graphql.enabled,activiti-cloud-notifications-graphql.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-form-service
     version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/incubator
-    condition:  alfresco-form-service.enabled
+    repository: https://kubernetes-charts.alfresco.com/stable
+    condition: application.alfresco-form-service.enabled,alfresco-form-service.enabled
   - name: alfresco-process-springboot-service
-    alias: alfresco-dmn-service
+    alias: alfresco-dmn-runtime-service
     version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/incubator
-    condition: alfresco-dmn-service.enabled
+    repository: https://kubernetes-charts.alfresco.com/stable
+    condition: application.alfresco-dmn-runtime-service.enabled,alfresco-dmn-runtime-service.enabled
+  - name: alfresco-process-springboot-service
+    alias: alfresco-script-runtime-service
+    version: 2.1.0
+    repository: https://kubernetes-charts.alfresco.com/stable
+    condition: application.alfresco-script-runtime-service.enabled,alfresco-script-runtime-service.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-preference-service
     version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/incubator
-    condition: alfresco-preference-service.enabled
+    repository: https://kubernetes-charts.alfresco.com/stable
+    condition: application.alfresco-preference-service.enabled,alfresco-preference-service.enabled
   - name: alfresco-adf-app
     alias: alfresco-process-workspace-app
     version: 2.1.3
-    repository: https://kubernetes-charts.alfresco.com/incubator
-    condition: alfresco-process-workspace-app.enabled
+    repository: https://kubernetes-charts.alfresco.com/stable
+    condition: application.alfresco-process-workspace-app.enabled,alfresco-process-workspace-app.enabled
   - name: alfresco-adf-app
     alias: alfresco-admin-app
     version: 2.1.3
-    repository: https://kubernetes-charts.alfresco.com/incubator
-    condition: alfresco-admin-app.enabled
+    repository: https://kubernetes-charts.alfresco.com/stable
+    condition: application.alfresco-admin-app.enabled,alfresco-admin-app.enabled

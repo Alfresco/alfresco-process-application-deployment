@@ -6,7 +6,7 @@ Helm chart to install an AAE application.
 
 ## Prerequisites
 
-Setup a Kubernetes cluster with the [AAE infrastructure](https://git.alfresco.com/process-services-public/alfresco-process-infrastructure-deployment):
+Setup a Kubernetes cluster with the [AAE infrastructure](https://github.com/Alfresco/alfresco-process-infrastructure-deployment):
 
 ```bash
 HELM_OPTS+=" --set alfresco-deployment-service.enabled=false"

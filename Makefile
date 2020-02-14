@@ -3,10 +3,10 @@ VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
 .EXPORT_ALL_VARIABLES:
 
-AC_TAG := develop
-AAE_TAG := develop
-APW_APP_TAG := develop
-APA_APP_TAG := develop
+AC_TAG := 7.1.0.M6
+AAE_TAG := 7.1.0.M6
+APW_APP_TAG := 7.1.0.M6
+APA_APP_TAG := 7.1.0.M6
 RABBITMQ_TAG := 3.7-alpine
 POSTGRESQL_TAG := 10.7.0
 ALPINE_TAG := 3.8

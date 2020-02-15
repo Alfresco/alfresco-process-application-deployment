@@ -6,7 +6,7 @@ Helm chart to install an AAE application.
 
 ## Prerequisites
 
-Setup a Kubernetes cluster with the [AAE infrastructure](https://github.com/Alfresco/alfresco-process-infrastructure-deployment):
+Install the [AAE infrastructure](https://github.com/Alfresco/alfresco-process-infrastructure-deployment):
 
 ```bash
 HELM_OPTS+=" --set alfresco-deployment-service.enabled=false"
@@ -14,7 +14,7 @@ HELM_OPTS+=" --set alfresco-deployment-service.enabled=false"
 helm upgrade aae-infra alfresco-incubator/alfresco-process-infrastructure --version 7.1.0-M6 ${HELM_OPTS} --install --wait
 ```
 
-A keycloak security client (<https://www.keycloak.org/docs/4.8/server_admin/#oidc-clients>)
+A [keycloak security client](https://www.keycloak.org/docs/latest/server_admin/#oidc-clients)
 must be created with the same name of the application before installing the helm chart.
 By default the runtime bundle api will validate the user token against that client.
 

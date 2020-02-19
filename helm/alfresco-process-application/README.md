@@ -129,7 +129,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | alfresco-script-runtime-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
 | alfresco-script-runtime-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
 | alfresco-script-runtime-service.image.pullPolicy | string | `"Always"` |  |
-| alfresco-script-runtime-service.image.repository | string | `"quay.io/alfresco/alfresco-script-runtime-service"` |  |
+| alfresco-script-runtime-service.image.repository | string | `"quay.io/alfresco/alfresco-script-app-runtime"` |  |
 | alfresco-script-runtime-service.image.tag | string | `"7.1.0.M6"` |  |
 | alfresco-script-runtime-service.ingress.enabled | bool | `true` |  |
 | alfresco-script-runtime-service.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |

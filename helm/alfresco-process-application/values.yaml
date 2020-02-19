@@ -271,7 +271,7 @@ alfresco-script-runtime-service:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
   image:
-    repository: quay.io/alfresco/alfresco-script-runtime-service
+    repository: quay.io/alfresco/alfresco-script-app-runtime
     tag: 7.1.0.M6
     pullPolicy: Always
   postgres:

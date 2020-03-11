@@ -2,7 +2,7 @@ alfresco-process-application
 ============================
 A Helm chart for an Alfresco Activiti Enterprise application
 
-Current chart version is `7.1.0-M6`
+Current chart version is `7.1.0-M7`
 
 Source code can be found [here](https://github.com/Alfresco/alfresco-process-application-deployment)
 
@@ -10,16 +10,11 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-audit | 7.1.311 |
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.326 |
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-notifications-graphql | 7.1.344 |
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.319 |
 | https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.374 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.1.3 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.1.3 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
 | https://kubernetes-charts.storage.googleapis.com | postgresql | 3.11.3 |
 | https://kubernetes-charts.storage.googleapis.com | rabbitmq-ha | 1.38.1 |
@@ -28,16 +23,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| activiti-cloud-audit.enabled | bool | `true` |  |
-| activiti-cloud-audit.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"false\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n"` |  |
-| activiti-cloud-audit.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
-| activiti-cloud-audit.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
-| activiti-cloud-audit.image.repository | string | `"quay.io/alfresco/alfresco-process-audit-service"` |  |
-| activiti-cloud-audit.image.tag | string | `"7.1.0.M6"` |  |
-| activiti-cloud-audit.ingress.enabled | bool | `true` |  |
-| activiti-cloud-audit.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
-| activiti-cloud-audit.postgres.enabled | bool | `true` |  |
-| activiti-cloud-audit.probePath | string | `"{{ tpl .Values.ingress.path . }}/actuator/health"` |  |
 | activiti-cloud-connector.enabled | bool | `false` |  |
 | activiti-cloud-connector.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n"` |  |
 | activiti-cloud-connector.image.repository | string | `"activiti/example-cloud-connector"` |  |
@@ -46,13 +31,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | activiti-cloud-connector.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
 | activiti-cloud-connector.nameOverride | string | `"example-cloud-connector"` |  |
 | activiti-cloud-connector.probePath | string | `"{{ tpl .Values.ingress.path . }}/actuator/health"` |  |
-| activiti-cloud-notifications-graphql.enabled | bool | `true` |  |
-| activiti-cloud-notifications-graphql.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n"` |  |
-| activiti-cloud-notifications-graphql.image.repository | string | `"quay.io/alfresco/alfresco-process-notifications-graphql-service"` |  |
-| activiti-cloud-notifications-graphql.image.tag | string | `"7.1.0.M6"` |  |
-| activiti-cloud-notifications-graphql.ingress.enabled | bool | `true` |  |
-| activiti-cloud-notifications-graphql.ingress.path | string | `"/{{ .Release.Name }}/notifications"` |  |
-| activiti-cloud-notifications-graphql.nameOverride | string | `"notifications"` |  |
 | activiti-cloud-query.enabled | bool | `true` |  |
 | activiti-cloud-query.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"false\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n"` |  |
 | activiti-cloud-query.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |

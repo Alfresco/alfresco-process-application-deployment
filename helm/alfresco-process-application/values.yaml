@@ -63,45 +63,13 @@ activiti-cloud-query:
     repository: quay.io/alfresco/alfresco-process-query-service
     tag: 7.1.0.M6
   ingress:
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+    path: /{{ .Release.Name }}
+    subPaths:
+      - "/query"
+      - "/notifications"
+      - "/audit"
     enabled: true
-  probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
-  extraEnv: |
-    - name: SERVER_PORT
-      value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ tpl .Values.ingress.path . }}"
-    - name: SERVER_USEFORWARDHEADERS
-      value: "true"
-    - name: SERVER_TOMCAT_INTERNALPROXIES
-      value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "false"
-    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
-      value: "{{ .Release.Name }}"
-  extraVolumes: |
-    - name: license
-      secret:
-        secretName: licenseaps
-  extraVolumeMounts: |
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
-
-activiti-cloud-audit:
-  enabled: true
-#  nameOverride: audit
-  postgres:
-    enabled: true
-  image:
-    repository: quay.io/alfresco/alfresco-process-audit-service
-    tag: 7.1.0.M6
-  ingress:
-    enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
-  probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
+  probePath: "{{ tpl .Values.ingress.path . }}/query/actuator/health"
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
@@ -174,29 +142,6 @@ activiti-cloud-connector:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
   probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
-  extraEnv: |
-    - name: SERVER_PORT
-      value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ tpl .Values.ingress.path . }}"
-    - name: SERVER_USEFORWARDHEADERS
-      value: "true"
-    - name: SERVER_TOMCAT_INTERNALPROXIES
-      value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
-    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
-      value: "{{ .Release.Name }}"
-
-activiti-cloud-notifications-graphql:
-  enabled: true
-  nameOverride: notifications
-  image:
-    repository: quay.io/alfresco/alfresco-process-notifications-graphql-service
-    tag: 7.1.0.M6
-  ingress:
-    enabled: true
-    path: "/{{ .Release.Name }}/notifications"
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"

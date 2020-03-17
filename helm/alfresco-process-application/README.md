@@ -2,7 +2,7 @@ alfresco-process-application
 ============================
 A Helm chart for an Alfresco Activiti Enterprise application
 
-Current chart version is `7.1.0-M7`
+Current chart version is `7.1.0-M8`
 
 Source code can be found [here](https://github.com/Alfresco/alfresco-process-application-deployment)
 

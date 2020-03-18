@@ -1,6 +1,6 @@
 apiVersion: v1
 name: alfresco-process-application
-version: 7.1.0-M8
+version: 7.1.0-M7
 appVersion: 7.1.0.M7
 description: A Helm chart for an Alfresco Activiti Enterprise application
 keywords:

@@ -1,0 +1,23 @@
+{{- if .Values.persistence.enabled }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  {{- if index .Values.persistence "storageClassName" }}
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  {{- end }}
+  {{- if index .Values.persistence "accessModes" }}
+  accessModes:
+    {{- range .Values.persistence.accessModes }}
+    - {{ . }}
+    {{- end }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.baseSize | default "1Gi" | quote }}
+  {{- end }}
+
+
+
+

@@ -382,3 +382,10 @@ rabbitmq:
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
       nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
+
+persistence:
+  enabled: false
+  storageClassName: default-sc
+  accessModes:
+    - ReadWriteMany
+  baseSize: 1Gi

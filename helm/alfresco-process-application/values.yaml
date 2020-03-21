@@ -164,10 +164,15 @@ alfresco-dmn-runtime-service:
     - name: license
       secret:
         secretName: licenseaps
+    - name: {{ .Release.Name }}
+      persistentVolumeClaim:
+        claimName: {{ .Release.Name }}
   extraVolumeMounts: |
     - name: license
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
+    - name: {{ .Release.Name }}
+      mountPath: "/root/{{ .Release.Name }}/1/"
   image:
     repository: quay.io/alfresco/alfresco-dmn-runtime-service
     tag: 7.1.0.M6
@@ -190,6 +195,15 @@ alfresco-dmn-runtime-service:
       value: "{{ .Release.Name }}"
     - name: ACT_RB_SERVICE_URL
       value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
+
+volumeinit:
+  enabled: true
+  image:
+    repository: registry.aaem6sohel.envalfresco.com/alfresco/example-application-project
+    tag: latest
+    pullPolicy: Always
+  CLASSPATH_DIRECTORY_NAME: '/root/{{ .Release.Name }}'
+  mountPath: '/root/{{ .Release.Name }}'
 
 alfresco-script-runtime-service:
   enabled: true
@@ -378,7 +392,7 @@ rabbitmq:
       nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
 
 persistence:
-  enabled: false
+  enabled: true
   storageClassName: default-sc
   accessModes:
     - ReadWriteMany

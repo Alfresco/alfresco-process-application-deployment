@@ -1,0 +1,24 @@
+{{- if .Values.persistence.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: volume-init
+spec:
+  template:
+    spec:
+      restartPolicy: "OnFailure"
+      imagePullSecrets:
+        - name: aae-sohel
+      volumes:
+        - name: {{ .Release.Name }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}
+      containers:
+        - name: volume-init
+          image: "{{ .Values.volumeinit.image.repository }}:{{ .Values.volumeinit.image.tag }}"
+          imagePullPolicy: {{ .Values.volumeinit.image.pullPolicy }}
+          volumeMounts:
+            - name: {{ .Release.Name }}
+              mountPath: /root/{{ .Release.Name }}/1/
+              readOnly: false
+{{- end }}

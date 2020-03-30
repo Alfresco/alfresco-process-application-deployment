@@ -64,17 +64,11 @@ activiti-cloud-query:
     tag: 7.1.0.M6
   ingress:
     path: /{{ .Release.Name }}
-    subPaths:
-      - "/query"
-      - "/notifications"
-      - "/audit"
     enabled: true
-  probePath: "{{ tpl .Values.ingress.path . }}/query/actuator/health"
+  probePath: "/actuator/health"
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ tpl .Values.ingress.path . }}"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES

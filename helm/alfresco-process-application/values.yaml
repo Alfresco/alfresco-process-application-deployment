@@ -65,7 +65,7 @@ activiti-cloud-query:
   ingress:
     path: /{{ .Release.Name }}
     enabled: true
-  probePath: "{{ tpl .Values.ingress.path . }}/query/actuator/health"
+  probePath: "/actuator/health"
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"

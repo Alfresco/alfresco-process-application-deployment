@@ -61,7 +61,7 @@ activiti-cloud-query:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: 7.1.0.M6
+    tag: 7.1.0-SNAPSHOT
   ingress:
     path: /{{ .Release.Name }}
     enabled: true
@@ -90,12 +90,11 @@ activiti-cloud-query:
 
 runtime-bundle:
   enabled: true
-#  nameOverride: rb
   postgres:
     enabled: true
   image:
-    repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: 7.1.0.M6
+    repository: davidecerbo/activiti-runtime-bundle
+    tag: aae2125-simpleapp
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
@@ -131,10 +130,13 @@ activiti-cloud-connector:
   nameOverride: example-cloud-connector
   image:
     repository: activiti/example-cloud-connector
-    tag: 7.1.0.M6
+    tag: 7.1.0.M7.MOCK1
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+    path: /{{ .Release.Name }}
+    subPaths:
+      - "/rb"
+      - "/preference"
   probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
   extraEnv: |
     - name: SERVER_PORT
@@ -170,7 +172,7 @@ alfresco-dmn-runtime-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-dmn-runtime-service
-    tag: 7.1.0.M6
+    tag: 7.1.0-SNAPSHOT
     pullPolicy: Always
   postgres:
     enabled: true
@@ -211,7 +213,7 @@ alfresco-script-runtime-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-script-app-runtime
-    tag: 7.1.0.M6
+    tag: 7.1.0-SNAPSHOT
     pullPolicy: Always
   postgres:
     enabled: true
@@ -250,7 +252,7 @@ alfresco-form-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-form-service
-    tag: 7.1.0.M6
+    tag: develop
     pullPolicy: Always
   postgres:
     enabled: true
@@ -271,51 +273,12 @@ alfresco-form-service:
     - name: ACT_RB_SERVICE_URL
       value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
 
-alfresco-preference-service:
-  enabled: true
-  nameOverride: preference
-  rbac:
-    create: false
-  serviceAccount:
-    create: false
-  ingress:
-    enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
-  extraVolumes: |
-    - name: license
-      secret:
-        secretName: licenseaps
-  extraVolumeMounts: |
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
-  image:
-    repository: quay.io/alfresco/alfresco-preference-service
-    tag: 7.1.0.M6
-    pullPolicy: Always
-  postgres:
-    enabled: true
-  probePath: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"
-  extraEnv: |
-    - name: SERVER_PORT
-      value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ tpl .Values.ingress.path . }}"
-    - name: SERVER_USEFORWARDHEADERS
-      value: "true"
-    - name: SERVER_TOMCAT_INTERNALPROXIES
-      value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
-    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
-      value: "{{ .Release.Name }}"
-
 alfresco-process-workspace-app:
   enabled: false
   nameOverride: workspace-app
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
-    tag: 7.1.0.M6
+    tag: 7.1.0-SNAPSHOT
   ingress:
     path: "/{{ .Release.Name }}/workspace"
   env:
@@ -330,7 +293,7 @@ alfresco-admin-app:
     path: "/{{ .Release.Name }}/admin"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.1.0.M6
+    tag: 7.1.0-SNAPSHOT
     pullPolicy: Always
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'

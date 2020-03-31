@@ -39,6 +39,7 @@ global:
     # global.gateway.host -- global annotations for all service ingress resources
     annotations:
 #      certmanager.k8s.io/issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
@@ -101,12 +102,10 @@ runtime-bundle:
     subPaths:
       - /rb/?(.*)
       - /preference/?(.*)
-  probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
+  probePath: /actuator/health
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ tpl .Values.ingress.path . }}"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES

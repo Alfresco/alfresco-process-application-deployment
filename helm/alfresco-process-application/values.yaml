@@ -97,7 +97,10 @@ runtime-bundle:
     tag: aae2125-simpleapp
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+    path: /{{ .Release.Name }}
+    subPaths:
+      - "/rb"
+      - "/preference"
   probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
   extraEnv: |
     - name: SERVER_PORT
@@ -116,6 +119,14 @@ runtime-bundle:
       value: "{{ .Release.Name }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "true"
+    - name: ACT_KEYCLOAK_REALM
+      value: alfresco
+    - name: ACT_KEYCLOAK_URL
+      value: https://identity.aps2dev.envalfresco.com/auth
+    - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
+      value: file:/simpleapp/processes/
+    - name: PROJECT_MANIFEST_FILE_PATH
+      value: file:/simpleapp/simpleapp.json
   extraVolumes: |
     - name: license
       secret:
@@ -133,10 +144,7 @@ activiti-cloud-connector:
     tag: 7.1.0.M7.MOCK1
   ingress:
     enabled: true
-    path: /{{ .Release.Name }}
-    subPaths:
-      - "/rb"
-      - "/preference"
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
   probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
   extraEnv: |
     - name: SERVER_PORT

@@ -99,8 +99,8 @@ runtime-bundle:
     enabled: true
     path: /{{ .Release.Name }}
     subPaths:
-      - "/rb"
-      - "/preference"
+      - /rb/?(.*)
+      - /preference/?(.*)
   probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
   extraEnv: |
     - name: SERVER_PORT

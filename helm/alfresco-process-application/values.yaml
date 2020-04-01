@@ -62,7 +62,7 @@ activiti-cloud-query:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: 7.1.0-SNAPSHOT
+    tag: develop
   ingress:
     path: /{{ .Release.Name }}
     enabled: true
@@ -94,8 +94,8 @@ runtime-bundle:
   postgres:
     enabled: true
   image:
-    repository: davidecerbo/activiti-runtime-bundle
-    tag: aae2125-simpleapp
+    repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
+    tag: develop
   ingress:
     enabled: true
     path: /{{ .Release.Name }}

@@ -7,8 +7,12 @@ spec:
   template:
     spec:
       restartPolicy: "OnFailure"
+      {{- if index .Values.global "registryPullSecrets" }}
       imagePullSecrets:
-        - name: aae-sohel
+       {{- range $key := .Values.global.registryPullSecrets }}
+        - name: {{ $key }}
+       {{- end }}
+      {{- end}}
       volumes:
         - name: {{ .Release.Name }}
           persistentVolumeClaim:

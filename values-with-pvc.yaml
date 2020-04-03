@@ -3,6 +3,8 @@ global:
   registryPullSecrets:
     - "quay-registry-secret"
 
+  applicationVersion: "1"
+
 runtime-bundle:
   nameOverride: rb
   extraEnv: |
@@ -32,6 +34,8 @@ runtime-bundle:
       value: "false"
     - name: ACT_KEYCLOAK_ADMIN_ROLE
       value: "ACTIVITI_ADMIN"
+    - name: APPLICATION_VERSION
+      value: '{{ .Values.global.applicationVersion }}'
   extraVolumes: |
     - name: license
       secret:
@@ -83,16 +87,17 @@ alfresco-dmn-runtime-service:
     - name: ACT_KEYCLOAK_URL
       value: 'https://identity.{{ include "common.gateway-domain" . }}/auth'
     - name: APPLICATION_VERSION
-      value: "1"
+      value: '{{ .Values.global.applicationVersion }}'
 
 volumeinit:
   enabled: true
   image:
-    repository: registry.aaem6sohel.envalfresco.com/alfresco/example-application-project
+   # Image location for project files
+  # repository: quay.io/alfresco/example-application-project
     tag: latest
     pullPolicy: Always
   CLASSPATH_DIRECTORY_NAME: '/root/{{ .Release.Name }}'
-  mountPath: '/root/{{ .Release.Name }}/1/'
+  mountPath: "/root/{{ .Release.Name }}"
 
 alfresco-script-runtime-service:
   extraVolumes: |
@@ -126,7 +131,8 @@ alfresco-script-runtime-service:
     - name: ACT_KEYCLOAK_URL
       value: 'https://identity.{{ include "common.gateway-domain" . }}/auth'
     - name: APPLICATION_VERSION
-      value: "1"
+      value: '{{ .Values.global.applicationVersion }}'
+
 
 alfresco-form-service:
   extraVolumes: |
@@ -162,7 +168,8 @@ alfresco-form-service:
     - name: KEYCLOAK_AUTHSERVERURL
       value: 'https://identity.{{ include "common.gateway-domain" . }}/auth'
     - name: APPLICATION_VERSION
-      value: "1"
+      value: '{{ .Values.global.applicationVersion }}'
+
 
 
 persistence:

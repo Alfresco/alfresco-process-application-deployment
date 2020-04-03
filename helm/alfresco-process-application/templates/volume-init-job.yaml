@@ -23,6 +23,6 @@ spec:
           imagePullPolicy: {{ .Values.volumeinit.image.pullPolicy }}
           volumeMounts:
             - name: {{ .Release.Name }}
-              mountPath: /root/{{ .Release.Name }}/1/
+              mountPath: "/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}"
               readOnly: false
 {{- end }}

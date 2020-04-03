@@ -25,11 +25,11 @@ runtime-bundle:
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "true"
     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
-      value: file:/root/{{ .Release.Name }}/1/processes/"
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/processes/'
     - name: PROJECT_MANIFEST_FILE_PATH
-      value: "file:/root/{{ .Release.Name }}/1/simpleapp.json"
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/simpleapp.json'
     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
-      value: "file:/root/{{ .Release.Name }}/1/processes/"
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/processes/'
     - name: KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS
       value: "false"
     - name: ACT_KEYCLOAK_ADMIN_ROLE
@@ -48,7 +48,7 @@ runtime-bundle:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
     - name: {{ .Release.Name }}
-      mountPath: "/root/{{ .Release.Name }}/1/"
+      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
 
 
 alfresco-dmn-runtime-service:
@@ -64,7 +64,7 @@ alfresco-dmn-runtime-service:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
     - name: {{ .Release.Name }}
-      mountPath: "/root/{{ .Release.Name }}/1/"
+      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
@@ -83,7 +83,7 @@ alfresco-dmn-runtime-service:
     - name: ACT_RB_SERVICE_URL
       value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
     - name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH
-      value: "file:/root/{{ .Release.Name }}/1/decision-tables/"
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/decision-tables/'
     - name: ACT_KEYCLOAK_URL
       value: 'https://identity.{{ include "common.gateway-domain" . }}/auth'
     - name: APPLICATION_VERSION
@@ -110,7 +110,7 @@ alfresco-script-runtime-service:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
     - name: {{ .Release.Name }}
-      mountPath: "/root/{{ .Release.Name }}/1/"
+      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
@@ -125,7 +125,7 @@ alfresco-script-runtime-service:
     - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
       value: "{{ .Release.Name }}"
     - name: SCRIPTCONFIGURATION_SCRIPTSDEFINITIONSDIRECTORYPATH
-      value: "file:/root/{{ .Release.Name }}/1/scripts/"
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/scripts/'
     - name: ACT_KEYCLOAK_URL
       value: 'https://identity.{{ include "common.gateway-domain" . }}/auth'
     - name: APPLICATION_VERSION
@@ -145,7 +145,7 @@ alfresco-form-service:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
     - name: {{ .Release.Name }}
-      mountPath: "/root/{{ .Release.Name }}/1/"
+      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
@@ -162,7 +162,7 @@ alfresco-form-service:
     - name: ACT_RB_SERVICE_URL
       value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
     - name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH
-      value: "file:/root/{{ .Release.Name }}/1/forms/"
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/forms/'
     - name: KEYCLOAK_AUTHSERVERURL
       value: 'https://identity.{{ include "common.gateway-domain" . }}/auth'
     - name: APPLICATION_VERSION

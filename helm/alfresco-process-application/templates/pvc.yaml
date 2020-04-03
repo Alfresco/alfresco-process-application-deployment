@@ -17,7 +17,3 @@ spec:
     requests:
       storage: {{ .Values.persistence.baseSize | default "1Gi" | quote }}
   {{- end }}
-
-
-
-

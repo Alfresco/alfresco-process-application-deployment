@@ -1,0 +1,178 @@
+global:
+  # registry secret for private registry from where example project needs to be pulled
+  registryPullSecrets:
+    - "quay-registry-secret"
+
+  applicationVersion: "1"
+
+runtime-bundle:
+  nameOverride: rb
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ tpl .Values.ingress.path . }}"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
+      value: "{{ .Release.Name }}"
+    - name: ACT_KEYCLOAK_RESOURCE
+      value: "{{ .Release.Name }}"
+    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+      value: "true"
+    - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/processes/'
+    - name: PROJECT_MANIFEST_FILE_PATH
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/simpleapp.json'
+    - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/processes/'
+    - name: KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS
+      value: "false"
+    - name: ACT_KEYCLOAK_ADMIN_ROLE
+      value: "ACTIVITI_ADMIN"
+    - name: APPLICATION_VERSION
+      value: '{{ .Values.global.applicationVersion }}'
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+    - name: {{ .Release.Name }}
+      persistentVolumeClaim:
+        claimName: {{ .Release.Name }}
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+    - name: {{ .Release.Name }}
+      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
+
+
+alfresco-dmn-runtime-service:
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+    - name: {{ .Release.Name }}
+      persistentVolumeClaim:
+        claimName: {{ .Release.Name }}
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+    - name: {{ .Release.Name }}
+      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ tpl .Values.ingress.path . }}"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
+      value: "{{ .Release.Name }}"
+    - name: ACT_RB_SERVICE_URL
+      value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
+    - name: ACT_RB_SERVICE_URL
+      value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
+    - name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/decision-tables/'
+    - name: ACT_KEYCLOAK_URL
+      value: 'https://identity.{{ include "common.gateway-domain" . }}/auth'
+    - name: APPLICATION_VERSION
+      value: '{{ .Values.global.applicationVersion }}'
+
+volumeinit:
+  enabled: true
+  image:
+   # Image location for project files
+  # repository: quay.io/alfresco/example-application-project
+    tag: latest
+    pullPolicy: Always
+
+alfresco-script-runtime-service:
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+    - name: {{ .Release.Name }}
+      persistentVolumeClaim:
+        claimName: {{ .Release.Name }}
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+    - name: {{ .Release.Name }}
+      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ tpl .Values.ingress.path . }}"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
+      value: "{{ .Release.Name }}"
+    - name: SCRIPTCONFIGURATION_SCRIPTSDEFINITIONSDIRECTORYPATH
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/scripts/'
+    - name: ACT_KEYCLOAK_URL
+      value: 'https://identity.{{ include "common.gateway-domain" . }}/auth'
+    - name: APPLICATION_VERSION
+      value: '{{ .Values.global.applicationVersion }}'
+
+
+alfresco-form-service:
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+    - name: {{ .Release.Name }}
+      persistentVolumeClaim:
+        claimName: {{ .Release.Name }}
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+    - name: {{ .Release.Name }}
+      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ tpl .Values.ingress.path . }}"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
+      value: "{{ .Release.Name }}"
+    - name: ACT_RB_SERVICE_URL
+      value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
+    - name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/forms/'
+    - name: KEYCLOAK_AUTHSERVERURL
+      value: 'https://identity.{{ include "common.gateway-domain" . }}/auth'
+    - name: APPLICATION_VERSION
+      value: '{{ .Values.global.applicationVersion }}'
+
+
+
+persistence:
+  enabled: true
+  storageClassName: default-sc
+  accessModes:
+    - ReadWriteMany
+  baseSize: 1Gi

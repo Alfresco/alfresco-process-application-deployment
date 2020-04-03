@@ -379,7 +379,6 @@ rabbitmq:
 
 persistence:
   enabled: false
-  storageClassName: default-sc
-  accessModes:
-    - ReadWriteMany
-  baseSize: 1Gi
+
+volumeinit:
+  enabled: false

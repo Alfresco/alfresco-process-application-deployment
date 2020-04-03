@@ -96,8 +96,6 @@ volumeinit:
   # repository: quay.io/alfresco/example-application-project
     tag: latest
     pullPolicy: Always
-  CLASSPATH_DIRECTORY_NAME: '/root/{{ .Release.Name }}'
-  mountPath: "/root/{{ .Release.Name }}"
 
 alfresco-script-runtime-service:
   extraVolumes: |

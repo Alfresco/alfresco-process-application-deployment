@@ -39,6 +39,7 @@ global:
     # global.gateway.host -- global annotations for all service ingress resources
     annotations:
 #      certmanager.k8s.io/issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
@@ -61,7 +62,7 @@ activiti-cloud-query:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: 7.1.0.M6
+    tag: develop
   ingress:
     path: /{{ .Release.Name }}
     enabled: true
@@ -90,21 +91,21 @@ activiti-cloud-query:
 
 runtime-bundle:
   enabled: true
-#  nameOverride: rb
   postgres:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: 7.1.0.M6
+    tag: develop
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
-  probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
+    path: /{{ .Release.Name }}
+    subPaths:
+      - /rb/?(.*)
+      - /preference/?(.*)
+  probePath: /actuator/health
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ tpl .Values.ingress.path . }}"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
@@ -131,7 +132,7 @@ activiti-cloud-connector:
   nameOverride: example-cloud-connector
   image:
     repository: activiti/example-cloud-connector
-    tag: 7.1.0.M6
+    tag: 7.1.0.M7.MOCK1
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
@@ -170,7 +171,7 @@ alfresco-dmn-runtime-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-dmn-runtime-service
-    tag: 7.1.0.M6
+    tag: develop
     pullPolicy: Always
   postgres:
     enabled: true
@@ -211,7 +212,7 @@ alfresco-script-runtime-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-script-app-runtime
-    tag: 7.1.0.M6
+    tag: develop
     pullPolicy: Always
   postgres:
     enabled: true
@@ -250,7 +251,7 @@ alfresco-form-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-form-service
-    tag: 7.1.0.M6
+    tag: develop
     pullPolicy: Always
   postgres:
     enabled: true
@@ -270,45 +271,6 @@ alfresco-form-service:
       value: "{{ .Release.Name }}"
     - name: ACT_RB_SERVICE_URL
       value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
-
-alfresco-preference-service:
-  enabled: true
-  nameOverride: preference
-  rbac:
-    create: false
-  serviceAccount:
-    create: false
-  ingress:
-    enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
-  extraVolumes: |
-    - name: license
-      secret:
-        secretName: licenseaps
-  extraVolumeMounts: |
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
-  image:
-    repository: quay.io/alfresco/alfresco-preference-service
-    tag: 7.1.0.M6
-    pullPolicy: Always
-  postgres:
-    enabled: true
-  probePath: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"
-  extraEnv: |
-    - name: SERVER_PORT
-      value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ tpl .Values.ingress.path . }}"
-    - name: SERVER_USEFORWARDHEADERS
-      value: "true"
-    - name: SERVER_TOMCAT_INTERNALPROXIES
-      value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
-    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
-      value: "{{ .Release.Name }}"
 
 alfresco-process-workspace-app:
   enabled: false

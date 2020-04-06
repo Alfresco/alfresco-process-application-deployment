@@ -23,7 +23,6 @@ Alfresco Runtime Bundle          : {{ template "common.gateway-url" . }}/{{ .Rel
 Alfresco Cloud Connector         : {{ template "common.gateway-url" . }}/{{ .Release.Name }}/{{ index .Values "activiti-cloud-connector" "nameOverride" }}
 Alfresco Query Service           : {{ template "common.gateway-url" . }}/{{ .Release.Name }}/{{ index .Values "activiti-cloud-query" "nameOverride" }}
 Alfresco Audit Service           : {{ template "common.gateway-url" . }}/{{ .Release.Name }}/{{ index .Values "activiti-cloud-query" "nameOverride" }}
-Alfresco DMN Runtime Service     : {{ template "common.gateway-url" . }}/{{ .Release.Name }}/{{ index .Values "alfresco-dmn-runtime-service" "nameOverride" }}
 Alfresco Form Service            : {{ template "common.gateway-url" . }}/{{ .Release.Name }}/{{ index .Values "alfresco-form-service" "nameOverride" }}
 Alfresco Script Runtime Service  : {{ template "common.gateway-url" . }}/{{ .Release.Name }}/{{ index .Values "alfresco-script-runtime-service" "nameOverride" }}
 Notifications GraphiQL           : {{ template "common.gateway-url" . }}{{ tpl (index .Values "activiti-cloud-query" "ingress" "path") $ }}/graphiql

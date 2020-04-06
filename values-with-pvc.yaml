@@ -66,6 +66,8 @@ alfresco-dmn-runtime-service:
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ tpl .Values.ingress.path . }}"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
@@ -110,6 +112,8 @@ alfresco-script-runtime-service:
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ tpl .Values.ingress.path . }}"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES

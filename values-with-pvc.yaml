@@ -25,7 +25,7 @@ runtime-bundle:
     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
       value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/processes/'
     - name: PROJECT_MANIFEST_FILE_PATH
-      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/simpleapp.json'
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/example-app.json'
     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
       value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/processes/'
     - name: KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS

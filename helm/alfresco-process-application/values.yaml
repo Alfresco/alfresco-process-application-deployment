@@ -202,7 +202,7 @@ alfresco-form-service:
     create: false
   ingress:
     enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
+    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/form/?(.*)"
   extraVolumes: |
     - name: license
       secret:

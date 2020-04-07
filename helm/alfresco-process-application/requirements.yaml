@@ -28,11 +28,6 @@ dependencies:
     repository: https://kubernetes-charts.alfresco.com/stable
     condition: application.alfresco-form-service.enabled,alfresco-form-service.enabled
   - name: alfresco-process-springboot-service
-    alias: alfresco-dmn-runtime-service
-    version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/stable
-    condition: application.alfresco-dmn-runtime-service.enabled,alfresco-dmn-runtime-service.enabled
-  - name: alfresco-process-springboot-service
     alias: alfresco-script-runtime-service
     version: 2.1.0
     repository: https://kubernetes-charts.alfresco.com/stable

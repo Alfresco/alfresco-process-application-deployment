@@ -52,20 +52,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | alfresco-admin-app.image.tag | string | `"7.1.0.M6"` |  |
 | alfresco-admin-app.ingress.path | string | `"/{{ .Release.Name }}/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"admin-app"` |  |
-| alfresco-dmn-runtime-service.enabled | bool | `true` |  |
-| alfresco-dmn-runtime-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n- name: ACT_RB_SERVICE_URL\n  value: '{{ include \"common.gateway-url\" . }}/{{ .Release.Name }}/rb'\n"` |  |
-| alfresco-dmn-runtime-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
-| alfresco-dmn-runtime-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
-| alfresco-dmn-runtime-service.image.pullPolicy | string | `"Always"` |  |
-| alfresco-dmn-runtime-service.image.repository | string | `"quay.io/alfresco/alfresco-dmn-runtime-service"` |  |
-| alfresco-dmn-runtime-service.image.tag | string | `"7.1.0.M6"` |  |
-| alfresco-dmn-runtime-service.ingress.enabled | bool | `true` |  |
-| alfresco-dmn-runtime-service.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
-| alfresco-dmn-runtime-service.nameOverride | string | `"dmn-runtime"` |  |
-| alfresco-dmn-runtime-service.postgres.enabled | bool | `true` |  |
-| alfresco-dmn-runtime-service.probePath | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"` |  |
-| alfresco-dmn-runtime-service.rbac.create | bool | `false` |  |
-| alfresco-dmn-runtime-service.serviceAccount.create | bool | `false` |  |
 | alfresco-form-service.enabled | bool | `true` |  |
 | alfresco-form-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n- name: ACT_RB_SERVICE_URL\n  value: '{{ include \"common.gateway-url\" . }}/{{ .Release.Name }}/rb'\n"` |  |
 | alfresco-form-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |

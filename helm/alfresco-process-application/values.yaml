@@ -103,7 +103,7 @@ runtime-bundle:
       - /rb/?(.*)
       - /preference/?(.*)
       - /dmn-runtime/?(.*)
-      - /form
+      - /form/?(.*)
   probePath: /actuator/health
   extraEnv: |
     - name: SERVER_PORT

@@ -23,11 +23,6 @@ dependencies:
     version: 7.1.357
     condition: application.activiti-cloud-connector.enabled,activiti-cloud-connector.enabled
   - name: alfresco-process-springboot-service
-    alias: alfresco-form-service
-    version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/stable
-    condition: application.alfresco-form-service.enabled,alfresco-form-service.enabled
-  - name: alfresco-process-springboot-service
     alias: alfresco-script-runtime-service
     version: 2.1.0
     repository: https://kubernetes-charts.alfresco.com/stable

@@ -52,34 +52,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | alfresco-admin-app.image.tag | string | `"7.1.0.M6"` |  |
 | alfresco-admin-app.ingress.path | string | `"/{{ .Release.Name }}/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"admin-app"` |  |
-| alfresco-form-service.enabled | bool | `true` |  |
-| alfresco-form-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n- name: ACT_RB_SERVICE_URL\n  value: '{{ include \"common.gateway-url\" . }}/{{ .Release.Name }}/rb'\n"` |  |
-| alfresco-form-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
-| alfresco-form-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
-| alfresco-form-service.image.pullPolicy | string | `"Always"` |  |
-| alfresco-form-service.image.repository | string | `"quay.io/alfresco/alfresco-form-service"` |  |
-| alfresco-form-service.image.tag | string | `"7.1.0.M6"` |  |
-| alfresco-form-service.ingress.enabled | bool | `true` |  |
-| alfresco-form-service.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
-| alfresco-form-service.nameOverride | string | `"form"` |  |
-| alfresco-form-service.postgres.enabled | bool | `true` |  |
-| alfresco-form-service.probePath | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"` |  |
-| alfresco-form-service.rbac.create | bool | `false` |  |
-| alfresco-form-service.serviceAccount.create | bool | `false` |  |
-| alfresco-preference-service.enabled | bool | `true` |  |
-| alfresco-preference-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n"` |  |
-| alfresco-preference-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
-| alfresco-preference-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
-| alfresco-preference-service.image.pullPolicy | string | `"Always"` |  |
-| alfresco-preference-service.image.repository | string | `"quay.io/alfresco/alfresco-preference-service"` |  |
-| alfresco-preference-service.image.tag | string | `"7.1.0.M6"` |  |
-| alfresco-preference-service.ingress.enabled | bool | `true` |  |
-| alfresco-preference-service.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
-| alfresco-preference-service.nameOverride | string | `"preference"` |  |
-| alfresco-preference-service.postgres.enabled | bool | `true` |  |
-| alfresco-preference-service.probePath | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"` |  |
-| alfresco-preference-service.rbac.create | bool | `false` |  |
-| alfresco-preference-service.serviceAccount.create | bool | `false` |  |
 | alfresco-process-workspace-app.enabled | bool | `false` |  |
 | alfresco-process-workspace-app.env.APP_CONFIG_APPS_DEPLOYED | string | `"[{\"name\": \"{{ .Release.Name }}\" }]"` |  |
 | alfresco-process-workspace-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |

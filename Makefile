@@ -15,14 +15,8 @@ MINIDEB_TAG := stretch
 
 IMAGES := activiti/example-cloud-connector@$(AC_TAG) \
 activiti/example-runtime-bundle@$(AC_TAG) \
-quay.io/alfresco/alfresco-process-audit-service@$(AAE_TAG) \
-quay.io/alfresco/alfresco-process-query-service@$(AAE_TAG) \
 quay.io/alfresco/alfresco-admin-app@$(APA_APP_TAG) \
-quay.io/alfresco/alfresco-process-notifications-graphql-service@$(AAE_TAG) \
 quay.io/alfresco/alfresco-process-workspace-app@$(APW_APP_TAG) \
-quay.io/alfresco/alfresco-dmn-runtime-service@$(AAE_TAG) \
-quay.io/alfresco/alfresco-form-service@$(AAE_TAG) \
-quay.io/alfresco/alfresco-preference-service@$(AAE_TAG) \
 alpine@$(ALPINE_TAG) \
 bitnami/postgresql@$(POSTGRESQL_TAG) \
 bitnami/minideb@$(MINIDEB_TAG) \

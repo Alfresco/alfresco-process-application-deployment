@@ -109,6 +109,7 @@ runtime-bundle:
       - /preference/?(.*)
       - /dmn-runtime/?(.*)
       - /form/?(.*)
+      - /script-runtime/?(.*)
   probePath: /actuator/health
   extraEnv: |
     - name: SERVER_PORT
@@ -174,46 +175,6 @@ activiti-cloud-connector:
       value: "*"
     - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
       value: "{{ .Release.Name }}"
-
-alfresco-script-runtime-service:
-  enabled: true
-  nameOverride: script-runtime
-  rbac:
-    create: false
-  serviceAccount:
-    create: false
-  ingress:
-    enabled: true
-    path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
-  extraVolumes: |
-    - name: license
-      secret:
-        secretName: licenseaps
-  extraVolumeMounts: |
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
-  image:
-    repository: quay.io/alfresco/alfresco-script-app-runtime
-    tag: develop
-    pullPolicy: Always
-  postgres:
-    enabled: true
-  probePath: "/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"
-  extraEnv: |
-    - name: SERVER_PORT
-      value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ tpl .Values.ingress.path . }}"
-    - name: SERVER_USEFORWARDHEADERS
-      value: "true"
-    - name: SERVER_TOMCAT_INTERNALPROXIES
-      value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
-    - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
-      value: "{{ .Release.Name }}"
-
 
 alfresco-process-workspace-app:
   enabled: false

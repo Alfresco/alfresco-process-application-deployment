@@ -60,20 +60,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | alfresco-process-workspace-app.image.tag | string | `"7.1.0.M6"` |  |
 | alfresco-process-workspace-app.ingress.path | string | `"/{{ .Release.Name }}/workspace"` |  |
 | alfresco-process-workspace-app.nameOverride | string | `"workspace-app"` |  |
-| alfresco-script-runtime-service.enabled | bool | `true` |  |
-| alfresco-script-runtime-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n"` |  |
-| alfresco-script-runtime-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
-| alfresco-script-runtime-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
-| alfresco-script-runtime-service.image.pullPolicy | string | `"Always"` |  |
-| alfresco-script-runtime-service.image.repository | string | `"quay.io/alfresco/alfresco-script-app-runtime"` |  |
-| alfresco-script-runtime-service.image.tag | string | `"7.1.0.M6"` |  |
-| alfresco-script-runtime-service.ingress.enabled | bool | `true` |  |
-| alfresco-script-runtime-service.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
-| alfresco-script-runtime-service.nameOverride | string | `"script-runtime"` |  |
-| alfresco-script-runtime-service.postgres.enabled | bool | `true` |  |
-| alfresco-script-runtime-service.probePath | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}/actuator/health"` |  |
-| alfresco-script-runtime-service.rbac.create | bool | `false` |  |
-| alfresco-script-runtime-service.serviceAccount.create | bool | `false` |  |
 | global.extraEnv | string | `""` | YAML formatted string to add extra environment properties to all deployments |
 | global.gateway.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | global.gateway.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |

@@ -30,7 +30,7 @@ global:
     host: 'gateway.{{ include "common.gateway-domain" . }}'
 
     # global.gateway.host -- when false enables HTTPS configuration on all urls
-    http: "true"
+    http: "false"
 
     # global.gateway.host -- enable automatic TLS for ingress if https is enabled
     tlsacme: "true"

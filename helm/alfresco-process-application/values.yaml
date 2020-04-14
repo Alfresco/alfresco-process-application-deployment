@@ -7,6 +7,9 @@ global:
   # global.registryPullSecrets -- Configure pull secrets for all deployments
   registryPullSecrets:
     - "quay-registry-secret"
+    - "aps2-registry-secret"
+
+  applicationVersion: "1"
 
   image:
     pullPolicy: "Always"
@@ -91,6 +94,8 @@ activiti-cloud-query:
 
 runtime-bundle:
   enabled: true
+  nameOverride: rb
+  projectName: example-app
   postgres:
     enabled: true
   image:
@@ -120,16 +125,31 @@ runtime-bundle:
       value: "{{ .Release.Name }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "true"
+    - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/processes/'
+    - name: PROJECT_MANIFEST_FILE_PATH
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'
+    - name: APPLICATION_VERSION
+      value: '{{ .Values.global.applicationVersion }}'
     - name: ACT_RB_SERVICE_URL
-      value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
+      value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/{{ .Values.nameOverride }}'
+    - name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/decision-tables/'
+    - name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH
+      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/forms/'
   extraVolumes: |
     - name: license
       secret:
         secretName: licenseaps
+    - name: {{ .Release.Name }}
+      persistentVolumeClaim:
+        claimName: {{ .Release.Name }}
   extraVolumeMounts: |
     - name: license
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
+    - name: {{ .Release.Name }}
+      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
 
 activiti-cloud-connector:
   enabled: false
@@ -262,8 +282,18 @@ rabbitmq:
       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
       nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
 
-persistence:
-  enabled: false
-
 volumeinit:
-  enabled: false
+  enabled: true
+  image:
+    # Image location for project files
+    #repository: alfresco/example-application-project
+    tag: latest
+    pullPolicy: Always
+
+
+persistence:
+  enabled: true
+  storageClassName: default-sc
+  accessModes:
+  - ReadWriteMany
+  baseSize: 1Gi

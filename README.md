@@ -121,21 +121,19 @@ export HELM_OPTS="
 ```
 
 
-### Optional configuration steps for using Volume to get Project files: 
+### Configuration steps for using Volume to get Project files: 
 **Note**: This block of steps only relevant if you are using: [example-application-project](https://github.com/Alfresco/example-process-application/tree/master/example-application-project) to fetch project files.
 ```
 1. Once the example-project image is build and push to your choice of registry, make sure you add the registry-secret for that registry on the namespace you going to deploy this app.
-2. update values in **value-with-pvc.yaml***
-   - registryPullSecrets to pull image for project files
-   - applicationVersion - same as passed at the time of creating example-appplicaiton-project image
+2. update values in **valueS.yaml***
    - add repository url for volumeinit to pull the project files image 
-   - In runtime-bundle - update extraEnv: PROJECT_MANIFEST_FILE_PATH to point to correct json file. 
+   - In runtime-bundle - update pojectName in order to allow PROJECT_MANIFEST_FILE_PATH to point to correct json file. 
 
 Installation step: 
 
 Note: make sure your Release name should be same as CLASSPATH_DIRECTORY_NAME passed in build.properties for example-applcation-project.  
 
-helm upgrade application ./helm/alfresco-process-application  --install -f ../alfresco-process-applcatin-deployment/values-with-pvc.yaml --set global.gateway.domain=your-domain.com
+helm upgrade application ./helm/alfresco-process-application  --install --set global.gateway.domain=your-domain.com
 ```
 
 ### set test variables

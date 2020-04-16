@@ -193,6 +193,21 @@ alfresco-process-workspace-app:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
 
+alfresco-digital-workspace-app:
+  enabled: false
+  nameOverride: digital-workspace-app
+  ingress:
+    path: "/{{ .Release.Name }}/digital-workspace"
+  image:
+    repository: quay.io/alfresco/alfresco-digital-workspace
+    tag: develop
+  env:
+    APP_CONFIG_AUTH_TYPE: "OAUTH"
+    APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
+    APP_CONFIG_ECM_HOST: '{{ include "common.gateway-url" . }}'
+    APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
+    APP_CONFIG_PROVIDER: "ALL"
+
 alfresco-admin-app:
   enabled: false
   nameOverride: admin-app

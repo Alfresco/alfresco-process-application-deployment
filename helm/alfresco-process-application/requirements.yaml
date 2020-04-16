@@ -32,3 +32,8 @@ dependencies:
     version: 2.1.4
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: application.alfresco-admin-app.enabled,alfresco-admin-app.enabled
+  - name: alfresco-adf-app
+    alias: alfresco-digital-workspace-app
+    version: 2.1.4
+    repository: https://kubernetes-charts.alfresco.com/incubator
+    condition: application.alfresco-digital-workspace-app.enabled,alfresco-digital-workspace-app.enabled

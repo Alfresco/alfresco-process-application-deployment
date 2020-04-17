@@ -2,7 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 # README documentation generated automatically from this file via https://github.com/norwoodj/helm-docs
-
 global:
   # global.registryPullSecrets -- Configure pull secrets for all deployments
   registryPullSecrets:
@@ -58,6 +57,9 @@ global:
 #    - name: PROPERTY
 #      value: "value"
 
+  contentService:
+    enabled: false
+
 activiti-cloud-query:
   enabled: true
   nameOverride: query
@@ -109,6 +111,7 @@ runtime-bundle:
       - /preference/?(.*)
       - /dmn-runtime/?(.*)
       - /form/?(.*)
+      - /process-storage/?(.*)
   probePath: /actuator/health
   extraEnv: |
     - name: SERVER_PORT
@@ -137,6 +140,8 @@ runtime-bundle:
       value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/decision-tables/'
     - name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH
       value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/forms/'
+    - name: CONTENTSERVICE_ENABLED
+      value: '{{ .Values.global.contentService.enabled }}'
   extraVolumes: |
     - name: license
       secret:

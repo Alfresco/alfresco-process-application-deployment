@@ -74,6 +74,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | global.keycloak.resource | string | `"activiti"` |  |
 | global.keycloak.url | string | `""` | full url to configure external Keycloak, https://keycloak.mydomain.com/auth |
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
+| global.contentService.enabled | bool | `"false"` | If true enables the content service use for services like Runtime Bundle |
 | postgres.enabled | bool | `true` |  |
 | postgres.postgresqlPassword | string | `"password"` |  |
 | postgres.resources.requests.cpu | string | `"350m"` |  |

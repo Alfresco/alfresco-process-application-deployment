@@ -208,6 +208,7 @@ alfresco-digital-workspace-app:
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
     APP_CONFIG_PROVIDER: "ALL"
     APP_CONFIG_IDENTITY_HOST: "{{ .Values.global.keycloak.host }}"
+    APP_WITH_PROCESS: "true"
 
 alfresco-admin-app:
   enabled: false

@@ -79,8 +79,6 @@ activiti-cloud-query:
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
@@ -124,8 +122,6 @@ runtime-bundle:
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
     - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
       value: "{{ .Release.Name }}"
     - name: ACT_KEYCLOAK_RESOURCE
@@ -179,8 +175,6 @@ activiti-cloud-connector:
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
     - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
       value: "{{ .Release.Name }}"
 

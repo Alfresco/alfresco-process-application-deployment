@@ -129,17 +129,17 @@ runtime-bundle:
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "true"
     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
-      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/processes/'
+      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'
     - name: PROJECT_MANIFEST_FILE_PATH
-      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'
+      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'
     - name: APPLICATION_VERSION
       value: '{{ .Values.global.applicationVersion }}'
     - name: ACT_RB_SERVICE_URL
       value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/{{ .Values.nameOverride }}'
     - name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH
-      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/decision-tables/'
+      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'
     - name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH
-      value: 'file:/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/forms/'
+      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'
     - name: CONTENTSERVICE_ENABLED
       value: '{{ .Values.global.contentService.enabled }}'
   extraVolumes: |

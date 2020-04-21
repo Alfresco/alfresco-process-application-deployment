@@ -23,6 +23,6 @@ spec:
           imagePullPolicy: {{ .Values.volumeinit.image.pullPolicy }}
           volumeMounts:
             - name: {{ .Release.Name }}
-              mountPath: "/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}"
+              mountPath: "/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}"
               readOnly: false
 {{- end }}

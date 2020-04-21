@@ -85,6 +85,10 @@ activiti-cloud-query:
       value: "false"
     - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
       value: "{{ .Release.Name }}"
+    - name: "GRAPHIQL_GRAPHQL_WS_PATH"
+      value: '/{{ .Release.Name }}/notifications/ws/graphql'
+    - name: "GRAPHIQL_GRAPHQL_WEB_PATH"
+      value: '/{{ .Release.Name }}/notifications/graphql'
   extraVolumes: |
     - name: license
       secret:

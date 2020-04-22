@@ -10,6 +10,9 @@ global:
 
   applicationVersion: "1"
 
+  contentService:
+    enabled: "false"
+
   image:
     pullPolicy: "Always"
 
@@ -56,9 +59,6 @@ global:
   extraEnv: |
 #    - name: PROPERTY
 #      value: "value"
-
-  contentService:
-    enabled: false
 
 activiti-cloud-query:
   enabled: true

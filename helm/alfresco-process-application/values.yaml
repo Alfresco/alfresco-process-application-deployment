@@ -111,7 +111,6 @@ runtime-bundle:
     subPaths:
       - /rb/?(.*)
       - /preference/?(.*)
-      - /dmn-runtime/?(.*)
       - /form/?(.*)
       - /process-storage/?(.*)
   probePath: /actuator/health
@@ -154,7 +153,7 @@ runtime-bundle:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
     - name: {{ .Release.Name }}
-      mountPath: '/root/{{ .Release.Name }}/{{ .Values.global.applicationVersion }}/'
+      mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'
 
 activiti-cloud-connector:
   enabled: false

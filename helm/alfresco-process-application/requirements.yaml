@@ -1,39 +1,39 @@
 ---
 dependencies:
-  - name: activiti-cloud-query
-    repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.834
-    condition: application.activiti-cloud-query.enabled,activiti-cloud-query.enabled
-  - name: rabbitmq-ha
-    repository: https://kubernetes-charts.storage.googleapis.com
-    version: 1.38.1
-    condition: application.rabbitmq.enabled,rabbitmq.enabled
-    alias: rabbitmq
-  - name: postgresql
-    repository: https://kubernetes-charts.storage.googleapis.com
-    version: 3.11.3
-    condition: application.postgres.enabled,postgres.enabled
-    alias: postgres
-  - name: runtime-bundle
-    repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.834
-    condition: application.runtime-bundle.enabled,runtime-bundle.enabled
-  - name: activiti-cloud-connector
-    repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 7.1.834
-    condition: application.activiti-cloud-connector.enabled,activiti-cloud-connector.enabled
-  - name: alfresco-adf-app
-    alias: alfresco-process-workspace-app
-    version: 2.1.4
-    repository: https://kubernetes-charts.alfresco.com/incubator
-    condition: application.alfresco-process-workspace-app.enabled,alfresco-process-workspace-app.enabled
-  - name: alfresco-adf-app
-    alias: alfresco-admin-app
-    version: 2.1.4
-    repository: https://kubernetes-charts.alfresco.com/incubator
-    condition: application.alfresco-admin-app.enabled,alfresco-admin-app.enabled
-  - name: alfresco-adf-app
-    alias: alfresco-digital-workspace-app
-    version: 2.1.4
-    repository: https://kubernetes-charts.alfresco.com/incubator
-    condition: application.alfresco-digital-workspace-app.enabled,alfresco-digital-workspace-app.enabled
+- name: "activiti-cloud-query"
+  repository: "https://activiti.github.io/activiti-cloud-helm-charts"
+  version: "7.1.839"
+  condition: "application.activiti-cloud-query.enabled,activiti-cloud-query.enabled"
+- name: "rabbitmq-ha"
+  repository: "https://kubernetes-charts.storage.googleapis.com"
+  version: "1.38.1"
+  condition: "application.rabbitmq.enabled,rabbitmq.enabled"
+  alias: "rabbitmq"
+- name: "postgresql"
+  repository: "https://kubernetes-charts.storage.googleapis.com"
+  version: "3.11.3"
+  condition: "application.postgres.enabled,postgres.enabled"
+  alias: "postgres"
+- name: "runtime-bundle"
+  repository: "https://activiti.github.io/activiti-cloud-helm-charts"
+  version: "7.1.839"
+  condition: "application.runtime-bundle.enabled,runtime-bundle.enabled"
+- name: "activiti-cloud-connector"
+  repository: "https://activiti.github.io/activiti-cloud-helm-charts"
+  version: "7.1.839"
+  condition: "application.activiti-cloud-connector.enabled,activiti-cloud-connector.enabled"
+- name: "alfresco-adf-app"
+  repository: "https://kubernetes-charts.alfresco.com/incubator"
+  version: "2.1.4"
+  condition: "application.alfresco-process-workspace-app.enabled,alfresco-process-workspace-app.enabled"
+  alias: "alfresco-process-workspace-app"
+- name: "alfresco-adf-app"
+  repository: "https://kubernetes-charts.alfresco.com/incubator"
+  version: "2.1.4"
+  condition: "application.alfresco-admin-app.enabled,alfresco-admin-app.enabled"
+  alias: "alfresco-admin-app"
+- name: "alfresco-adf-app"
+  repository: "https://kubernetes-charts.alfresco.com/incubator"
+  version: "2.1.4"
+  condition: "application.alfresco-digital-workspace-app.enabled,alfresco-digital-workspace-app.enabled"
+  alias: "alfresco-digital-workspace-app"

@@ -1,6 +1,6 @@
 ## Description
 
-The [alfresco-deployment-cli](https://git.alfresco.com/process-services/alfresco-process-cli) is a script to help in the setup of the Keycloak client with roles users/groups association.
+The [alfresco-deployment-cli](https://github.com/alfresco/alfresco-deployment-cli) is a script to help in the setup of the Keycloak client with roles users/groups association.
 
 In order for things to work, you'll need to have users or groups with a specific roles (`ACTIVITI_ADMIN`, `ACTIVITI_USER`).
 

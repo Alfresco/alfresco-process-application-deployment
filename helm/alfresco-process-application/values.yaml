@@ -182,7 +182,7 @@ alfresco-process-workspace-app:
   nameOverride: workspace-app
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
-    tag: 7.1.0.M6
+    tag: develop
   ingress:
     path: "/{{ .Release.Name }}/workspace"
   env:

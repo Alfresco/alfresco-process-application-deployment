@@ -204,7 +204,7 @@ alfresco-digital-workspace-app:
     APP_CONFIG_ECM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
     APP_CONFIG_PROVIDER: "ALL"
-    APP_CONFIG_IDENTITY_HOST: "{{ .Values.global.keycloak.host }}"
+    APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
     APP_WITH_PROCESS: "true"
 
 alfresco-admin-app:

@@ -6,7 +6,6 @@ global:
   # global.registryPullSecrets -- Configure pull secrets for all deployments
   registryPullSecrets:
     - "quay-registry-secret"
-    - "aps2-registry-secret"
 
   applicationVersion: "1"
 

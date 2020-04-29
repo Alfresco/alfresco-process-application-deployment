@@ -47,6 +47,8 @@ kubectl create secret \
 
 ## Install into current namespace using _application_ Helm release name
 
+Make sure you add the secret of your registry under `registryPullSecrets` in the values.yaml
+
 Helm command to install application chart (review and adjust values.yaml before):
 
 ```bash
@@ -125,7 +127,7 @@ export HELM_OPTS="
 **Note**: This block of steps only relevant if you are using: [example-application-project](https://github.com/Alfresco/example-process-application/tree/master/example-application-project) to fetch project files.
 ```
 1. Once the example-project image is build and push to your choice of registry, make sure you add the registry-secret for that registry on the namespace you going to deploy this app.
-2. update values in **valueS.yaml***
+2. update values in **values.yaml***
    - add repository url for volumeinit to pull the project files image 
    - In runtime-bundle - update pojectName in order to allow PROJECT_MANIFEST_FILE_PATH to point to correct json file. 
 

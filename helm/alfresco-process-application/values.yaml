@@ -66,7 +66,7 @@ activiti-cloud-query:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: develop
+    tag: 7.1.0-M7
   ingress:
     path: /{{ .Release.Name }}
     enabled: true
@@ -103,7 +103,7 @@ runtime-bundle:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: develop
+    tag: 7.1.0-M7
   ingress:
     enabled: true
     path: /{{ .Release.Name }}
@@ -181,7 +181,7 @@ alfresco-process-workspace-app:
   nameOverride: workspace-app
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
-    tag: develop
+    tag: 7.1.0-M7
   ingress:
     path: "/{{ .Release.Name }}/workspace"
   env:
@@ -196,7 +196,7 @@ alfresco-digital-workspace-app:
     path: "/{{ .Release.Name }}/digital-workspace"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
-    tag: develop
+    tag: 7.1.0-M7
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'

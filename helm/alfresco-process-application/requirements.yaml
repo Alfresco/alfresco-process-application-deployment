@@ -25,7 +25,7 @@ dependencies:
   - name: alfresco-adf-app
     alias: alfresco-process-workspace-app
     version: 2.2.0
-    repository: https://kubernetes-charts.alfresco.com/incubator
+    repository: https://kubernetes-charts.alfresco.com/stable
     condition: application.alfresco-process-workspace-app.enabled,alfresco-process-workspace-app.enabled
   - name: alfresco-adf-app
     alias: alfresco-admin-app

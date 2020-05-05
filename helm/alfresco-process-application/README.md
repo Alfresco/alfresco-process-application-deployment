@@ -49,7 +49,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"7.1.0.M6"` |  |
+| alfresco-admin-app.image.tag | string | `"7.1.0-M7"` |  |
 | alfresco-admin-app.ingress.path | string | `"/{{ .Release.Name }}/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"admin-app"` |  |
 | alfresco-digital-workspace-app.enabled | bool | `false` |  |

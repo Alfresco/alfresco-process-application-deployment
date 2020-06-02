@@ -223,7 +223,11 @@ alfresco-admin-app:
 
 postgres:
   enabled: true
+  image:
+    repository: postgres
+    tag: 11.4
   postgresqlPassword: password
+  postgresqlDataDir: /var/lib/postgresql/data/pgdata
   resources:
     requests:
       cpu: 350m

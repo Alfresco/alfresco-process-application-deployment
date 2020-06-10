@@ -74,11 +74,11 @@ Supported optional vars:
 
 ### setup directories
 
-Adjust as per your environment:
+Adjust as in your local development environment:
 
 ```bash
 export AAE_APPLICATION_CHART_HOME="$HOME/src/Alfresco/alfresco-process-application-deployment"
-export ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME="$HOME/src/Activiti/activiti-cloud-acceptance-scenarios"
+export ACTIVITI_CLOUD_ACCEPTANCE_TESTS_HOME="$HOME/src/Activiti/activiti-cloud-application/activiti-cloud-acceptance-scenarios"
 ```
 
 ### set main variables

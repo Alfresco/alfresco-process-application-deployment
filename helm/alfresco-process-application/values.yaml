@@ -26,7 +26,7 @@ global:
     realm: "alfresco"
 
     # global.keycloak.resource -- Keycloak resource
-    resource: "{{ .Release.Name }}"
+    resource: "activiti"
 
   gateway:
     # global.gateway.host -- single domain name for all services, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
@@ -129,6 +129,8 @@ runtime-bundle:
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
     - name: ACTIVITI_CLOUD_APPLICATION_NAME
+      value: "{{ .Release.Name }}"
+    - name: ACT_KEYCLOAK_RESOURCE
       value: "{{ .Release.Name }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "true"

@@ -6,7 +6,7 @@ VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 AC_TAG := 7.1.0-M7
 AAE_TAG := 7.1.0-M7
 APW_APP_TAG := 7.1.0-M7
-DWS_APP_TAG := d7.1.0-M7
+DWS_APP_TAG := 7.1.0-M7
 APA_APP_TAG := 7.1.0-M7
 RABBITMQ_TAG := 3.7-alpine
 POSTGRESQL_TAG := 10.7.0
@@ -15,7 +15,8 @@ BUSYBOX_TAG := 1.30.1
 MINIDEB_TAG := stretch
 
 IMAGES := activiti/example-cloud-connector@$(AC_TAG) \
-activiti/example-runtime-bundle@$(AC_TAG) \
+quay.io/alfresco/alfresco-process-runtime-bundle-service@$(APA_APP_TAG) \
+quay.io/alfresco/alfresco-process-query-service@$(APA_APP_TAG) \
 quay.io/alfresco/alfresco-admin-app@$(APA_APP_TAG) \
 quay.io/alfresco/alfresco-process-workspace-app@$(APW_APP_TAG) \
 quay.io/alfresco/alfresco-digital-workspace-app@$(DWS_APP_TAG) \

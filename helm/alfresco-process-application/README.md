@@ -10,9 +10,9 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.890 |
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.890 |
-| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.890 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.913 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.913 |
+| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.913 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
@@ -23,6 +23,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| activiti-cloud-connector.affinity | object | `{}` |  |
 | activiti-cloud-connector.enabled | bool | `false` |  |
 | activiti-cloud-connector.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n"` |  |
 | activiti-cloud-connector.image.repository | string | `"activiti/example-cloud-connector"` |  |
@@ -31,6 +32,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | activiti-cloud-connector.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
 | activiti-cloud-connector.nameOverride | string | `"example-cloud-connector"` |  |
 | activiti-cloud-connector.probePath | string | `"{{ tpl .Values.ingress.path . }}/actuator/health"` |  |
+| activiti-cloud-query.affinity | object | `{}` |  |
 | activiti-cloud-query.enabled | bool | `true` |  |
 | activiti-cloud-query.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"false\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n- name: \"GRAPHIQL_GRAPHQL_WS_PATH\"\n  value: '/{{ .Release.Name }}/notifications/ws/graphql'\n- name: \"GRAPHIQL_GRAPHQL_WEB_PATH\"\n  value: '/{{ .Release.Name }}/notifications/graphql'\n"` |  |
 | activiti-cloud-query.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
@@ -120,6 +122,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | rabbitmq.resources.requests.cpu | string | `"350m"` |  |
 | rabbitmq.resources.requests.memory | string | `"512Mi"` |  |
 | rabbitmq.service.clusterIP | string | `"None"` |  |
+| runtime-bundle.affinity | object | `{}` |  |
 | runtime-bundle.enabled | bool | `true` |  |
 | runtime-bundle.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: \"ACTIVITI_CLOUD_APPLICATION_NAME\"\n  value: \"{{ .Release.Name }}\"\n- name: ACT_KEYCLOAK_RESOURCE\n  value: \"{{ .Release.Name }}\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"true\"\n- name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'\n- name: PROJECT_MANIFEST_FILE_PATH\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'\n- name: APPLICATION_VERSION\n  value: '{{ .Values.global.applicationVersion }}'\n- name: ACT_RB_SERVICE_URL\n  value: '{{ include \"common.gateway-url\" . }}/{{ .Release.Name }}/{{ .Values.nameOverride }}'\n- name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'\n- name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'\n- name: CONTENTSERVICE_ENABLED\n  value: '{{ .Values.global.contentService.enabled }}'\n"` |  |
 | runtime-bundle.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n- name: {{ .Release.Name }}\n  mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'\n"` |  |

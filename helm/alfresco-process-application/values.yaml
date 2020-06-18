@@ -90,6 +90,7 @@ activiti-cloud-query:
     - name: license
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
+  affinity: {}
 
 runtime-bundle:
   enabled: true
@@ -149,6 +150,7 @@ runtime-bundle:
       readOnly: true
     - name: {{ .Release.Name }}
       mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'
+  affinity: {}
 
 activiti-cloud-connector:
   enabled: false
@@ -171,6 +173,7 @@ activiti-cloud-connector:
       value: ".*"
     - name: "ACTIVITI_CLOUD_APPLICATION_NAME"
       value: "{{ .Release.Name }}"
+  affinity: {}
 
 alfresco-process-workspace-app:
   enabled: false

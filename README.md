@@ -11,7 +11,7 @@ Install the [AAE infrastructure](https://github.com/Alfresco/alfresco-process-in
 ```bash
 HELM_OPTS+=" --set alfresco-deployment-service.enabled=false"
 
-helm upgrade aae-infra alfresco-incubator/alfresco-process-infrastructure --version 7.1.0-M6 ${HELM_OPTS} --install --wait
+helm upgrade aae alfresco/alfresco-process-infrastructure --version 7.1.0-M8 ${HELM_OPTS[*]} --install --wait
 ```
 
 A [keycloak security client](https://www.keycloak.org/docs/latest/server_admin/#oidc-clients)

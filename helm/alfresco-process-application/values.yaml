@@ -213,7 +213,7 @@ alfresco-admin-app:
     path: "/{{ .Release.Name }}/admin"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.1.0.M6
+    tag: 7.1.0-M7
     pullPolicy: Always
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -223,7 +223,11 @@ alfresco-admin-app:
 
 postgres:
   enabled: true
+  image:
+    repository: postgres
+    tag: 11.4
   postgresqlPassword: password
+  postgresqlDataDir: /var/lib/postgresql/data/pgdata
   resources:
     requests:
       cpu: 350m

@@ -10,9 +10,9 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.0-M7 |
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.0-M7 |
-| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.0-M7 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.890 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.890 |
+| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.890 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
@@ -80,13 +80,13 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | global.gateway.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | global.gateway.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | global.gateway.domain | string | `"REPLACEME"` | gateway domain template, i.e. {{ .Release.Namespace }}.1.3.4.5.nip.io helm upgrade activiti . --install --set global.gateway.domain=1.2.3.4.nip.io |
-| global.gateway.host | string | `"gateway.{{ include \"common.gateway-domain\" . }}"` | global annotations for all service ingress resources |
+| global.gateway.host | string | `"{{ include \"common.gateway-domain\" . }}"` | global annotations for all service ingress resources |
 | global.gateway.http | string | `"false"` |  |
 | global.gateway.tlsacme | string | `"true"` |  |
 | global.image.pullPolicy | string | `"Always"` |  |
-| global.keycloak.host | string | `"identity.{{ include \"common.gateway-domain\" . }}"` | Keycloak host template, i.e. "identity.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}" |
+| global.keycloak.host | string | `"{{ include \"common.gateway-domain\" . }}"` | Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}" |
 | global.keycloak.realm | string | `"alfresco"` | Keycloak realm |
-| global.keycloak.resource | string | `"activiti"` |  |
+| global.keycloak.resource | string | `"activiti"` | Keycloak resource |
 | global.keycloak.url | string | `""` | full url to configure external Keycloak, https://keycloak.mydomain.com/auth |
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
 | persistence.accessModes[0] | string | `"ReadWriteMany"` |  |
@@ -94,6 +94,9 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | persistence.enabled | bool | `true` |  |
 | persistence.storageClassName | string | `"default-sc"` |  |
 | postgres.enabled | bool | `true` |  |
+| postgres.image.repository | string | `"postgres"` |  |
+| postgres.image.tag | float | `11.4` |  |
+| postgres.postgresqlDataDir | string | `"/var/lib/postgresql/data/pgdata"` |  |
 | postgres.postgresqlPassword | string | `"password"` |  |
 | postgres.resources.requests.cpu | string | `"350m"` |  |
 | postgres.resources.requests.memory | string | `"512Mi"` |  |

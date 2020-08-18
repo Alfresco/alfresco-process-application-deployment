@@ -13,9 +13,9 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.0-M9 |
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.0-M9 |
 | https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.0-M9 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.1 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.1 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.1 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.2 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.2 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.2 |
 | https://kubernetes-charts.storage.googleapis.com | postgresql | 6.3.9 |
 | https://kubernetes-charts.storage.googleapis.com | rabbitmq-ha | 1.38.1 |
 

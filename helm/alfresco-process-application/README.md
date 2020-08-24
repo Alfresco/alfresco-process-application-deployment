@@ -2,7 +2,7 @@ alfresco-process-application
 ============================
 A Helm chart for an Alfresco Activiti Enterprise application
 
-Current chart version is `7.1.0-M9`
+Current chart version is `7.1.0-M10`
 
 Source code can be found [here](https://github.com/Alfresco/alfresco-process-application-deployment)
 
@@ -27,7 +27,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | activiti-cloud-connector.enabled | bool | `false` |  |
 | activiti-cloud-connector.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: \"{{ .Release.Name }}\"\n"` |  |
 | activiti-cloud-connector.image.repository | string | `"activiti/example-cloud-connector"` |  |
-| activiti-cloud-connector.image.tag | string | `"7.1.0-M9"` |  |
+| activiti-cloud-connector.image.tag | string | `"develop"` |  |
 | activiti-cloud-connector.ingress.enabled | bool | `true` |  |
 | activiti-cloud-connector.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
 | activiti-cloud-connector.nameOverride | string | `"example-cloud-connector"` |  |
@@ -38,7 +38,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | activiti-cloud-query.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
 | activiti-cloud-query.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
 | activiti-cloud-query.image.repository | string | `"quay.io/alfresco/alfresco-process-query-service"` |  |
-| activiti-cloud-query.image.tag | string | `"7.1.0-M9"` |  |
+| activiti-cloud-query.image.tag | string | `"develop"` |  |
 | activiti-cloud-query.ingress.enabled | bool | `true` |  |
 | activiti-cloud-query.ingress.path | string | `"/{{ .Release.Name }}"` |  |
 | activiti-cloud-query.nameOverride | string | `"query"` |  |
@@ -51,7 +51,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"7.1.0-M9"` |  |
+| alfresco-admin-app.image.tag | string | `"develop"` |  |
 | alfresco-admin-app.ingress.path | string | `"/{{ .Release.Name }}/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"admin-app"` |  |
 | alfresco-digital-workspace-app.enabled | bool | `false` |  |
@@ -63,7 +63,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | alfresco-digital-workspace-app.env.APP_CONFIG_PROVIDER | string | `"ALL"` |  |
 | alfresco-digital-workspace-app.env.APP_WITH_PROCESS | string | `"true"` |  |
 | alfresco-digital-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
-| alfresco-digital-workspace-app.image.tag | string | `"7.1.0-M9"` |  |
+| alfresco-digital-workspace-app.image.tag | string | `"develop"` |  |
 | alfresco-digital-workspace-app.ingress.path | string | `"/{{ .Release.Name }}/digital-workspace"` |  |
 | alfresco-digital-workspace-app.nameOverride | string | `"digital-workspace-app"` |  |
 | alfresco-process-workspace-app.enabled | bool | `false` |  |
@@ -71,7 +71,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | alfresco-process-workspace-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-process-workspace-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-process-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-process-workspace-app"` |  |
-| alfresco-process-workspace-app.image.tag | string | `"7.1.0-M9"` |  |
+| alfresco-process-workspace-app.image.tag | string | `"develop"` |  |
 | alfresco-process-workspace-app.ingress.path | string | `"/{{ .Release.Name }}/workspace"` |  |
 | alfresco-process-workspace-app.nameOverride | string | `"workspace-app"` |  |
 | global.applicationVersion | string | `"1"` |  |
@@ -128,7 +128,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | runtime-bundle.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n- name: {{ .Release.Name }}\n  mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'\n"` |  |
 | runtime-bundle.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n- name: {{ .Release.Name }}\n  persistentVolumeClaim:\n    claimName: {{ .Release.Name }}\n"` |  |
 | runtime-bundle.image.repository | string | `"quay.io/alfresco/alfresco-process-runtime-bundle-service"` |  |
-| runtime-bundle.image.tag | string | `"7.1.0-M9"` |  |
+| runtime-bundle.image.tag | string | `"develop"` |  |
 | runtime-bundle.ingress.enabled | bool | `true` |  |
 | runtime-bundle.ingress.path | string | `"/{{ .Release.Name }}"` |  |
 | runtime-bundle.ingress.subPaths[0] | string | `"/rb/?(.*)"` |  |

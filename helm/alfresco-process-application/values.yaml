@@ -168,7 +168,7 @@ activiti-cloud-connector:
   nameOverride: example-cloud-connector
   image:
     repository: activiti/example-cloud-connector
-    tag: 7.1.0-M7
+    tag: develop
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
@@ -223,7 +223,7 @@ alfresco-admin-app:
     path: "/{{ .Release.Name }}/admin"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.1.0-M7
+    tag: develop
     pullPolicy: Always
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'

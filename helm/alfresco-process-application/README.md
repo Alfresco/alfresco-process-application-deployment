@@ -2,7 +2,7 @@ alfresco-process-application
 ============================
 A Helm chart for an Alfresco Activiti Enterprise application
 
-Current chart version is `7.1.0-M8`
+Current chart version is `7.1.0-M10`
 
 Source code can be found [here](https://github.com/Alfresco/alfresco-process-application-deployment)
 
@@ -27,7 +27,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | activiti-cloud-connector.enabled | bool | `false` |  |
 | activiti-cloud-connector.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: \"{{ .Release.Name }}\"\n"` |  |
 | activiti-cloud-connector.image.repository | string | `"activiti/example-cloud-connector"` |  |
-| activiti-cloud-connector.image.tag | string | `"7.1.0-M7"` |  |
+| activiti-cloud-connector.image.tag | string | `"develop"` |  |
 | activiti-cloud-connector.ingress.enabled | bool | `true` |  |
 | activiti-cloud-connector.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
 | activiti-cloud-connector.nameOverride | string | `"example-cloud-connector"` |  |
@@ -57,7 +57,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"7.1.0-M7"` |  |
+| alfresco-admin-app.image.tag | string | `"develop"` |  |
 | alfresco-admin-app.ingress.path | string | `"/{{ .Release.Name }}/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"admin-app"` |  |
 | alfresco-digital-workspace-app.enabled | bool | `false` |  |

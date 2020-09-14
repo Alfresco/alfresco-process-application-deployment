@@ -10,9 +10,9 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-app
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.0-M9 |
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.0-M9 |
-| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.0-M9 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.0-A1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.0-A1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.0-A1 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M10 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M10 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M10 |

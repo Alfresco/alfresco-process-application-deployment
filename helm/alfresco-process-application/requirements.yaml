@@ -25,15 +25,15 @@ dependencies:
   - name: alfresco-adf-app
     alias: alfresco-process-workspace-app
     version: 7.1.0-M10
-    repository: https://kubernetes-charts.alfresco.com/incubator
+    repository: https://kubernetes-charts.alfresco.com/stable
     condition: application.alfresco-process-workspace-app.enabled,alfresco-process-workspace-app.enabled
   - name: alfresco-adf-app
     alias: alfresco-admin-app
     version: 7.1.0-M10
-    repository: https://kubernetes-charts.alfresco.com/incubator
+    repository: https://kubernetes-charts.alfresco.com/stable
     condition: application.alfresco-admin-app.enabled,alfresco-admin-app.enabled
   - name: alfresco-adf-app
     alias: alfresco-digital-workspace-app
     version: 7.1.0-M10
-    repository: https://kubernetes-charts.alfresco.com/incubator
+    repository: https://kubernetes-charts.alfresco.com/stable
     condition: application.alfresco-digital-workspace-app.enabled,alfresco-digital-workspace-app.enabled

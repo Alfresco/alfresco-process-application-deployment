@@ -108,7 +108,6 @@ runtime-bundle:
       - /rb/?(.*)
       - /preference/?(.*)
       - /form/?(.*)
-      - /process-storage/?(.*)
   probePath: /actuator/health
   extraEnv: |
     - name: SERVER_PORT

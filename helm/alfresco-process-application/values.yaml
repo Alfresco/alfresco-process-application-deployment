@@ -62,7 +62,7 @@ activiti-cloud-query:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: develop
+    tag: 7.1.0-M10
   ingress:
     path: /{{ .Release.Name }}
     enabled: true
@@ -100,7 +100,7 @@ runtime-bundle:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: develop
+    tag: 7.1.0-M10
   ingress:
     enabled: true
     path: /{{ .Release.Name }}
@@ -157,7 +157,7 @@ activiti-cloud-connector:
   nameOverride: example-cloud-connector
   image:
     repository: activiti/example-cloud-connector
-    tag: develop
+    tag: 7.1.0-M10
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
@@ -180,7 +180,7 @@ alfresco-process-workspace-app:
   nameOverride: workspace-app
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
-    tag: develop
+    tag: 7.1.0-M10
   ingress:
     path: "/{{ .Release.Name }}/workspace"
   env:
@@ -195,7 +195,7 @@ alfresco-digital-workspace-app:
     path: "/{{ .Release.Name }}/digital-workspace"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
-    tag: develop
+    tag: 7.1.0-M10
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -212,7 +212,7 @@ alfresco-admin-app:
     path: "/{{ .Release.Name }}/admin"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
+    tag: 7.1.0-M10
     pullPolicy: Always
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'

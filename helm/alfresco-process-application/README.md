@@ -134,7 +134,6 @@ A Helm chart for an Alfresco Activiti Enterprise application
 | runtime-bundle.ingress.subPaths[0] | string | `"/rb/?(.*)"` |  |
 | runtime-bundle.ingress.subPaths[1] | string | `"/preference/?(.*)"` |  |
 | runtime-bundle.ingress.subPaths[2] | string | `"/form/?(.*)"` |  |
-| runtime-bundle.ingress.subPaths[3] | string | `"/process-storage/?(.*)"` |  |
 | runtime-bundle.nameOverride | string | `"rb"` |  |
 | runtime-bundle.postgres.enabled | bool | `true` |  |
 | runtime-bundle.probePath | string | `"/actuator/health"` |  |

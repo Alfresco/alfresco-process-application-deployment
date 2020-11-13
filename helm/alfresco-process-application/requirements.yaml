@@ -4,16 +4,15 @@ dependencies:
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     version: 7.1.0-M10
     condition: application.activiti-cloud-query.enabled,activiti-cloud-query.enabled
-  - name: rabbitmq-ha
-    repository: https://kubernetes-charts.storage.googleapis.com
-    version: 1.38.1
-    condition: application.rabbitmq.enabled,rabbitmq.enabled
-    alias: rabbitmq
   - name: postgresql
-    repository: https://kubernetes-charts.storage.googleapis.com
-    version: 6.3.9
+    version: 8.9.6
+    repository: https://charts.bitnami.com/bitnami
     condition: application.postgres.enabled,postgres.enabled
     alias: postgres
+  - name: rabbitmq
+    version: 7.6.8
+    repository: https://charts.bitnami.com/bitnami
+    condition: application.rabbitmq.enabled,rabbitmq.enabled
   - name: runtime-bundle
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     version: 7.1.0-M10

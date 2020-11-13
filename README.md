@@ -5,6 +5,8 @@
 
 Helm chart to install an AAE application.
 
+For all the available values, see the chart [README.md](helm/alfresco-process-application/README.md#values).
+
 ## Prerequisites
 
 Install the [AAE infrastructure](https://github.com/Alfresco/alfresco-process-infrastructure-deployment):
@@ -12,7 +14,7 @@ Install the [AAE infrastructure](https://github.com/Alfresco/alfresco-process-in
 ```bash
 HELM_OPTS+=" --set alfresco-deployment-service.enabled=false"
 
-helm upgrade aae alfresco/alfresco-process-infrastructure --version 7.1.0-M9 ${HELM_OPTS[*]} --install --wait
+helm upgrade aae alfresco/alfresco-process-infrastructure --version 7.1.0-M10 ${HELM_OPTS[*]} --install --wait
 ```
 
 A [keycloak security client](https://www.keycloak.org/docs/latest/server_admin/#oidc-clients)
@@ -46,14 +48,14 @@ kubectl create secret \
   generic licenseaps --from-file activiti.lic
 ```
 
-## Install into current namespace using _application_ Helm release name
+## Install Application
 
-Make sure you add the secret of your registry under `registryPullSecrets` in the values.yaml
+Make sure you add the secret of your registry under `registryPullSecrets` in values.yaml and review contents.
 
-Helm command to install application chart (review and adjust values.yaml before):
+Helm command to install application chart:
 
 ```bash
-helm upgrade application ./helm/alfresco-process-application --install --set global.gateway.domain=your-domain.com
+helm upgrade app ./helm/alfresco-process-application --install --set global.gateway.domain=your-domain.com
 ```
 
 ### install.sh
@@ -98,7 +100,7 @@ Define a **PROTOCOL** (_http_ or _https_) and **DOMAIN** for your environment.
 ```bash
 export PROTOCOL="http"
 export GATEWAY_HOST="localhost"
-export SSO_HOST="kubernetes.docker.internal"
+export SSO_HOST="host.docker.internal"
 ```
 
 #### for AAE dev example environment
@@ -107,8 +109,8 @@ export SSO_HOST="kubernetes.docker.internal"
 export CLUSTER="aaedev"
 export PROTOCOL="https"
 export DOMAIN="${CLUSTER}.envalfresco.com"
-export GATEWAY_HOST="${GATEWAY_HOST:-gateway.${DOMAIN}}"
-export SSO_HOST="${SSO_HOST:-identity.${DOMAIN}}"
+export GATEWAY_HOST="${GATEWAY_HOST:-${DOMAIN}}"
+export SSO_HOST="${SSO_HOST:-${DOMAIN}}"
 ```
 
 ### set helm env variables
@@ -127,16 +129,16 @@ export HELM_OPTS="
 ### Configuration steps for using Volume to get Project files: 
 **Note**: This block of steps only relevant if you are using: [example-application-project](https://github.com/Alfresco/example-process-application/tree/master/example-application-project) to fetch project files.
 ```
-1. Once the example-project image is build and push to your choice of registry, make sure you add the registry-secret for that registry on the namespace you going to deploy this app.
+1. Once the example-project image is built and push to your choice of registry, make sure you add the registry-secret for that registry on the namespace you going to deploy this app.
 2. update values in **values.yaml***
    - add repository url for volumeinit to pull the project files image 
-   - In runtime-bundle - update pojectName in order to allow PROJECT_MANIFEST_FILE_PATH to point to correct json file. 
+   - In runtime-bundle - update projectName in order to allow PROJECT_MANIFEST_FILE_PATH to point to the correct json file. 
 
 Installation step: 
 
-Note: make sure your Release name should be same as CLASSPATH_DIRECTORY_NAME passed in build.properties for example-applcation-project.  
+Note: make sure your Release name is the same as CLASSPATH_DIRECTORY_NAME passed in build.properties for example-applcation-project.  
 
-helm upgrade application ./helm/alfresco-process-application  --install --set global.gateway.domain=your-domain.com
+helm upgrade app ./helm/alfresco-process-application  --install --set global.gateway.domain=your-domain.com
 ```
 
 ### set test variables
@@ -159,7 +161,6 @@ mvn -pl 'runtime-acceptance-tests' clean verify serenity:aggregate
 ### override Docker images with internal Docker Registry
 
 ```bash
-
 export REGISTRY_HOST=registry.your-domain.com
 
 make login
@@ -168,7 +169,7 @@ make values-registry.yaml
 
 HELM_OPTS+="-f values-registry.yaml"
 ```
-then [as install application](#install-application)
+then [install application](#install-application)
 
 
 ## Testing

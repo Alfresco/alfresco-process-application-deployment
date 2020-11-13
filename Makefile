@@ -3,11 +3,10 @@ VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
 .EXPORT_ALL_VARIABLES:
 
-AC_TAG := 7.1.0-M9
-AAE_TAG := 7.1.0-M9
-APW_APP_TAG := 7.1.0-M9
-DWS_APP_TAG := 7.1.0-M9
-APA_APP_TAG := 7.1.0-M9
+AC_TAG := 7.1.0-M10
+APA_TAG := 7.1.0-M10
+APW_TAG := 7.1.0-M10
+ADW_TAG := 7.1.0-M10
 RABBITMQ_TAG := 3.7-alpine
 POSTGRESQL_TAG := 10.7.0
 ALPINE_TAG := 3.8
@@ -15,11 +14,11 @@ BUSYBOX_TAG := 1.30.1
 MINIDEB_TAG := stretch
 
 IMAGES := activiti/example-cloud-connector@$(AC_TAG) \
-quay.io/alfresco/alfresco-process-runtime-bundle-service@$(APA_APP_TAG) \
-quay.io/alfresco/alfresco-process-query-service@$(APA_APP_TAG) \
-quay.io/alfresco/alfresco-admin-app@$(APA_APP_TAG) \
-quay.io/alfresco/alfresco-process-workspace-app@$(APW_APP_TAG) \
-quay.io/alfresco/alfresco-digital-workspace-app@$(DWS_APP_TAG) \
+quay.io/alfresco/alfresco-process-runtime-bundle-service@$(APA_TAG) \
+quay.io/alfresco/alfresco-process-query-service@$(APA_TAG) \
+quay.io/alfresco/alfresco-admin-app@$(APA_TAG) \
+quay.io/alfresco/alfresco-process-workspace-app@$(APW_TAG) \
+quay.io/alfresco/alfresco-digital-workspace-app@$(ADW_TAG) \
 alpine@$(ALPINE_TAG) \
 bitnami/postgresql@$(POSTGRESQL_TAG) \
 bitnami/minideb@$(MINIDEB_TAG) \
@@ -45,7 +44,7 @@ push: test $(foreach image,$(IMAGES),$(image)\push)
 
 images: test pull tag push
 
-values:
+values-registry.yaml: test
 	@envsubst < $(VALUES_REGISTRY_TMPL) > values-registry.yaml
 	@echo Values generated in values-registry.yaml
 

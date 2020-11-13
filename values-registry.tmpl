@@ -5,7 +5,7 @@ activiti-cloud-connector:
 activiti-cloud-query:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-query-service
-    tag: ${AAE_TAG}
+    tag: ${APA_TAG}
 runtime-bundle:
   image:
     repository: ${DOCKER_REGISTRY}/activiti/example-runtime-bundle
@@ -34,12 +34,12 @@ rabbitmq:
 alfresco-admin-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-admin-app
-    tag: ${APA_APP_TAG}
+    tag: ${APA_TAG}
 alfresco-process-workspace-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-process-workspace-app
-    tag: ${APW_APP_TAG}
+    tag: ${APW_TAG}
 alfresco-digital-workspace-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-digital-workspace
-    tag: ${DWS_APP_TAG}
+    tag: ${ADW_TAG}

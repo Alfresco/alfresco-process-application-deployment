@@ -4,12 +4,12 @@ apiVersion: v1
 metadata:
   name: {{ .Release.Name }}
 spec:
-  {{- if index .Values.persistence "storageClassName" }}
-  storageClassName: {{ .Values.persistence.storageClassName }}
+  {{- with .Values.persistence.storageClassName }}
+  storageClassName: {{ . }}
   {{- end }}
-  {{- if index .Values.persistence "accessModes" }}
+  {{- with .Values.persistence.accessModes }}
   accessModes:
-    {{- range .Values.persistence.accessModes }}
+    {{- range . }}
     - {{ . }}
     {{- end }}
   {{- end }}

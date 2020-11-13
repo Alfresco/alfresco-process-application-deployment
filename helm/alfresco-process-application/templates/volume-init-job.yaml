@@ -1,4 +1,4 @@
-{{- if .Values.persistence.enabled }}
+{{- if and .Values.persistence.enabled .Values.volumeinit.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -6,10 +6,10 @@ metadata:
 spec:
   template:
     spec:
-      restartPolicy: "OnFailure"
-      {{- if index .Values.global "registryPullSecrets" }}
+      restartPolicy: OnFailure
+      {{- with .Values.global.registryPullSecrets }}
       imagePullSecrets:
-       {{- range $key := .Values.global.registryPullSecrets }}
+       {{- range $key := . }}
         - name: {{ $key }}
        {{- end }}
       {{- end}}
@@ -19,10 +19,10 @@ spec:
             claimName: {{ .Release.Name }}
       containers:
         - name: volume-init
-          image: "{{ .Values.volumeinit.image.repository }}:{{ .Values.volumeinit.image.tag }}"
+          image: {{ .Values.volumeinit.image.repository }}:{{ .Values.volumeinit.image.tag }}
           imagePullPolicy: {{ .Values.volumeinit.image.pullPolicy }}
           volumeMounts:
             - name: {{ .Release.Name }}
-              mountPath: "/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}"
+              mountPath: /root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}
               readOnly: false
 {{- end }}

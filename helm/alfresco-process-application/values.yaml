@@ -65,7 +65,7 @@ activiti-cloud-query:
       nginx.ingress.kubernetes.io/rewrite-target: /$1
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-  probePath: "/actuator/health"
+  probePath: /actuator/health
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
@@ -273,9 +273,9 @@ rabbitmq:
 
 volumeinit:
   enabled: true
+  # volumeinit.image -- REPLACE with your image containing project files
   image:
-    # Image location for project files
-    #repository: alfresco/example-application-project
+    repository: alfresco/example-application-project
     tag: latest
     pullPolicy: Always
 

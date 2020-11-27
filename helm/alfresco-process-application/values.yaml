@@ -52,6 +52,9 @@ global:
 activiti-cloud-query:
   enabled: true
   nameOverride: query
+  activiti:
+    keycloak:
+      clientPassword: client
   postgres:
     enabled: true
   image:
@@ -75,6 +78,8 @@ activiti-cloud-query:
       value: ".*"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
+    - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
+      value: '{{ .Values.activiti.keycloak.clientPassword }}'
     - name: ACTIVITI_CLOUD_APPLICATION_NAME
       value: "{{ .Release.Name }}"
     - name: GRAPHIQL_GRAPHQL_WS_PATH
@@ -95,6 +100,9 @@ runtime-bundle:
   enabled: true
   nameOverride: rb
   projectName: example-app
+  activiti:
+    keycloak:
+      clientPassword: client
   postgres:
     enabled: true
   image:
@@ -126,6 +134,8 @@ runtime-bundle:
       value: "{{ .Release.Name }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "true"
+    - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
+      value: '{{ .Values.activiti.keycloak.clientPassword }}'
     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'
     - name: PROJECT_MANIFEST_FILE_PATH

@@ -52,6 +52,7 @@ global:
 activiti-cloud-query:
   enabled: true
   nameOverride: query
+  clientPassword: client
   postgres:
     enabled: true
   image:
@@ -75,6 +76,8 @@ activiti-cloud-query:
       value: ".*"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
+    - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
+      value: '{{ .Values.clientPassword }}'
     - name: ACTIVITI_CLOUD_APPLICATION_NAME
       value: "{{ .Release.Name }}"
     - name: GRAPHIQL_GRAPHQL_WS_PATH

@@ -27,9 +27,6 @@ global:
     # global.keycloak.resource -- Configure Keycloak resource
     resource: alfresco
 
-    # global.keycloak.clientPassword -- Configure Keycloak client password, client has admin keycloak privileges
-    clientPassword: client
-
   gateway:
     # global.gateway.host -- Set to configure single host domain name for all services, i.e. "{{ .Release.Namespace }}.{{ template "common.gateway-domain" . }}"
     host: '{{ template "common.gateway-domain" . }}'
@@ -55,6 +52,9 @@ global:
 activiti-cloud-query:
   enabled: true
   nameOverride: query
+  activiti:
+    keycloak:
+      clientPassword: client
   postgres:
     enabled: true
   image:
@@ -79,7 +79,7 @@ activiti-cloud-query:
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "false"
     - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
-      value: '{{ .Values.global.keycloak.clientPassword }}'
+      value: '{{ .Values.activiti.keycloak.clientPassword }}'
     - name: ACTIVITI_CLOUD_APPLICATION_NAME
       value: "{{ .Release.Name }}"
     - name: GRAPHIQL_GRAPHQL_WS_PATH
@@ -100,6 +100,9 @@ runtime-bundle:
   enabled: true
   nameOverride: rb
   projectName: example-app
+  activiti:
+    keycloak:
+      clientPassword: client
   postgres:
     enabled: true
   image:
@@ -132,7 +135,7 @@ runtime-bundle:
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "true"
     - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
-      value: '{{ .Values.global.keycloak.clientPassword }}'
+      value: '{{ .Values.activiti.keycloak.clientPassword }}'
     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'
     - name: PROJECT_MANIFEST_FILE_PATH

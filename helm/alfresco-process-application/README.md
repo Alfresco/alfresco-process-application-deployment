@@ -99,6 +99,7 @@ Kubernetes: `>=1.15.0-0`
 | global.keycloak.host | string | `"{{ template \"common.gateway-host\" . }}"` | Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}" |
 | global.keycloak.realm | string | `"alfresco"` | Configure Keycloak realm |
 | global.keycloak.resource | string | `"alfresco"` | Configure Keycloak resource |
+| global.keycloak.clientPassword | string | `"client"` | Configure Keycloak client password, client has admin keycloak privileges |
 | global.keycloak.url | string | `""` | Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth |
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
 | persistence.accessModes[0] | string | `"ReadWriteMany"` |  |

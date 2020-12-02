@@ -260,8 +260,14 @@ postgresql:
 
 rabbitmq:
   enabled: true
+  extraPlugins: ""
+  livenessProbe:
+    timeoutSeconds: 90
+  readinessProbe:
+    timeoutSeconds: 90
   persistence:
     storageClass:
+    accessMode: ReadWriteOnce
   auth:
     username: guest
     password: guest
@@ -273,8 +279,6 @@ rabbitmq:
     limits:
       cpu: "1"
       memory: 2Gi
-  rbac:
-    create: true
   replicaCount: 1
   ingress:
     enabled: false
@@ -291,7 +295,7 @@ volumeinit:
 
 persistence:
   enabled: true
-  storageClassName: default-sc
+  storageClassName:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   baseSize: 1Gi

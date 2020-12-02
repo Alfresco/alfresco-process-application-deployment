@@ -16,7 +16,7 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.0-M10 |
 | https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.0-M10 |
 | https://charts.bitnami.com/bitnami | postgresql | 8.9.6 |
-| https://charts.bitnami.com/bitnami | rabbitmq | 7.6.8 |
+| https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
@@ -102,10 +102,10 @@ Kubernetes: `>=1.15.0-0`
 | global.keycloak.resource | string | `"alfresco"` | Configure Keycloak resource |
 | global.keycloak.url | string | `""` | Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth |
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
-| persistence.accessModes[0] | string | `"ReadWriteMany"` |  |
+| persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.baseSize | string | `"1Gi"` |  |
 | persistence.enabled | bool | `true` |  |
-| persistence.storageClassName | string | `"default-sc"` |  |
+| persistence.storageClassName | string | `nil` |  |
 | postgresql.enabled | bool | `true` |  |
 | postgresql.image.repository | string | `"postgres"` |  |
 | postgresql.image.tag | float | `11.7` |  |
@@ -117,11 +117,14 @@ Kubernetes: `>=1.15.0-0`
 | rabbitmq.auth.password | string | `"guest"` |  |
 | rabbitmq.auth.username | string | `"guest"` |  |
 | rabbitmq.enabled | bool | `true` |  |
+| rabbitmq.extraPlugins | string | `""` |  |
 | rabbitmq.ingress.enabled | bool | `false` |  |
 | rabbitmq.ingress.hostName | string | `"REPLACEME"` |  |
 | rabbitmq.ingress.path | string | `"/rabbitmq"` |  |
+| rabbitmq.livenessProbe.timeoutSeconds | int | `90` |  |
+| rabbitmq.persistence.accessMode | string | `"ReadWriteOnce"` |  |
 | rabbitmq.persistence.storageClass | string | `nil` |  |
-| rabbitmq.rbac.create | bool | `true` |  |
+| rabbitmq.readinessProbe.timeoutSeconds | int | `90` |  |
 | rabbitmq.replicaCount | int | `1` |  |
 | rabbitmq.resources.limits.cpu | string | `"1"` |  |
 | rabbitmq.resources.limits.memory | string | `"2Gi"` |  |

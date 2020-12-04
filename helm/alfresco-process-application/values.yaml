@@ -11,9 +11,6 @@ global:
 
   applicationVersion: "1"
 
-  image:
-    pullPolicy: Always
-
   keycloak:
     # global.keycloak.host -- Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
     host: '{{ template "common.gateway-host" . }}'
@@ -60,6 +57,7 @@ activiti-cloud-query:
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
     tag: develop
+    pullPolicy: Always
   ingress:
     path: /{{ .Release.Name }}
     enabled: true
@@ -108,6 +106,7 @@ runtime-bundle:
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
     tag: develop
+    pullPolicy: Always
   ingress:
     enabled: true
     path: /{{ .Release.Name }}
@@ -171,6 +170,7 @@ activiti-cloud-connector:
   image:
     repository: activiti/example-cloud-connector
     tag: develop
+    pullPolicy: Always
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
@@ -199,11 +199,9 @@ alfresco-process-workspace-app:
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
     tag: develop
+    pullPolicy: Always
   ingress:
     path: "/{{ .Release.Name }}/workspace"
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/rewrite-target: /$1
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -217,9 +215,7 @@ alfresco-digital-workspace-app:
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
     tag: develop
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/rewrite-target: /$1
+    pullPolicy: Always
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -227,7 +223,6 @@ alfresco-digital-workspace-app:
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
     APP_CONFIG_PROVIDER: "ALL"
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
-    APP_WITH_PROCESS: "true"
 
 alfresco-admin-app:
   enabled: false
@@ -237,9 +232,7 @@ alfresco-admin-app:
   image:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: develop
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/rewrite-target: /$1
+    pullPolicy: Always
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_AUTH_TYPE: "OAUTH"

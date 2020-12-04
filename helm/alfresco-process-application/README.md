@@ -28,6 +28,7 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-connector.affinity | object | `{}` |  |
 | activiti-cloud-connector.enabled | bool | `false` |  |
 | activiti-cloud-connector.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: \"{{ .Release.Name }}\"\n"` |  |
+| activiti-cloud-connector.image.pullPolicy | string | `"Always"` |  |
 | activiti-cloud-connector.image.repository | string | `"activiti/example-cloud-connector"` |  |
 | activiti-cloud-connector.image.tag | string | `"develop"` |  |
 | activiti-cloud-connector.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -44,6 +45,7 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"false\"\n- name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD\n  value: '{{ .Values.activiti.keycloak.clientPassword }}'\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: \"{{ .Release.Name }}\"\n- name: GRAPHIQL_GRAPHQL_WS_PATH\n  value: '/{{ .Release.Name }}/notifications/ws/graphql'\n- name: GRAPHIQL_GRAPHQL_WEB_PATH\n  value: '/{{ .Release.Name }}/notifications/graphql'\n"` |  |
 | activiti-cloud-query.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
 | activiti-cloud-query.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
+| activiti-cloud-query.image.pullPolicy | string | `"Always"` |  |
 | activiti-cloud-query.image.repository | string | `"quay.io/alfresco/alfresco-process-query-service"` |  |
 | activiti-cloud-query.image.tag | string | `"develop"` |  |
 | activiti-cloud-query.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -60,8 +62,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-admin-app.image.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
-| alfresco-admin-app.image.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
+| alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"develop"` |  |
 | alfresco-admin-app.ingress.path | string | `"/{{ .Release.Name }}/admin"` |  |
@@ -73,9 +74,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-digital-workspace-app.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-digital-workspace-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-digital-workspace-app.env.APP_CONFIG_PROVIDER | string | `"ALL"` |  |
-| alfresco-digital-workspace-app.env.APP_WITH_PROCESS | string | `"true"` |  |
-| alfresco-digital-workspace-app.image.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
-| alfresco-digital-workspace-app.image.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
+| alfresco-digital-workspace-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-digital-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
 | alfresco-digital-workspace-app.image.tag | string | `"develop"` |  |
 | alfresco-digital-workspace-app.ingress.path | string | `"/{{ .Release.Name }}/digital-workspace"` |  |
@@ -84,13 +83,12 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-workspace-app.env.APP_CONFIG_APPS_DEPLOYED | string | `"[{\"name\": \"{{ .Release.Name }}\" }]"` |  |
 | alfresco-process-workspace-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-process-workspace-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
+| alfresco-process-workspace-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-process-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-process-workspace-app"` |  |
 | alfresco-process-workspace-app.image.tag | string | `"develop"` |  |
-| alfresco-process-workspace-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
-| alfresco-process-workspace-app.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-process-workspace-app.ingress.path | string | `"/{{ .Release.Name }}/workspace"` |  |
 | alfresco-process-workspace-app.nameOverride | string | `"workspace-app"` |  |
-| global | object | `{"acs":{"enabled":false},"applicationVersion":"1","gateway":{"annotations":{},"domain":"","host":"{{ template \"common.gateway-domain\" . }}","http":false,"tlsacme":false},"image":{"pullPolicy":"Always"},"keycloak":{"host":"{{ template \"common.gateway-host\" . }}","realm":"alfresco","resource":"alfresco","url":""},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
+| global | object | `{"acs":{"enabled":false},"applicationVersion":"1","gateway":{"annotations":{},"domain":"","host":"{{ template \"common.gateway-domain\" . }}","http":false,"tlsacme":false},"keycloak":{"host":"{{ template \"common.gateway-host\" . }}","realm":"alfresco","resource":"alfresco","url":""},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
 | global.acs.enabled | bool | `false` | enable support for ACS |
 | global.gateway.annotations | object | `{}` | Configure global annotations for all service ingresses |
 | global.gateway.domain | string | `""` | Set to configure gateway domain template, i.e. {{ .Release.Namespace }}.1.3.4.5.nip.io $ helm upgrade aae . --install --set global.gateway.domain=1.2.3.4.nip.io |
@@ -136,6 +134,7 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: \"{{ .Release.Name }}\"\n- name: ACT_KEYCLOAK_RESOURCE\n  value: \"{{ .Release.Name }}\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"true\"\n- name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD\n  value: '{{ .Values.activiti.keycloak.clientPassword }}'\n- name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'\n- name: PROJECT_MANIFEST_FILE_PATH\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'\n- name: APPLICATION_VERSION\n  value: '{{ .Values.global.applicationVersion }}'\n- name: ACT_RB_SERVICE_URL\n  value: '{{ include \"common.gateway-url\" . }}/{{ .Release.Name }}/{{ .Values.nameOverride }}'\n- name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'\n- name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'\n- name: CONTENT_SERVICE_ENABLED\n  value: \"{{ .Values.global.acs.enabled }}\"\n"` |  |
 | runtime-bundle.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n- name: {{ .Release.Name }}\n  mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'\n"` |  |
 | runtime-bundle.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n- name: {{ .Release.Name }}\n  persistentVolumeClaim:\n    claimName: {{ .Release.Name }}\n"` |  |
+| runtime-bundle.image.pullPolicy | string | `"Always"` |  |
 | runtime-bundle.image.repository | string | `"quay.io/alfresco/alfresco-process-runtime-bundle-service"` |  |
 | runtime-bundle.image.tag | string | `"develop"` |  |
 | runtime-bundle.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |

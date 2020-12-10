@@ -1,6 +1,6 @@
 # alfresco-process-application
 
-![Version: 7.1.0-M11](https://img.shields.io/badge/Version-7.1.0--M11-informational?style=flat-square) ![AppVersion: 7.1.0-M11](https://img.shields.io/badge/AppVersion-7.1.0--M11-informational?style=flat-square)
+![Version: 7.1.0-M12](https://img.shields.io/badge/Version-7.1.0--M12-informational?style=flat-square) ![AppVersion: 7.1.0-M12](https://img.shields.io/badge/AppVersion-7.1.0--M12-informational?style=flat-square)
 
 A Helm chart for an Alfresco Activiti Enterprise application
 
@@ -12,14 +12,14 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.0-M10 |
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.0-M10 |
-| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.0-M10 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.0-M11 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.0-M11 |
+| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.0-M11 |
 | https://charts.bitnami.com/bitnami | postgresql | 8.9.6 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
 
 ## Values
 

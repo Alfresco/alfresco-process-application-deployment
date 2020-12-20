@@ -28,7 +28,7 @@ users must be associated to either one of the client level roles.
 
 ### add quay-registry-secret
 
-Configure access to pull images from quay.io in the namespace where the app is to be installed: 
+Configure access to pull images from quay.io in the namespace where the app is to be installed:
 
 ```bash
 kubectl create secret \
@@ -71,7 +71,7 @@ Verify the k8s yaml output than launch again without `--dry-run`.
 Supported optional vars:
 
 * **RELEASE_NAME** to handle upgrade or a non auto-generated release name
-* **HELM_OPTS** to pass extra options to helm 
+* **HELM_OPTS** to pass extra options to helm
 
 ## Environment Setup
 
@@ -126,17 +126,17 @@ export HELM_OPTS="
 ```
 
 
-### Configuration steps for using Volume to get Project files: 
+### Configuration steps for using Volume to get Project files:
 **Note**: This block of steps only relevant if you are using: [example-application-project](https://github.com/Alfresco/example-process-application/tree/master/example-application-project) to fetch project files.
 ```
 1. Once the example-project image is built and push to your choice of registry, make sure you add the registry-secret for that registry on the namespace you going to deploy this app.
 2. update values in **values.yaml***
-   - add repository url for volumeinit to pull the project files image 
-   - In runtime-bundle - update projectName in order to allow PROJECT_MANIFEST_FILE_PATH to point to the correct json file. 
+   - add repository url for volumeinit to pull the project files image
+   - In runtime-bundle - update projectName in order to allow PROJECT_MANIFEST_FILE_PATH to point to the correct json file.
 
-Installation step: 
+Installation step:
 
-Note: make sure your Release name is the same as CLASSPATH_DIRECTORY_NAME passed in build.properties for example-applcation-project.  
+Note: make sure your Release name is the same as CLASSPATH_DIRECTORY_NAME passed in build.properties for example-applcation-project.
 
 helm upgrade app ./helm/alfresco-process-application  --install --set global.gateway.domain=your-domain.com
 ```

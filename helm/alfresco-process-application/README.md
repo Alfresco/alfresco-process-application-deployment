@@ -12,14 +12,14 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector | 7.1.0-M11 |
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query | 7.1.0-M11 |
-| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle | 7.1.0-M11 |
-| https://charts.bitnami.com/bitnami | postgresql | 8.9.6 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
+| https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
 
 ## Values
 

@@ -25,7 +25,7 @@ Alfresco Query Service           : {{ template "common.gateway-url" . }}/{{ .Rel
 Alfresco Audit Service           : {{ template "common.gateway-url" . }}/{{ .Release.Name }}/{{ index .Values "activiti-cloud-query" "nameOverride" }}
 Notifications GraphiQL           : {{ template "common.gateway-url" . }}{{ tpl (index .Values "activiti-cloud-query" "ingress" "path") $ }}/graphiql
 Notifications WebSockets         : {{ template "common.gateway-url" . }}{{ tpl (index .Values "activiti-cloud-query" "ingress" "path") $ }}/ws/graphql
-Notifications Graphql            : {{ template "common.gateway-url" . }}{{ tpl (index .Values "activiti-cloud-query" "ingress" "path") $ }}/graphql
+Notifications GraphQL            : {{ template "common.gateway-url" . }}{{ tpl (index .Values "activiti-cloud-query" "ingress" "path") $ }}/graphql
 
 To see deployment status, try:
 

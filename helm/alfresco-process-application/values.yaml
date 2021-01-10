@@ -8,51 +8,49 @@ global:
   # global.registryPullSecrets -- Configure pull secrets for all deployments
   registryPullSecrets:
     - quay-registry-secret
-
   applicationVersion: "1"
-
   keycloak:
     # global.keycloak.host -- Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
     host: '{{ template "common.gateway-host" . }}'
-
     # global.keycloak.url -- Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth
     url: ""
-
     # global.keycloak.realm -- Configure Keycloak realm
     realm: alfresco
-
     # global.keycloak.resource -- Configure Keycloak resource
-    resource: alfresco
-
+    resource: "{{ .Release.Name }}"
   gateway:
     # global.gateway.host -- Set to configure single host domain name for all services, i.e. "{{ .Release.Namespace }}.{{ template "common.gateway-domain" . }}"
     host: '{{ template "common.gateway-domain" . }}'
-
     # global.gateway.http -- Set to false enables HTTPS configuration on all urls
     http: false
-
     # global.gateway.tlsacme -- Set to enable automatic TLS for ingress if https is enabled
     tlsacme: false
-
     # global.gateway.domain -- Set to configure gateway domain template, i.e. {{ .Release.Namespace }}.1.3.4.5.nip.io
     # $ helm upgrade aae . --install --set global.gateway.domain=1.2.3.4.nip.io
     domain: ""
-
     # global.gateway.annotations -- Configure global annotations for all service ingresses
     annotations: {}
-
   acs:
     # global.acs.enabled -- enable support for ACS
     enabled: false
-
-
+  rabbitmq:
+    host: ""
+    username: guest
+    password: guest
 activiti-cloud-query:
   enabled: true
-  nameOverride: query
+  nameOverride: activiti-cloud-query
+  service:
+    name: query
   activiti:
     keycloak:
       clientPassword: client
-  postgres:
+  postgresql:
+    enabled: true
+  db:
+    # activiti-cloud-query.db.ddlAuto -- set to 'none' temporarily rather than default 'validate' that breaks
+    ddlAuto: none
+  rabbitmq:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
@@ -93,15 +91,18 @@ activiti-cloud-query:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
   affinity: {}
-
 runtime-bundle:
   enabled: true
-  nameOverride: rb
+  nameOverride: runtime-bundle
+  service:
+    name: rb
   projectName: example-app
   activiti:
     keycloak:
       clientPassword: client
-  postgres:
+  postgresql:
+    enabled: true
+  rabbitmq:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
@@ -128,8 +129,6 @@ runtime-bundle:
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
     - name: ACTIVITI_CLOUD_APPLICATION_NAME
-      value: "{{ .Release.Name }}"
-    - name: ACT_KEYCLOAK_RESOURCE
       value: "{{ .Release.Name }}"
     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
       value: "true"
@@ -163,7 +162,6 @@ runtime-bundle:
     - name: {{ .Release.Name }}
       mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'
   affinity: {}
-
 activiti-cloud-connector:
   enabled: false
   nameOverride: example-cloud-connector
@@ -171,12 +169,13 @@ activiti-cloud-connector:
     repository: activiti/example-cloud-connector
     tag: develop
     pullPolicy: Always
+  rabbitmq:
+    enabled: true
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"
     annotations:
       kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/rewrite-target: /$1
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
   probePath: "{{ tpl .Values.ingress.path . }}/actuator/health"
@@ -192,10 +191,12 @@ activiti-cloud-connector:
     - name: ACTIVITI_CLOUD_APPLICATION_NAME
       value: "{{ .Release.Name }}"
   affinity: {}
-
 alfresco-process-workspace-app:
   enabled: false
-  nameOverride: workspace-app
+  nameOverride: process-workspace-app
+  service:
+    name: apw-app
+    envType: frontend
   image:
     repository: quay.io/alfresco/alfresco-process-workspace-app
     tag: develop
@@ -206,7 +207,6 @@ alfresco-process-workspace-app:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
-
 alfresco-digital-workspace-app:
   enabled: false
   nameOverride: digital-workspace-app
@@ -216,6 +216,9 @@ alfresco-digital-workspace-app:
     repository: quay.io/alfresco/alfresco-digital-workspace
     tag: develop
     pullPolicy: Always
+  service:
+    name: adw-app
+    envType: frontend
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -223,10 +226,12 @@ alfresco-digital-workspace-app:
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
     APP_CONFIG_PROVIDER: "ALL"
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
-
 alfresco-admin-app:
   enabled: false
   nameOverride: admin-app
+  service:
+    name: admin-app
+    envType: frontend
   ingress:
     path: "/{{ .Release.Name }}/admin"
   image:
@@ -234,11 +239,10 @@ alfresco-admin-app:
     tag: develop
     pullPolicy: Always
   env:
+    APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
-    APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
-
 postgresql:
   enabled: true
   image:
@@ -250,7 +254,8 @@ postgresql:
     requests:
       cpu: 350m
       memory: 512Mi
-
+  commonAnnotations:
+    application: activiti
 rabbitmq:
   enabled: true
   extraPlugins: ""
@@ -277,7 +282,6 @@ rabbitmq:
     enabled: false
     hostName: "REPLACEME"
     path: /rabbitmq
-
 volumeinit:
   enabled: true
   # volumeinit.image -- REPLACE with your image containing project files
@@ -285,7 +289,6 @@ volumeinit:
     repository: alfresco/example-application-project
     tag: latest
     pullPolicy: Always
-
 persistence:
   enabled: true
   storageClassName:

@@ -58,6 +58,10 @@ activiti-cloud-query:
     pullPolicy: Always
   ingress:
     path: /{{ .Release.Name }}
+    subPaths:
+      - /query/?(.*)
+      - /audit/?(.*)
+      - /notifications/?(.*)
     enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx

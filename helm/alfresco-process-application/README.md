@@ -55,6 +55,9 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | activiti-cloud-query.ingress.enabled | bool | `true` |  |
 | activiti-cloud-query.ingress.path | string | `"/{{ .Release.Name }}"` |  |
+| activiti-cloud-query.ingress.subPaths[0] | string | `"/query/?(.*)"` |  |
+| activiti-cloud-query.ingress.subPaths[1] | string | `"/audit/?(.*)"` |  |
+| activiti-cloud-query.ingress.subPaths[2] | string | `"/notifications/?(.*)"` |  |
 | activiti-cloud-query.nameOverride | string | `"activiti-cloud-query"` |  |
 | activiti-cloud-query.postgresql.enabled | bool | `true` |  |
 | activiti-cloud-query.probePath | string | `"/actuator/health"` |  |

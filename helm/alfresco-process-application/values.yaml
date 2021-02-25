@@ -59,6 +59,8 @@ activiti-cloud-query:
     repository: quay.io/alfresco/alfresco-process-query-service
     tag: develop
     pullPolicy: Always
+  liquibase:
+    enabled: true
   ingress:
     path: /{{ .Release.Name }}
     subPaths:

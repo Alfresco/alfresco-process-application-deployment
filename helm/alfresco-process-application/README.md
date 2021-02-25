@@ -60,6 +60,7 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.ingress.subPaths[2] | string | `"/notifications/?(.*)"` |  |
 | activiti-cloud-query.javaOpts.xms | string | `"512m"` |  |
 | activiti-cloud-query.javaOpts.xmx | string | `"2048m"` |  |
+| activiti-cloud-query.liquibase.enabled | bool | `true` |  |
 | activiti-cloud-query.nameOverride | string | `"activiti-cloud-query"` |  |
 | activiti-cloud-query.postgresql.enabled | bool | `true` |  |
 | activiti-cloud-query.probePath | string | `"/actuator/health"` |  |

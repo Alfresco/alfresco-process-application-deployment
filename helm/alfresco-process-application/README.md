@@ -12,12 +12,12 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
 | https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
 
@@ -28,9 +28,9 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-connector.affinity | object | `{}` |  |
 | activiti-cloud-connector.enabled | bool | `false` |  |
 | activiti-cloud-connector.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: \"{{ .Release.Name }}\"\n"` |  |
-| activiti-cloud-connector.image.pullPolicy | string | `"Always"` |  |
+| activiti-cloud-connector.image.pullPolicy | string | `"IfNotPresent"` |  |
 | activiti-cloud-connector.image.repository | string | `"activiti/example-cloud-connector"` |  |
-| activiti-cloud-connector.image.tag | string | `"develop"` |  |
+| activiti-cloud-connector.image.tag | string | `"7.1.0-M12"` |  |
 | activiti-cloud-connector.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | activiti-cloud-connector.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
 | activiti-cloud-connector.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -46,9 +46,9 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"false\"\n- name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD\n  value: '{{ .Values.activiti.keycloak.clientPassword }}'\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: \"{{ .Release.Name }}\"\n- name: GRAPHIQL_GRAPHQL_WS_PATH\n  value: '/{{ .Release.Name }}/notifications/ws/graphql'\n- name: GRAPHIQL_GRAPHQL_WEB_PATH\n  value: '/{{ .Release.Name }}/notifications/graphql'\n"` |  |
 | activiti-cloud-query.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
 | activiti-cloud-query.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
-| activiti-cloud-query.image.pullPolicy | string | `"Always"` |  |
+| activiti-cloud-query.image.pullPolicy | string | `"IfNotPresent"` |  |
 | activiti-cloud-query.image.repository | string | `"quay.io/alfresco/alfresco-process-query-service"` |  |
-| activiti-cloud-query.image.tag | string | `"develop"` |  |
+| activiti-cloud-query.image.tag | string | `"7.1.0-M12"` |  |
 | activiti-cloud-query.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -75,9 +75,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
+| alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"develop"` |  |
+| alfresco-admin-app.image.tag | string | `"7.1.0-M12"` |  |
 | alfresco-admin-app.ingress.path | string | `"/{{ .Release.Name }}/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"admin-app"` |  |
 | alfresco-admin-app.service.envType | string | `"frontend"` |  |
@@ -89,9 +89,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-digital-workspace-app.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-digital-workspace-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-digital-workspace-app.env.APP_CONFIG_PROVIDER | string | `"ALL"` |  |
-| alfresco-digital-workspace-app.image.pullPolicy | string | `"Always"` |  |
+| alfresco-digital-workspace-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-digital-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
-| alfresco-digital-workspace-app.image.tag | string | `"develop"` |  |
+| alfresco-digital-workspace-app.image.tag | string | `"7.1.0-M12"` |  |
 | alfresco-digital-workspace-app.ingress.path | string | `"/{{ .Release.Name }}/digital-workspace"` |  |
 | alfresco-digital-workspace-app.nameOverride | string | `"digital-workspace-app"` |  |
 | alfresco-digital-workspace-app.service.envType | string | `"frontend"` |  |
@@ -100,9 +100,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-workspace-app.env.APP_CONFIG_APPS_DEPLOYED | string | `"[{\"name\": \"{{ .Release.Name }}\" }]"` |  |
 | alfresco-process-workspace-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-process-workspace-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
-| alfresco-process-workspace-app.image.pullPolicy | string | `"Always"` |  |
+| alfresco-process-workspace-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-process-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-process-workspace-app"` |  |
-| alfresco-process-workspace-app.image.tag | string | `"develop"` |  |
+| alfresco-process-workspace-app.image.tag | string | `"7.1.0-M12"` |  |
 | alfresco-process-workspace-app.ingress.path | string | `"/{{ .Release.Name }}/workspace"` |  |
 | alfresco-process-workspace-app.nameOverride | string | `"process-workspace-app"` |  |
 | alfresco-process-workspace-app.service.envType | string | `"frontend"` |  |
@@ -154,9 +154,9 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: \"{{ .Release.Name }}\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"true\"\n- name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD\n  value: '{{ .Values.activiti.keycloak.clientPassword }}'\n- name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'\n- name: PROJECT_MANIFEST_FILE_PATH\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'\n- name: APPLICATION_VERSION\n  value: \"{{ .Values.global.applicationVersion }}\"\n- name: ACT_RB_SERVICE_URL\n  value: '{{ include \"common.gateway-url\" . }}/{{ .Release.Name }}/rb'\n- name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'\n- name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH\n  value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'\n- name: CONTENT_SERVICE_ENABLED\n  value: \"{{ .Values.global.acs.enabled }}\"\n"` |  |
 | runtime-bundle.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n- name: {{ .Release.Name }}\n  mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'\n"` |  |
 | runtime-bundle.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n- name: {{ .Release.Name }}\n  persistentVolumeClaim:\n    claimName: {{ .Release.Name }}\n"` |  |
-| runtime-bundle.image.pullPolicy | string | `"Always"` |  |
+| runtime-bundle.image.pullPolicy | string | `"IfNotPresent"` |  |
 | runtime-bundle.image.repository | string | `"quay.io/alfresco/alfresco-process-runtime-bundle-service"` |  |
-| runtime-bundle.image.tag | string | `"develop"` |  |
+| runtime-bundle.image.tag | string | `"7.1.0-M12"` |  |
 | runtime-bundle.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -179,7 +179,7 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.resources.requests.memory | string | `"512Mi"` |  |
 | runtime-bundle.service.name | string | `"rb"` |  |
 | volumeinit.enabled | bool | `true` |  |
-| volumeinit.image | object | `{"pullPolicy":"Always","repository":"alfresco/example-application-project","tag":"latest"}` | REPLACE with your image containing project files |
+| volumeinit.image | object | `{"pullPolicy":"IfNotPresent","repository":"alfresco/example-application-project","tag":"latest"}` | REPLACE with your image containing project files |
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.4.0](https://github.com/norwoodj/helm-docs/releases/v1.4.0)

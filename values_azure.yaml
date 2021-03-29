@@ -1,0 +1,25 @@
+acs:
+  enabled: false
+alfresco-identity-service:
+  # set to false to disable custom alfresco-identity-service ingress with hostname support
+  enabled: true
+postgresql:
+  enabled: false
+alfresco-modeling-service:
+  enabled: false
+alfresco-modeling-app:
+  enabled: false
+alfresco-deployment-service:
+  enabled: false
+alfresco-admin-app:
+  enabled: false
+rabbitmq:
+  enabled: false
+setup-acs-script-job:
+  enabled: false
+alfresco-tika-service:
+  enabled: false
+postgresql:
+  enabled: false
+rabbitmq:
+  enabled: false

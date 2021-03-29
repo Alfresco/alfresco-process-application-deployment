@@ -37,3 +37,16 @@ dependencies:
     version: 7.1.0-M12
     alias: alfresco-digital-workspace-app
     condition: application.alfresco-digital-workspace-app.enabled,alfresco-digital-workspace-app.enabled
+  - name: kafka 
+    repository: https://charts.bitnami.com/bitnami
+    condition: kafka.enabled
+    version: 12.13.2
+  - name: zookeeper 
+    repository: https://charts.bitnami.com/bitnami
+    condition: zookeeper.enabled
+    version: 6.5.3
+  - name: "keycloak"
+    repository: "https://codecentric.github.io/helm-charts"
+    version: "9.5.0"
+    condition: "application.activiti-cloud-identity.enabled,activiti-cloud-identity.enabled"
+    alias: "activiti-cloud-identity"

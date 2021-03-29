@@ -107,6 +107,87 @@ activiti-cloud-query:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
   affinity: {}
+# runtime-bundle:
+#   enabled: true
+#   nameOverride: runtime-bundle
+#   service:
+#     name: rb
+#   javaOpts:
+#     xmx: 2048m
+#     xms: 512m
+#   projectName: example-app
+#   activiti:
+#     keycloak:
+#       clientPassword: client
+#   postgresql:
+#     enabled: true
+#   rabbitmq:
+#     enabled: true
+#   image:
+#     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
+#     tag: develop
+#     pullPolicy: Always
+#   ingress:
+#     enabled: true
+#     path: /{{ .Release.Name }}
+#     subPaths:
+#       - /rb/?(.*)
+#       - /preference/?(.*)
+#       - /form/?(.*)
+#     annotations:
+#       kubernetes.io/ingress.class: nginx
+#       nginx.ingress.kubernetes.io/enable-cors: "true"
+#       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+#       nginx.ingress.kubernetes.io/rewrite-target: /$1
+#   probePath: /actuator/health
+#   resources:
+#     limits:
+#       cpu: "2"
+#       memory: 2048Mi
+#     requests:
+#       cpu: 200m
+#       memory: 512Mi
+#   extraEnv: |
+#     - name: SERVER_PORT
+#       value: "8080"
+#     - name: SERVER_USEFORWARDHEADERS
+#       value: "true"
+#     - name: SERVER_TOMCAT_INTERNALPROXIES
+#       value: ".*"
+#     - name: ACTIVITI_CLOUD_APPLICATION_NAME
+#       value: "{{ .Release.Name }}"
+#     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
+#       value: "true"
+#     - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
+#       value: '{{ .Values.activiti.keycloak.clientPassword }}'
+#     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
+#       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'
+#     - name: PROJECT_MANIFEST_FILE_PATH
+#       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'
+#     - name: APPLICATION_VERSION
+#       value: "{{ .Values.global.applicationVersion }}"
+#     - name: ACT_RB_SERVICE_URL
+#       value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
+#     - name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH
+#       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'
+#     - name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH
+#       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'
+#     - name: CONTENT_SERVICE_ENABLED
+#       value: "{{ .Values.global.acs.enabled }}"
+#   extraVolumes: |
+#     - name: license
+#       secret:
+#         secretName: licenseaps
+#     - name: {{ .Release.Name }}
+#       persistentVolumeClaim:
+#         claimName: {{ .Release.Name }}
+#   extraVolumeMounts: |
+#     - name: license
+#       mountPath: "/root/.activiti/enterprise-license/"
+#       readOnly: true
+#     - name: {{ .Release.Name }}
+#       mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'
+#   affinity: {}
 runtime-bundle:
   enabled: true
   nameOverride: runtime-bundle
@@ -115,31 +196,20 @@ runtime-bundle:
   javaOpts:
     xmx: 2048m
     xms: 512m
-  projectName: example-app
-  activiti:
-    keycloak:
-      clientPassword: client
+  image:
+    repository: activiti/example-runtime-bundle
+    tag: 7.1.1037
+    pullPolicy: Always
+  ingress:
+    path: /rb
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/cors-allow-headers: Authorization, Content-Type, Accept
   postgresql:
     enabled: true
   rabbitmq:
     enabled: true
-  image:
-    repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: develop
-    pullPolicy: Always
-  ingress:
-    enabled: true
-    path: /{{ .Release.Name }}
-    subPaths:
-      - /rb/?(.*)
-      - /preference/?(.*)
-      - /form/?(.*)
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/enable-cors: "true"
-      nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-      nginx.ingress.kubernetes.io/rewrite-target: /$1
-  probePath: /actuator/health
   resources:
     limits:
       cpu: "2"
@@ -147,47 +217,14 @@ runtime-bundle:
     requests:
       cpu: 200m
       memory: 512Mi
-  extraEnv: |
-    - name: SERVER_PORT
-      value: "8080"
+  probePath: '{{ tpl .Values.ingress.path . }}/actuator/health'
+  extraEnv: |-
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ tpl .Values.ingress.path . }}"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
-    - name: ACTIVITI_CLOUD_APPLICATION_NAME
-      value: "{{ .Release.Name }}"
-    - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-      value: "true"
-    - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
-      value: '{{ .Values.activiti.keycloak.clientPassword }}'
-    - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
-      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'
-    - name: PROJECT_MANIFEST_FILE_PATH
-      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'
-    - name: APPLICATION_VERSION
-      value: "{{ .Values.global.applicationVersion }}"
-    - name: ACT_RB_SERVICE_URL
-      value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
-    - name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH
-      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'
-    - name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH
-      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'
-    - name: CONTENT_SERVICE_ENABLED
-      value: "{{ .Values.global.acs.enabled }}"
-  extraVolumes: |
-    - name: license
-      secret:
-        secretName: licenseaps
-    - name: {{ .Release.Name }}
-      persistentVolumeClaim:
-        claimName: {{ .Release.Name }}
-  extraVolumeMounts: |
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
-    - name: {{ .Release.Name }}
-      mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'
-  affinity: {}
 activiti-cloud-connector:
   enabled: false
   nameOverride: example-cloud-connector
@@ -321,3 +358,323 @@ persistence:
   accessModes:
     - ReadWriteOnce
   baseSize: 1Gi
+kafka:
+  enabled: true
+  zookeeper:
+    enabled: false
+  replicaCount: 3
+  externalZookeeper:
+    servers: app-zookeeper
+zookeeper:
+  enabled: true
+  replicaCount: 3
+  auth:
+    enabled: false
+  allowAnonymousLogin: true
+activiti-cloud-identity:
+  enabled: true
+  nameOverride: keycloak
+  rbac:
+    create: false
+  serviceAccount:
+    create: false
+  postgresql:
+    persistence:
+      enabled: true
+    commonAnnotations:
+      application: keycloak
+    nameOverride: postgresql-id
+    postgresqlPassword: "keycloak"
+    resources:
+      requests:
+        cpu: 300m
+        memory: 250Mi
+      limits:
+        cpu: "1"
+        memory: 500Mi
+  image:
+    repository: alfresco/alfresco-identity-service
+    tag: 1.4.0-SNAPSHOT
+    pullPolicy: IfNotPresent
+  ingress:
+    enabled: true
+    rules:
+      - host: '{{ include "common.keycloak-host" . }}'
+        paths:
+          - /auth
+    tls: []
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+      nginx.ingress.kubernetes.io/affinity: cookie
+      nginx.ingress.kubernetes.io/session-cookie-name: identity_affinity_route
+      nginx.ingress.kubernetes.io/session-cookie-hash: sha1
+      nginx.ingress.kubernetes.io/enable-cors: "false" # disable NGINX CORS as it's managed by Identity Service
+  username: admin
+  password: admin
+  persistence:
+    deployPostgres: true
+    dbVendor: postgres
+    dbPassword: keycloak
+  extraVolumes: |
+    - name: realm-secret
+      secret:
+        secretName: realm-secret
+  extraVolumeMounts: |
+    - name: realm-secret
+      mountPath: "/realm/"
+      readOnly: true
+  extraEnv: |-
+    - name: KEYCLOAK_USER
+      value: {{ .Values.username }}
+    - name: KEYCLOAK_PASSWORD
+      value: {{ .Values.password }}
+    - name: PROXY_ADDRESS_FORWARDING
+      value: "true"
+    - name: KEYCLOAK_IMPORT
+      value: /realm/realm.json
+  resources:
+    requests:
+      memory: "750Mi"
+    limits:
+      memory: "1024Mi"
+  realm:
+    extraClients:
+    extraGroups:
+      - name: hr
+        realmRoles:
+          - ACTIVITI_USER
+      - name: sales
+        realmRoles:
+          - ACTIVITI_USER
+      - name: testgroup
+      - name: processadmin
+        realmRoles:
+          - ACTIVITI_ADMIN
+    extraRealmRoles:
+    extraClientRoles:
+    extraUsers:
+      - username: client
+        enabled: true
+        firstName: client
+        lastName: client
+        email: client@example.com
+        credentials:
+          - type: password
+            value: client
+        realmRoles:
+          - ACTIVITI_USER
+          - offline_access
+          - uma_authorization
+        clientRoles:
+          realm-management:
+            - manage-users
+            - manage-clients
+            - manage-authorization
+            - manage-events
+            - manage-realm
+            - create-client
+            - impersonation
+            - realm-admin
+          broker:
+            - read-token
+          account:
+            - manage-account
+            - view-profile
+      - username: admin
+        enabled: true
+        firstName: admin
+        lastName: admin
+        email: admin@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - offline_access
+          - uma_authorization
+        clientRoles:
+          realm-management:
+            - manage-users
+            - manage-clients
+            - manage-authorization
+            - manage-events
+            - manage-realm
+            - create-client
+            - impersonation
+            - realm-admin
+          broker:
+            - read-token
+          account:
+            - manage-account
+            - view-profile
+      - username: superadminuser
+        enabled: true
+        firstName: "Super Admin"
+        lastName: "User"
+        email: superadminuser@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - ACTIVITI_USER
+          - ACTIVITI_ADMIN
+          - ACTIVITI_MODELER
+          - offline_access
+          - uma_authorization
+        clientRoles:
+          realm-management:
+            - manage-users
+            - manage-clients
+            - manage-authorization
+            - manage-events
+            - manage-realm
+            - create-client
+            - impersonation
+            - realm-admin
+          broker:
+            - read-token
+          account:
+            - manage-account
+            - view-profile
+      - username: hruser
+        enabled: true
+        firstName: HR
+        lastName: User
+        email: hruser@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - offline_access
+          - uma_authorization
+          - ACTIVITI_USER
+        clientRoles:
+          account:
+            - manage-account
+            - view-profile
+        groups:
+          - /hr
+      - username: processadminuser
+        enabled: true
+        firstName: "Process Admin"
+        lastName: User
+        email: processadminuser@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - offline_access
+          - uma_authorization
+          - ACTIVITI_ADMIN
+        clientRoles:
+          account:
+            - manage-account
+            - view-profile
+        groups:
+          - /processadmin
+      - username: salesuser
+        enabled: true
+        firstName: Sales
+        lastName: User
+        email: salesuser@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - offline_access
+          - uma_authorization
+          - ACTIVITI_USER
+        clientRoles:
+          account:
+            - manage-account
+            - view-profile
+        groups:
+          - /sales
+      - username: testuser
+        enabled: true
+        firstName: Test
+        lastName: User
+        email: testuser@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - offline_access
+          - uma_authorization
+          - ACTIVITI_USER
+        clientRoles:
+          account:
+            - manage-account
+            - view-profile
+        groups:
+          - /testgroup
+      - username: hradmin
+        enabled: true
+        firstName: HR
+        lastName: Admin
+        email: hradmin@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - offline_access
+          - uma_authorization
+          - ACTIVITI_USER
+          - ACTIVITI_ADMIN
+        clientRoles:
+          account:
+            - manage-account
+            - view-profile
+        groups:
+          - /hr
+      - username: testadmin
+        enabled: true
+        firstName: Test
+        lastName: Admin
+        email: testadmin@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - offline_access
+          - uma_authorization
+          - ACTIVITI_USER
+          - ACTIVITI_ADMIN
+        clientRoles:
+          account:
+            - manage-account
+            - view-profile
+        groups:
+          - /testgroup
+      - username: modeler
+        enabled: true
+        firstName: Modeler
+        lastName: User
+        email: modeler@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - offline_access
+          - uma_authorization
+          - ACTIVITI_MODELER
+        clientRoles:
+          account:
+            - manage-account
+            - view-profile
+      - username: modeler-qa
+        enabled: true
+        firstName: Modeler
+        lastName: User
+        email: modeler-qa@example.com
+        credentials:
+          - type: password
+            value: password
+        realmRoles:
+          - offline_access
+          - uma_authorization
+          - ACTIVITI_MODELER
+        clientRoles:
+          account:
+            - manage-account
+            - view-profile

@@ -1,0 +1,4 @@
+global:
+  gateway:
+    domain: 52.224.184.225.nip.io
+    http: "true"

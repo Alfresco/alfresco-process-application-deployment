@@ -362,14 +362,14 @@ persistence:
     - ReadWriteOnce
   baseSize: 1Gi
 kafka:
-  enabled: true
+  enabled: false
   zookeeper:
     enabled: false
   replicaCount: 3
   externalZookeeper:
     servers: activiti-zookeeper
 zookeeper:
-  enabled: true
+  enabled: false
   replicaCount: 3
   auth:
     enabled: false

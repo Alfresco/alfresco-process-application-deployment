@@ -117,7 +117,7 @@ activiti-cloud-query:
   affinity: {}
   extraInitContainers: |-
     - name: java-certificate
-      image: alfresco/alfresco-process-query-service:develop
+      image: quay.io/alfresco/alfresco-process-query-service:develop
       command: ["/bin/sh"]
       args:
       - -c

@@ -117,7 +117,7 @@ activiti-cloud-query:
   affinity: {}
   extraInitContainers: |-
     - name: java-certificate
-      image: activiti/example-runtime-bundle:7.1.1037
+      image: alfresco/alfresco-process-query-service:develop
       command: ["/bin/sh"]
       args:
       - -c

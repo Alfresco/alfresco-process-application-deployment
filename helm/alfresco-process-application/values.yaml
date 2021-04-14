@@ -100,6 +100,11 @@ activiti-cloud-query:
     - name: GRAPHIQL_GRAPHQL_WEB_PATH
       value: '/{{ .Release.Name }}/notifications/graphql'
   extraVolumes: |
+    - name: keystore-volume
+      emptyDir: {}
+    - name: rootca
+      secret:
+        secretName: rootca
     - name: license
       secret:
         secretName: licenseaps
@@ -107,88 +112,27 @@ activiti-cloud-query:
     - name: license
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
+    - name: keystore-volume
+      mountPath:  /opt/java/openjdk/lib/security/
   affinity: {}
-# runtime-bundle:
-#   enabled: true
-#   nameOverride: runtime-bundle
-#   service:
-#     name: rb
-#   javaOpts:
-#     xmx: 2048m
-#     xms: 512m
-#   projectName: example-app
-#   activiti:
-#     keycloak:
-#       clientPassword: client
-#   postgresql:
-#     enabled: true
-#   rabbitmq:
-#     enabled: true
-#   image:
-#     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-#     tag: develop
-#     pullPolicy: Always
-#   ingress:
-#     enabled: true
-#     path: /{{ .Release.Name }}
-#     subPaths:
-#       - /rb/?(.*)
-#       - /preference/?(.*)
-#       - /form/?(.*)
-#     annotations:
-#       kubernetes.io/ingress.class: nginx
-#       nginx.ingress.kubernetes.io/enable-cors: "true"
-#       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-#       nginx.ingress.kubernetes.io/rewrite-target: /$1
-#   probePath: /actuator/health
-#   resources:
-#     limits:
-#       cpu: "2"
-#       memory: 2048Mi
-#     requests:
-#       cpu: 200m
-#       memory: 512Mi
-#   extraEnv: |
-#     - name: SERVER_PORT
-#       value: "8080"
-#     - name: SERVER_USEFORWARDHEADERS
-#       value: "true"
-#     - name: SERVER_TOMCAT_INTERNALPROXIES
-#       value: ".*"
-#     - name: ACTIVITI_CLOUD_APPLICATION_NAME
-#       value: "{{ .Release.Name }}"
-#     - name: KEYCLOAK_USERESOURCEROLEMAPPINGS
-#       value: "true"
-#     - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
-#       value: '{{ .Values.activiti.keycloak.clientPassword }}'
-#     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
-#       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'
-#     - name: PROJECT_MANIFEST_FILE_PATH
-#       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'
-#     - name: APPLICATION_VERSION
-#       value: "{{ .Values.global.applicationVersion }}"
-#     - name: ACT_RB_SERVICE_URL
-#       value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
-#     - name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH
-#       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'
-#     - name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH
-#       value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'
-#     - name: CONTENT_SERVICE_ENABLED
-#       value: "{{ .Values.global.acs.enabled }}"
-#   extraVolumes: |
-#     - name: license
-#       secret:
-#         secretName: licenseaps
-#     - name: {{ .Release.Name }}
-#       persistentVolumeClaim:
-#         claimName: {{ .Release.Name }}
-#   extraVolumeMounts: |
-#     - name: license
-#       mountPath: "/root/.activiti/enterprise-license/"
-#       readOnly: true
-#     - name: {{ .Release.Name }}
-#       mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'
-#   affinity: {}
+  extraInitContainers: |-
+    - name: java-certificate
+      image: activiti/example-runtime-bundle:7.1.1037
+      command: ["/bin/sh"]
+      args:
+      - -c
+      - |
+        keytool -import -alias alfresco-azure -cacerts -file /tmp/rootca/root_ca.pem -storepass changeit -noprompt
+        cp -R  /opt/java/openjdk/lib/security/* /tmp/security/
+
+      volumeMounts:
+      - name: keystore-volume
+        mountPath: /tmp/security
+      - name: rootca
+        mountPath: /tmp/rootca
+
+
+
 runtime-bundle:
   enabled: true
   nameOverride: runtime-bundle

@@ -130,9 +130,6 @@ activiti-cloud-query:
         mountPath: /tmp/security
       - name: rootca
         mountPath: /tmp/rootca
-
-
-
 runtime-bundle:
   enabled: true
   nameOverride: runtime-bundle

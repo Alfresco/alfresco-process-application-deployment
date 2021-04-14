@@ -74,7 +74,7 @@ activiti-cloud-query:
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
       nginx.ingress.kubernetes.io/rewrite-target: /$1
-  probePath: /actuator/health
+  probePath: '{{ tpl .Values.ingress.path $ }}/actuator/health'
   resources:
     limits:
       cpu: "1.5"
@@ -99,6 +99,9 @@ activiti-cloud-query:
       value: '/{{ .Release.Name }}/notifications/ws/graphql'
     - name: GRAPHIQL_GRAPHQL_WEB_PATH
       value: '/{{ .Release.Name }}/notifications/graphql'
+    - name: SERVER_SERVLET_CONTEXT_PATH
+      value: '{{ tpl .Values.ingress.path $ }}'
+
   extraVolumes: |
     - name: keystore-volume
       emptyDir: {}

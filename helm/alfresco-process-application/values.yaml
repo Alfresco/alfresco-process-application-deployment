@@ -17,7 +17,7 @@ global:
     # global.keycloak.realm -- Configure Keycloak realm
     realm: activiti
     # global.keycloak.resource -- Configure Keycloak resource
-    resource: "{{ .Release.Name }}" 
+    resource: "{{ .Release.Name }}"
   gateway:
     # global.gateway.host -- Set to configure single host domain name for all services, i.e. "{{ .Release.Namespace }}.{{ template "common.gateway-domain" . }}"
     host: '{{ template "common.gateway-domain" . }}'
@@ -228,6 +228,31 @@ runtime-bundle:
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
+  extraInitContainers: |-
+    - name: java-certificate
+      image: activiti/example-runtime-bundle:7.1.1037
+      command: ["/bin/sh"]
+      args:
+      - -c
+      - |
+        keytool -import -alias alfresco-azure -cacerts -file /tmp/rootca/root_ca.pem -storepass changeit -noprompt
+        cp -R  /opt/java/openjdk/lib/security/* /tmp/security/
+
+      volumeMounts:
+      - name: keystore-volume
+        mountPath: /tmp/security
+      - name: rootca
+        mountPath: /tmp/rootca
+  extraVolumes: |
+    - name: keystore-volume
+      emptyDir: {}
+    - name: rootca
+      secret:
+        secretName: rootca
+
+  extraVolumeMounts: |
+    - name: keystore-volume
+      mountPath:  /opt/java/openjdk/lib/security/
 activiti-cloud-connector:
   enabled: true
   nameOverride: example-cloud-connector

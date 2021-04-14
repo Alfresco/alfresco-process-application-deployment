@@ -113,17 +113,17 @@ activiti-cloud-query:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
     - name: keystore-volume
-      mountPath:  /opt/java/openjdk/lib/security/
+      mountPath:  /usr/java/openjdk-11.0.10_9/lib/security/
   affinity: {}
   extraInitContainers: |-
     - name: java-certificate
-      image: alfresco/alfresco-process-query-service:develop
+      image: quay.io/alfresco/alfresco-process-query-service:develop
       command: ["/bin/sh"]
       args:
       - -c
       - |
         keytool -import -alias alfresco-azure -cacerts -file /tmp/rootca/root_ca.pem -storepass changeit -noprompt
-        cp -R  /opt/java/openjdk/lib/security/* /tmp/security/
+        cp -R  /usr/java/openjdk-11.0.10_9/lib/security/* /tmp/security/
 
       volumeMounts:
       - name: keystore-volume

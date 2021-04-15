@@ -58,7 +58,7 @@ activiti-cloud-query:
     enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: develop
+    tag: 7.1.0-M12
     pullPolicy: Always
   liquibase:
     enabled: true
@@ -120,7 +120,7 @@ activiti-cloud-query:
   affinity: {}
   extraInitContainers: |-
     - name: java-certificate
-      image: quay.io/alfresco/alfresco-process-query-service:develop
+      image: quay.io/alfresco/alfresco-process-query-service:7.1.0-M12
       command: ["/bin/sh"]
       args:
       - -c

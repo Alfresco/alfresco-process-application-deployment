@@ -99,8 +99,6 @@ activiti-cloud-query:
       value: '/{{ .Release.Name }}/notifications/ws/graphql'
     - name: GRAPHIQL_GRAPHQL_WEB_PATH
       value: '/{{ .Release.Name }}/notifications/graphql'
-    - name: SERVER_SERVLET_CONTEXT_PATH
-      value: '{{ tpl .Values.ingress.path $ }}'
 
   extraVolumes: |
     - name: keystore-volume

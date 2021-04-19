@@ -49,7 +49,7 @@ activiti-cloud-query:
     keycloak:
       clientPassword: client
   postgresql:
-    enabled: true
+    enabled: false
   db:
     # activiti-cloud-query.db.ddlAuto -- set to 'none' temporarily rather than default 'validate' that breaks
     ddlAuto: none
@@ -148,7 +148,7 @@ runtime-bundle:
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: Authorization, Content-Type, Accept
   postgresql:
-    enabled: true
+    enabled: false
   rabbitmq:
     enabled: true
   resources:

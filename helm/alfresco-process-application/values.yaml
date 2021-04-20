@@ -202,6 +202,8 @@ activiti-cloud-connector:
     pullPolicy: Always
   rabbitmq:
     enabled: true
+  postgresql:
+    enabled: false  
   ingress:
     enabled: true
     path: "/{{ .Release.Name }}/{{ .Values.nameOverride }}"

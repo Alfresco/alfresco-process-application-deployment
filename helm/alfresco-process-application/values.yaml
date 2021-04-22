@@ -98,6 +98,9 @@ activiti-cloud-query:
       value: '/{{ .Release.Name }}/notifications/ws/graphql'
     - name: GRAPHIQL_GRAPHQL_WEB_PATH
       value: '/{{ .Release.Name }}/notifications/graphql'
+    - name: SPRING_SLEUTH_INTEGRATION_PATTERNS
+      value: '!hystrixStreamOutput*,!channel*,!clientInboundChannel*,!clientOutboundChannel*,!brokerChannel*,*'
+      
   extraVolumes: |
     - name: keystore-volume
       emptyDir: {}

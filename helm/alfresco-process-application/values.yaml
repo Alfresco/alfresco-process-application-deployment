@@ -213,9 +213,9 @@ activiti-cloud-connector:
   nameOverride: example-cloud-connector
   image:
     repository: activiti/example-cloud-connector
-    tag: 7.1.1038
+    tag: 7.1.1051
     pullPolicy: Always
-  rabbitmq:
+  messaging:
     enabled: true
   postgresql:
     enabled: false  

@@ -33,6 +33,22 @@ global:
   acs:
     # global.acs.enabled -- enable support for ACS
     enabled: false
+  messaging:
+    # global.messaging.broker -- required messaging broker, rabbitmq or kafka
+    broker: "rabbitmq"
+    # global.messaging.partitioned -- enables partitioned messaging in combination with common chart values messaging.enabled=true and messaging.role=producer|consumer
+    partitioned: false
+    # global.messaging.partitionCount -- configures number of partitioned consumers
+    partitionCount: 2
+  ## Kafka Configuration
+  kafka:
+    ## global.kafka.brokers -- Multiple brokers can be provided in a comma separated list, e.g. host1:port1,host2:port2
+    brokers: ''
+    ## global.kafka.zkNodes -- External Zookeeper nodes
+    zkNodes: ''
+    extraEnv: |
+#      - name: ACT_AUDIT_PRODUCER_TRANSACTION_ID_PREFIX
+#        value: ""    
   rabbitmq:
     host: ""
     username: guest
@@ -53,8 +69,9 @@ activiti-cloud-query:
   db:
     # activiti-cloud-query.db.ddlAuto -- set to 'none' temporarily rather than default 'validate' that breaks
     ddlAuto: none
-  rabbitmq:
+  messaging:
     enabled: true
+    role: consumer
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
     tag: 7.1.0-M12
@@ -98,9 +115,6 @@ activiti-cloud-query:
       value: '/{{ .Release.Name }}/notifications/ws/graphql'
     - name: GRAPHIQL_GRAPHQL_WEB_PATH
       value: '/{{ .Release.Name }}/notifications/graphql'
-    - name: SPRING_SLEUTH_INTEGRATION_PATTERNS
-      value: '!hystrixStreamOutput*,!channel*,!clientInboundChannel*,!clientOutboundChannel*,!brokerChannel*,*'
-      
   extraVolumes: |
     - name: keystore-volume
       emptyDir: {}
@@ -119,7 +133,6 @@ activiti-cloud-query:
   affinity: {}
   extraInitContainers: |-
     - name: java-certificate
-      #image: quay.io/alfresco/alfresco-process-query-service:7.1.0-M12
       image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
       command: ["/bin/sh"]
       args:
@@ -127,7 +140,6 @@ activiti-cloud-query:
       - |
         keytool -import -alias alfresco-azure -cacerts -file /tmp/rootca/root_ca.pem -storepass changeit -noprompt
         cp -R  $JAVA_HOME/lib/security/* /tmp/security/
-
       volumeMounts:
       - name: keystore-volume
         mountPath: /tmp/security
@@ -153,8 +165,9 @@ runtime-bundle:
       nginx.ingress.kubernetes.io/cors-allow-headers: Authorization, Content-Type, Accept
   postgresql:
     enabled: false
-  rabbitmq:
+  messaging:
     enabled: true
+    role: consumer
   resources:
     limits:
       cpu: "2"
@@ -192,7 +205,6 @@ runtime-bundle:
     - name: rootca
       secret:
         secretName: rootca
-
   extraVolumeMounts: |
     - name: keystore-volume
       mountPath:  /opt/java/openjdk/lib/security/

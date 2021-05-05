@@ -115,7 +115,7 @@ activiti-cloud-query:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
     - name: keystore-volume
-      mountPath:  /usr/java/openjdk-11.0.10_9/lib/security/
+      mountPath:  /opt/java/openjdk/lib/security/
   affinity: {}
   extraInitContainers: |-
     - name: java-certificate

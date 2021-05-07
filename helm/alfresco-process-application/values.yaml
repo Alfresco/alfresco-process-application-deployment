@@ -311,6 +311,7 @@ postgresql:
     application: activiti
 rabbitmq:
   enabled: true
+  fullnameOverride: rabbitmq
   extraPlugins: ""
   livenessProbe:
     timeoutSeconds: 90

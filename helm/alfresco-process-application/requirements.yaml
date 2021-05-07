@@ -37,3 +37,7 @@ dependencies:
     version: 7.1.17
     alias: alfresco-digital-workspace-app
     condition: application.alfresco-digital-workspace-app.enabled,alfresco-digital-workspace-app.enabled
+  - name: kafka
+    repository: https://charts.bitnami.com/bitnami
+    version: 12.x.x
+    condition: application.kafka.enabled,kafka.enabled

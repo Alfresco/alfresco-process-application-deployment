@@ -48,9 +48,9 @@ global:
     extraEnv: ""
   kafka:
     ## global.kafka.brokers -- Multiple brokers can be provided in a comma separated list host[:port], e.g. host1,host2:port
-    brokers: ""
+    brokers: "kafka"
     ## global.kafka.zkNodes -- Multiple external Zookeeper nodes in a comma separated list, i.e. zk1,zk2
-    zkNodes: ""
+    zkNodes: "zookeeper"
     ## global.kafka.extraEnv -- extra environment variables string template for Kafka binder parameters, i.e. 
     extraEnv: |
     #   - name: ACT_AUDIT_PRODUCER_TRANSACTION_ID_PREFIX
@@ -348,3 +348,21 @@ persistence:
   accessModes:
     - ReadWriteOnce
   baseSize: 1Gi
+##
+## Kafka chart configuration
+##
+## https://github.com/bitnami/charts/blob/master/bitnami/kafka/values.yaml
+##
+kafka:
+  fullnameOverride: kafka
+  enabled: false
+  replicaCount: 1
+  offsetsTopicReplicationFactor: 1
+  ##
+  ## Zookeeper chart configuration
+  ##
+  ## https://github.com/bitnami/charts/blob/master/bitnami/zookeeper/values.yaml
+  ##
+  zookeeper:
+    fullnameOverride: zookeeper
+    replicaCount: 1

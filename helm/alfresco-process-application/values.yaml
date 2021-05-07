@@ -41,7 +41,7 @@ global:
     # global.messaging.partitionCount -- configures number of partitioned consumers and producers
     partitionCount: 2
   rabbitmq:
-    host: ""
+    host: "rabbitmq"
     username: guest
     password: guest
     ## global.kafka.extraEnv -- extra environment variables string template for Rabbitmq binder parameters
@@ -51,10 +51,10 @@ global:
     brokers: "kafka"
     ## global.kafka.zkNodes -- Multiple external Zookeeper nodes in a comma separated list, i.e. zk1,zk2
     zkNodes: "zookeeper"
-    ## global.kafka.extraEnv -- extra environment variables string template for Kafka binder parameters, i.e. 
+    ## global.kafka.extraEnv -- extra environment variables string template for Kafka binder parameters, i.e. to disable Kafka transactions
     extraEnv: |
-    #   - name: ACT_AUDIT_PRODUCER_TRANSACTION_ID_PREFIX
-    #     value: ""
+      - name: ACT_AUDIT_PRODUCER_TRANSACTION_ID_PREFIX
+        value: ""
 
 activiti-cloud-query:
   enabled: true
@@ -95,7 +95,7 @@ activiti-cloud-query:
       nginx.ingress.kubernetes.io/rewrite-target: /$1
       nginx.ingress.kubernetes.io/affinity: cookie
       nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
-      nginx.ingress.kubernetes.io/session-cookie-name: activiti-cloud-query-session      
+      nginx.ingress.kubernetes.io/session-cookie-name: activiti-cloud-query-session
   probePath: /actuator/health
   resources:
     limits:

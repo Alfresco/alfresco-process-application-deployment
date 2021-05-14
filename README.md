@@ -94,7 +94,7 @@ global:
     brokers: "kafka"
     ## global.kafka.zkNodes -- Multiple external Zookeeper nodes in a comma separated list, i.e. zk1,zk2
     zkNodes: "zookeeper"
-    ## global.kafka.extraEnv -- extra environment variables string template for Kafka binder parameters, 
+    ## global.kafka.extraEnv -- extra environment variables string template for Kafka binder parameters,
     extraEnv: |
       - name: KAFKA_FOO
         value: "BAR"

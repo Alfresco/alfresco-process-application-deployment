@@ -58,6 +58,62 @@ Helm command to install application chart:
 helm upgrade app ./helm/alfresco-process-application --install --set global.gateway.domain=your-domain.com
 ```
 
+## How To Configure Messaging Broker
+
+To deploy Rabbitmq message broker, use `values-rabbitmq.yaml`
+```yaml
+global:
+  messaging:
+    broker: rabbitmq
+
+rabbitmq:
+  enabled: true
+
+kafka:
+  enabled: false
+```
+
+To deploy Kafka message broker, use `values-kafka.yaml`
+```yaml
+global:
+  messaging:
+    broker: kafka
+
+rabbitmq:
+  enabled: false
+
+kafka:
+  enabled: true
+```
+
+To connect to external Kafka broker, use global.kafka values:
+```yaml
+global:
+  kafka:
+    ## global.kafka.brokers -- Multiple brokers can be provided in a comma separated list host[:port], e.g. host1,host2:port
+    brokers: "kafka"
+    ## global.kafka.zkNodes -- Multiple external Zookeeper nodes in a comma separated list, i.e. zk1,zk2
+    zkNodes: "zookeeper"
+    ## global.kafka.extraEnv -- extra environment variables string template for Kafka binder parameters,
+    extraEnv: |
+      - name: KAFKA_FOO
+        value: "BAR"
+
+## Disable provided Kafka chart
+kafka:
+  enabled: false
+```
+
+
+To enable partitioned messaging use the following `values-partitioned.yaml`
+```yaml
+global:
+  messaging:
+    partitioned: true
+    partitionCount: 2
+```
+
+
 ### install.sh
 
 Helper script to launch installation:

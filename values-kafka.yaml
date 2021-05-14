@@ -1,0 +1,9 @@
+global:
+  messaging:
+    broker: kafka
+
+rabbitmq:
+  enabled: false
+
+kafka:
+  enabled: true

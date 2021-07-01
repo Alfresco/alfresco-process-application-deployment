@@ -244,22 +244,6 @@ activiti-cloud-connector:
     - name: ACTIVITI_CLOUD_APPLICATION_NAME
       value: "{{ .Release.Name }}"
   affinity: {}
-alfresco-process-workspace-app:
-  enabled: false
-  nameOverride: process-workspace-app
-  service:
-    name: apw-app
-    envType: frontend
-  image:
-    repository: quay.io/alfresco/alfresco-process-workspace-app
-    tag: develop
-    pullPolicy: Always
-  ingress:
-    path: "/{{ .Release.Name }}/workspace"
-  env:
-    APP_CONFIG_AUTH_TYPE: "OAUTH"
-    APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
-    APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
 alfresco-digital-workspace-app:
   enabled: false
   nameOverride: digital-workspace-app
@@ -296,6 +280,11 @@ alfresco-admin-app:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
     APP_CONFIG_APPS_DEPLOYED: '[{"name": "{{ .Release.Name }}" }]'
+  extraEnv: |-
+    {{- if not .Values.global.acs.enabled }}
+    - name: APP_CONFIG_PROVIDER
+      value: BPM
+    {{- end }}
 postgresql:
   enabled: true
   image:

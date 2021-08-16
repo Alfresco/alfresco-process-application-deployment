@@ -92,8 +92,6 @@ global:
   kafka:
     ## global.kafka.brokers -- Multiple brokers can be provided in a comma separated list host[:port], e.g. host1,host2:port
     brokers: "kafka"
-    ## global.kafka.zkNodes -- Multiple external Zookeeper nodes in a comma separated list, i.e. zk1,zk2
-    zkNodes: "zookeeper"
     ## global.kafka.extraEnv -- extra environment variables string template for Kafka binder parameters,
     extraEnv: |
       - name: KAFKA_FOO

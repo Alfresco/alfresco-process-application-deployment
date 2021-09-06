@@ -9,6 +9,7 @@ global:
   registryPullSecrets:
     - quay-registry-secret
   applicationVersion: "1"
+  applicationName: "{{ .Release.Name }}"
   keycloak:
     # global.keycloak.host -- Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
     host: '{{ template "common.gateway-host" . }}'
@@ -127,7 +128,7 @@ activiti-cloud-query:
           name: {{ tpl .Values.global.keycloak.clientSecretName $ }}
           key: clientSecret
     - name: ACTIVITI_CLOUD_APPLICATION_NAME
-      value: "{{ .Release.Name }}"
+      value: {{ tpl .Values.global.applicationName $ | quote }}
     - name: GRAPHIQL_GRAPHQL_WS_PATH
       value: '/{{ .Release.Name }}/notifications/ws/graphql'
     - name: GRAPHIQL_GRAPHQL_WEB_PATH
@@ -258,7 +259,7 @@ activiti-cloud-connector:
     - name: SERVER_TOMCAT_INTERNALPROXIES
       value: ".*"
     - name: ACTIVITI_CLOUD_APPLICATION_NAME
-      value: "{{ .Release.Name }}"
+      value: {{ tpl .Values.global.applicationName $ | quote }}
   affinity: {}
 alfresco-digital-workspace-app:
   enabled: false

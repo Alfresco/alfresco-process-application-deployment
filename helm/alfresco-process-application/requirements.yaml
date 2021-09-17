@@ -9,7 +9,7 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: application.postgresql.enabled,postgresql.enabled
   - name: rabbitmq
-    version: 7.8.0
+    version: 8.20.5
     repository: https://charts.bitnami.com/bitnami
     condition: application.rabbitmq.enabled,rabbitmq.enabled
   - name: common

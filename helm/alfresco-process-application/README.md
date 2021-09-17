@@ -19,7 +19,7 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-digital-workspace-app(common) | 7.1.0-M14 |
 | https://charts.bitnami.com/bitnami | kafka | 12.x.x |
 | https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
-| https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
+| https://charts.bitnami.com/bitnami | rabbitmq | 8.20.5 |
 
 ## Values
 

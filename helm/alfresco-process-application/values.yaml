@@ -44,11 +44,11 @@ global:
     enabled: false
   messaging:
     # global.messaging.broker -- required supported messaging broker, i.e rabbitmq or kafka
-    broker: "rabbitmq"
+    broker: "kafka"
     # global.messaging.partitioned -- enables partitioned messaging in combination with common values of messaging.enabled=true and messaging.role=producer|consumer
-    partitioned: false
+    partitioned: true
     # global.messaging.partitionCount -- configures number of partitioned consumers and producers
-    partitionCount: 2
+    partitionCount: 4
     # global.messaging.destinationPrefix -- Set destination separator to use to build full destinations, i.e. <prefix>_destination.
     destinationPrefix: ""
     # global.messaging.destinationSeparator -- Set destination separator to use to build full destinations, i.e. prefix<_>destination.
@@ -79,7 +79,6 @@ global:
         name: integrationResult
       integrationError:
         name: integrationError
-
   rabbitmq:
     host: "rabbitmq"
     username: guest
@@ -183,7 +182,7 @@ runtime-bundle:
     name: rb
   javaOpts:
     xmx: 2048m
-    xms: 512m
+    xms: 1024m
   projectName: example-app
   postgresql:
     enabled: true
@@ -191,8 +190,8 @@ runtime-bundle:
     enabled: true
     role: producer
   image:
-    repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: develop
+    repository: gicappa/example-runtime-bundle
+    tag: perf-graalvm-jvm-jetty-01
     pullPolicy: Always
   ingress:
     enabled: true
@@ -254,6 +253,16 @@ runtime-bundle:
       value: "{{ .Values.global.acs.enabled }}"
     - name: "APPLICATION_EMAIL_ENABLED"
       value: "false"
+    - name: SPRING_DATASOURCE_HIKARI_MINIMUMIDLE
+      value: "40"
+    - name: SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE
+      value: "40"
+    - name: SPRING_DATASOURCE_HIKARI_MAXLIFETIME
+      value: "1000"
+    - name: SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT
+      value: "10000"
+    - name: SPRING_ZIPKIN_BASEURL
+      value: "http://alfresco-jaeger-collector.ats:9411"
   extraVolumes: |
     - name: license
       secret:
@@ -349,6 +358,9 @@ postgresql:
     tag: 11.7
   postgresqlPassword: password
   postgresqlDataDir: /var/lib/postgresql/data/pgdata
+  postgresqlExtendedConf:
+    maxConnections: 300
+    sharedBuffers: "80MB"
   resources:
     requests:
       cpu: 350m
@@ -356,7 +368,7 @@ postgresql:
   commonAnnotations:
     application: activiti
 rabbitmq:
-  enabled: true
+  enabled: false
   fullnameOverride: rabbitmq
   extraPlugins: ""
   livenessProbe:
@@ -402,7 +414,7 @@ persistence:
 ##
 kafka:
   fullnameOverride: kafka
-  enabled: false
+  enabled: true
   replicaCount: 1
   offsetsTopicReplicationFactor: 1
   ##

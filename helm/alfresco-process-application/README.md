@@ -36,10 +36,11 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-connector.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | activiti-cloud-connector.ingress.enabled | bool | `true` |  |
 | activiti-cloud-connector.ingress.path | string | `"/{{ .Release.Name }}/{{ .Values.nameOverride }}"` |  |
+| activiti-cloud-connector.livenessProbe.path | string | `"{{ tpl .Values.ingress.path . | trimSuffix \"/\" }}/actuator/health/liveness"` |  |
 | activiti-cloud-connector.messaging.enabled | bool | `true` |  |
 | activiti-cloud-connector.messaging.role | string | `"connector"` |  |
 | activiti-cloud-connector.nameOverride | string | `"example-cloud-connector"` |  |
-| activiti-cloud-connector.probePath | string | `"{{ tpl .Values.ingress.path . }}/actuator/health"` |  |
+| activiti-cloud-connector.readinessProbe.path | string | `"{{ tpl .Values.ingress.path . | trimSuffix \"/\" }}/actuator/health/readiness"` |  |
 | activiti-cloud-query.affinity | object | `{}` |  |
 | activiti-cloud-query.db.ddlAuto | string | `"none"` | set to 'none' temporarily rather than default 'validate' that breaks |
 | activiti-cloud-query.enabled | bool | `true` |  |
@@ -64,11 +65,12 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.javaOpts.xms | string | `"512m"` |  |
 | activiti-cloud-query.javaOpts.xmx | string | `"2048m"` |  |
 | activiti-cloud-query.liquibase.enabled | bool | `true` |  |
+| activiti-cloud-query.livenessProbe.path | string | `"/actuator/health/liveness"` |  |
 | activiti-cloud-query.messaging.enabled | bool | `true` |  |
 | activiti-cloud-query.messaging.role | string | `"consumer"` |  |
 | activiti-cloud-query.nameOverride | string | `"activiti-cloud-query"` |  |
 | activiti-cloud-query.postgresql.enabled | bool | `true` |  |
-| activiti-cloud-query.probePath | string | `"/actuator/health"` |  |
+| activiti-cloud-query.readinessProbe.path | string | `"/actuator/health/readiness"` |  |
 | activiti-cloud-query.resources.limits.cpu | string | `"1.5"` |  |
 | activiti-cloud-query.resources.limits.memory | string | `"2048Mi"` |  |
 | activiti-cloud-query.resources.requests.cpu | string | `"200m"` |  |
@@ -175,12 +177,13 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.ingress.subPaths[2] | string | `"/form/?(.*)"` |  |
 | runtime-bundle.javaOpts.xms | string | `"512m"` |  |
 | runtime-bundle.javaOpts.xmx | string | `"2048m"` |  |
+| runtime-bundle.livenessProbe.path | string | `"/actuator/health/liveness"` |  |
 | runtime-bundle.messaging.enabled | bool | `true` |  |
 | runtime-bundle.messaging.role | string | `"producer"` |  |
 | runtime-bundle.nameOverride | string | `"runtime-bundle"` |  |
 | runtime-bundle.postgresql.enabled | bool | `true` |  |
-| runtime-bundle.probePath | string | `"/actuator/health"` |  |
 | runtime-bundle.projectName | string | `"example-app"` |  |
+| runtime-bundle.readinessProbe.path | string | `"/actuator/health/readiness"` |  |
 | runtime-bundle.resources.limits.cpu | string | `"2"` |  |
 | runtime-bundle.resources.limits.memory | string | `"2048Mi"` |  |
 | runtime-bundle.resources.requests.cpu | string | `"200m"` |  |

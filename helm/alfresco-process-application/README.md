@@ -117,6 +117,13 @@ Kubernetes: `>=1.15.0-0`
 | global.keycloak.url | string | `""` | Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth |
 | global.keycloak.useExistingClientSecret | bool | `false` | Configure to use existing Keycloak clientId and clientSecret from Kubernetes Secret |
 | global.messaging.broker | string | `"rabbitmq"` | required supported messaging broker, i.e rabbitmq or kafka |
+| global.messaging.destinationIllegalCharsRegex | string | `"[\\t\\s*#:]"` | Configure regex expression to use for replacement of illegal characters in the destination names. |
+| global.messaging.destinationIllegalCharsReplacement | string | `"-"` | Configure replacement character for illegal characters in the destination names. |
+| global.messaging.destinationPrefix | string | `""` | Set destination separator to use to build full destinations, i.e. <prefix>_destination. |
+| global.messaging.destinationSeparator | string | `"_"` | Set destination separator to use to build full destinations, i.e. prefix<_>destination. |
+| global.messaging.destinationTransformers | string | `"toLowerCase,escapeIllegalChars"` | Comma separated list of transformer functions to apply conversion to all destination name for producers, consumers and connectors |
+| global.messaging.destinationTransformersEnabled | bool | `false` | Enable destination name transformers to apply conversion to all destination name for producers, consumers and connectors |
+| global.messaging.destinations | object | `{"asyncExecutorJobs":{"name":"asyncExecutorJobs"},"commandConsumer":{"name":"commandConsumer"},"commandResults":{"name":"commandResults"},"engineEvents":{"name":"engineEvents"},"integrationError":{"name":"integrationError"},"integrationResult":{"name":"integrationResult"},"messageEvents":{"name":"messageEvents"},"signalEvent":{"name":"signalEvent"}}` | Configure destination properties to apply customization to producers and consumer channel bindings with matching destination key. |
 | global.messaging.partitionCount | int | `2` | configures number of partitioned consumers and producers |
 | global.messaging.partitioned | bool | `false` | enables partitioned messaging in combination with common values of messaging.enabled=true and messaging.role=producer|consumer |
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |

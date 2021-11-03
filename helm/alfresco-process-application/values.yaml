@@ -49,6 +49,37 @@ global:
     partitioned: false
     # global.messaging.partitionCount -- configures number of partitioned consumers and producers
     partitionCount: 2
+    # global.messaging.destinationPrefix -- Set destination separator to use to build full destinations, i.e. <prefix>_destination.
+    destinationPrefix: ""
+    # global.messaging.destinationSeparator -- Set destination separator to use to build full destinations, i.e. prefix<_>destination.
+    destinationSeparator: "_"
+    # global.messaging.destinationTransformersEnabled -- Enable destination name transformers to apply conversion to all destination name for producers, consumers and connectors
+    destinationTransformersEnabled: false
+    # global.messaging.destinationTransformers -- Comma separated list of transformer functions to apply conversion to all destination name for producers, consumers and connectors
+    destinationTransformers: toLowerCase,escapeIllegalChars
+    # global.messaging.destinationIllegalCharsRegex -- Configure regex expression to use for replacement of illegal characters in the destination names.
+    destinationIllegalCharsRegex: "[\\t\\s*#:]"
+    # global.messaging.destinationIllegalCharsReplacement -- Configure replacement character for illegal characters in the destination names.
+    destinationIllegalCharsReplacement: "-"
+    # global.messaging.destinations -- Configure destination properties to apply customization to producers and consumer channel bindings with matching destination key.
+    destinations:
+      engineEvents:
+        name: engineEvents
+      signalEvent:
+        name: signalEvent
+      commandConsumer:
+        name: commandConsumer
+      asyncExecutorJobs:
+        name: asyncExecutorJobs
+      messageEvents:
+        name: messageEvents
+      commandResults:
+        name: commandResults
+      integrationResult:
+        name: integrationResult
+      integrationError:
+        name: integrationError
+
   rabbitmq:
     host: "rabbitmq"
     username: guest

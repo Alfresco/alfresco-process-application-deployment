@@ -49,6 +49,30 @@ global:
     partitioned: false
     # global.messaging.partitionCount -- configures number of partitioned consumers and producers
     partitionCount: 2
+    destinationPrefix: ""
+    destinationSeparator: _
+    destinationTransformersEnabled: false
+    destinationTransformers: toLowerCase,escapeIllegalChars
+    destinationIllegalCharsRegex: "[\\t\\s*#:]"
+    destinationIllegalCharsReplacement: "-"
+    destinations:
+      engineEvents:
+        name: engineEvents
+      signalEvent:
+        name: signalEvent
+      commandConsumer:
+        name: commandConsumer
+      asyncExecutorJobs:
+        name: asyncExecutorJobs
+      messageEvents:
+        name: messageEvents
+      commandResults:
+        name: commandResults
+      integrationResult:
+        name: integrationResult
+      integrationError:
+        name: integrationError
+
   rabbitmq:
     host: "rabbitmq"
     username: guest

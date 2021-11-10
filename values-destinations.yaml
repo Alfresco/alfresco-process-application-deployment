@@ -3,7 +3,7 @@ global:
     destinationPrefix: "{{ .Release.Namespace }}"
     destinationSeparator: .
     destinationTransformersEnabled: true
-    destinationIllegalCharsRegex: "[\\t\\s*#:]"
+    destinationIllegalCharsRegex: "[\\t\\s*#:_]"
     destinationIllegalCharsReplacement: "-"
     destinations:
       engineEvents:

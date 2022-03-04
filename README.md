@@ -39,15 +39,6 @@ kubectl create secret \
     --docker-email="none"
 ```
 
-### add license secret
-
-Create a secret called _licenseaps_ containing the license file in the namespace where the app is to be installed.
-
-```bash
-kubectl create secret \
-  generic licenseaps --from-file activiti.lic
-```
-
 ## Install Application
 
 Make sure you add the secret of your registry under `registryPullSecrets` in values.yaml and review contents.

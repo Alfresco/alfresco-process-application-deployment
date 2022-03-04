@@ -167,14 +167,6 @@ activiti-cloud-query:
       value: '/{{ .Release.Name }}/notifications/ws/graphql'
     - name: GRAPHIQL_GRAPHQL_WEB_PATH
       value: '/{{ .Release.Name }}/notifications/graphql'
-  extraVolumes: |
-    - name: license
-      secret:
-        secretName: licenseaps
-  extraVolumeMounts: |
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
   affinity: {}
 runtime-bundle:
   enabled: true
@@ -255,16 +247,10 @@ runtime-bundle:
     - name: "APPLICATION_EMAIL_ENABLED"
       value: "false"
   extraVolumes: |
-    - name: license
-      secret:
-        secretName: licenseaps
     - name: {{ .Release.Name }}
       persistentVolumeClaim:
         claimName: {{ .Release.Name }}
   extraVolumeMounts: |
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
     - name: {{ .Release.Name }}
       mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'
   affinity: {}

@@ -1,12 +1,13 @@
 import:
-  - source: Alfresco/alfresco-build-tools:.travis.helm.yml@v1.1.7
-  - source: Alfresco/alfresco-build-tools:.travis.pre-commit.yml@v1.1.7
-  - source: Alfresco/alfresco-build-tools:.travis.helm-docs_install.yml@v1.1.7
-  - source: Alfresco/alfresco-build-tools:.travis.kubepug_install.yml@v1.1.7
+  - source: Alfresco/alfresco-build-tools:.travis.helm.yml@v1.2.0
+  - source: Alfresco/alfresco-build-tools:.travis.pre-commit.yml@v1.2.0
+  - source: Alfresco/alfresco-build-tools:.travis.helm-docs_install.yml@v1.2.0
+  - source: Alfresco/alfresco-build-tools:.travis.kubepug_install.yml@v1.2.0
 
 branches:
   only:
     - develop
+    - hotfix-M17.4
 
 notifications:
   slack:

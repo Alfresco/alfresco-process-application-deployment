@@ -1,8 +1,8 @@
 import:
-  - source: Alfresco/alfresco-build-tools:.travis.helm.yml@v1.1.7
-  - source: Alfresco/alfresco-build-tools:.travis.pre-commit.yml@v1.1.7
-  - source: Alfresco/alfresco-build-tools:.travis.helm-docs_install.yml@v1.1.7
-  - source: Alfresco/alfresco-build-tools:.travis.kubepug_install.yml@v1.1.7
+  - source: Alfresco/alfresco-build-tools:.travis.helm.yml@v1.3.0
+  - source: Alfresco/alfresco-build-tools:.travis.pre-commit.yml@v1.3.0
+  - source: Alfresco/alfresco-build-tools:.travis.helm-docs_install.yml@v1.3.0
+  - source: Alfresco/alfresco-build-tools:.travis.kubepug_install.yml@v1.3.0
 
 branches:
   only:
@@ -11,7 +11,7 @@ branches:
 notifications:
   slack:
     rooms:
-      secure: "G4Tlvx6kP5PT5hOCfpHacee87OvSIRZE/uNe7TlymyOmTeJma+76RVS+dsEuT9Q6w/Kc3N/WoBjm0j7eq9fl08RvMMkmdNjb1fJ205YHHtvnul4xmzkb4C2457XN61OYL9pJysUZozYiajAj2PiX4EnQhW04PsZsxafh+Ws4yIIkW2KnA7AsomusqTWhcmNlWuyAQVCD8gB6rWZnJz2G1wrfKqfgqyb7W6aWFZe4DRp8uj0k91vgD8DPFoPvTEuw9EtikkO4SakbCJXEDKqKx9gD5/hEAsCECBhE9ZHeQERzXSpN93AVH1kvpMd/a+TfMbELdkdvPLioNdM2/hzSFuu4RQS+0SOpnMZNnnXfE4+QpMAgESQsfRIUWepJdGsOxVUUpWNylXnDeW7lvwKUzUI/pWnwwDVR87WkUfB+1RKGhPJIvRZd7ZljihbJTzFuoT6eYnlcRsRTYUrpZaxQGV6ZUt8BEaRM3Ow9iZmv9AMp7YGdM3j8DDVEKAojQPpzbPhz8NuSoAplB6SSoGwB/qdAdYmyjwz+eQFypyrGfTzVdXFDVS3Rn/VRUnRhoXdpPVfDClcGTrAaEMoOvyCtA79QqcHdN0qcHPJdE6D6Gme239m+A4kYNwzFXCMmCbT8IWgv+0CC0UaAny2rCb0G95oTNgYEpcAtOR3/G5Ga0iM="
+      - secure: "G4Tlvx6kP5PT5hOCfpHacee87OvSIRZE/uNe7TlymyOmTeJma+76RVS+dsEuT9Q6w/Kc3N/WoBjm0j7eq9fl08RvMMkmdNjb1fJ205YHHtvnul4xmzkb4C2457XN61OYL9pJysUZozYiajAj2PiX4EnQhW04PsZsxafh+Ws4yIIkW2KnA7AsomusqTWhcmNlWuyAQVCD8gB6rWZnJz2G1wrfKqfgqyb7W6aWFZe4DRp8uj0k91vgD8DPFoPvTEuw9EtikkO4SakbCJXEDKqKx9gD5/hEAsCECBhE9ZHeQERzXSpN93AVH1kvpMd/a+TfMbELdkdvPLioNdM2/hzSFuu4RQS+0SOpnMZNnnXfE4+QpMAgESQsfRIUWepJdGsOxVUUpWNylXnDeW7lvwKUzUI/pWnwwDVR87WkUfB+1RKGhPJIvRZd7ZljihbJTzFuoT6eYnlcRsRTYUrpZaxQGV6ZUt8BEaRM3Ow9iZmv9AMp7YGdM3j8DDVEKAojQPpzbPhz8NuSoAplB6SSoGwB/qdAdYmyjwz+eQFypyrGfTzVdXFDVS3Rn/VRUnRhoXdpPVfDClcGTrAaEMoOvyCtA79QqcHdN0qcHPJdE6D6Gme239m+A4kYNwzFXCMmCbT8IWgv+0CC0UaAny2rCb0G95oTNgYEpcAtOR3/G5Ga0iM="
     on_pull_requests: false
     on_failure: always
     on_success: never

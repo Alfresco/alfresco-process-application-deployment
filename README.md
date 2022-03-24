@@ -140,7 +140,7 @@ export REALM="alfresco"
 
 Define a **PROTOCOL** (_http_ or _https_) and **DOMAIN** for your environment.
 
-#### for Docker Desktop
+#### for localhost
 
 ```bash
 export PROTOCOL="http"

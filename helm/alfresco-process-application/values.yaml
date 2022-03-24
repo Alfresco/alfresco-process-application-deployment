@@ -112,7 +112,7 @@ activiti-cloud-query:
     role: consumer
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: 7.1.0-M17.4
+    tag: 7.1.0-M17.5
     pullPolicy: IfNotPresent
   liquibase:
     enabled: true

@@ -1,6 +1,6 @@
 # alfresco-process-application
 
-![Version: 7.1.0-M17.4](https://img.shields.io/badge/Version-7.1.0--M17.4-informational?style=flat-square) ![AppVersion: 7.1.0-M17.4](https://img.shields.io/badge/AppVersion-7.1.0--M17.4-informational?style=flat-square)
+![Version: 7.1.0-M17.5](https://img.shields.io/badge/Version-7.1.0--M17.5-informational?style=flat-square) ![AppVersion: 7.1.0-M17.5](https://img.shields.io/badge/AppVersion-7.1.0--M17.5-informational?style=flat-square)
 
 A Helm chart for an Alfresco Activiti Enterprise application
 
@@ -12,7 +12,7 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query(common) | 7.1.0-M17.4 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query(common) | 7.1.0-M17.5 |
 | https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle(common) | 7.1.0-M17 |
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 7.1.0-M17 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.1.0-M17 |
@@ -49,7 +49,7 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
 | activiti-cloud-query.image.pullPolicy | string | `"IfNotPresent"` |  |
 | activiti-cloud-query.image.repository | string | `"quay.io/alfresco/alfresco-process-query-service"` |  |
-| activiti-cloud-query.image.tag | string | `"7.1.0-M17.4"` |  |
+| activiti-cloud-query.image.tag | string | `"7.1.0-M17.5"` |  |
 | activiti-cloud-query.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/affinity" | string | `"cookie"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |

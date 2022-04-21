@@ -291,7 +291,11 @@ alfresco-digital-workspace-app:
   enabled: false
   nameOverride: digital-workspace-app
   ingress:
+    enabled: true
     path: "/{{ .Release.Name }}/digital-workspace"
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
     tag: develop
@@ -313,7 +317,11 @@ alfresco-admin-app:
     name: admin-app
     envType: frontend
   ingress:
+    enabled: true
     path: "/{{ .Release.Name }}/admin"
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: develop

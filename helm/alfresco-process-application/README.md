@@ -83,6 +83,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"develop"` |  |
+| alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
+| alfresco-admin-app.ingress.enabled | bool | `true` |  |
 | alfresco-admin-app.ingress.path | string | `"/{{ .Release.Name }}/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"admin-app"` |  |
 | alfresco-admin-app.service.envType | string | `"frontend"` |  |
@@ -97,6 +100,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-digital-workspace-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-digital-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
 | alfresco-digital-workspace-app.image.tag | string | `"develop"` |  |
+| alfresco-digital-workspace-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| alfresco-digital-workspace-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
+| alfresco-digital-workspace-app.ingress.enabled | bool | `true` |  |
 | alfresco-digital-workspace-app.ingress.path | string | `"/{{ .Release.Name }}/digital-workspace"` |  |
 | alfresco-digital-workspace-app.nameOverride | string | `"digital-workspace-app"` |  |
 | alfresco-digital-workspace-app.service.envType | string | `"frontend"` |  |

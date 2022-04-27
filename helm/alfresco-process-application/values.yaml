@@ -183,8 +183,8 @@ runtime-bundle:
     enabled: true
     role: producer
   image:
-    repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: develop
+    repository: activiti/example-runtime-bundle
+    tag: 7.3.0-mock.1
     pullPolicy: Always
   ingress:
     enabled: true
@@ -259,7 +259,7 @@ activiti-cloud-connector:
   nameOverride: example-cloud-connector
   image:
     repository: activiti/example-cloud-connector
-    tag: develop
+    tag: 7.3.0-mock.1
     pullPolicy: Always
   messaging:
     enabled: true

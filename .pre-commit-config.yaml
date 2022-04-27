@@ -1,14 +1,23 @@
 repos:
   - repo: https://github.com/norwoodj/helm-docs
-    rev: v1.7.0
+    rev: v1.9.1
     hooks:
       - id: helm-docs
+        args:
+          - --chart-search-root=helm/alfresco-process-application
   - repo: https://github.com/Alfresco/alfresco-build-tools
-    rev: v1.2.1
+    rev: v1.4.0
     hooks:
       - id: travis-yml-lint
       - id: helm-deps
       - id: helm-lint
+  - repo: local
+    hooks:
+      - id: helm-unit
+        name: Helm Unit
+        entry: bash -c 'find . -name Chart.yaml | xargs -n1 -I% bash -c "dirname %" | xargs -t -n1 -I% helm unittest -3 %'
+        language: system
+        pass_filenames: false
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:

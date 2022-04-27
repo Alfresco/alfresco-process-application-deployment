@@ -1,0 +1,11 @@
+global:
+  keycloak:
+    useExistingClientSecret: true
+volumeinit:
+  enabled: false
+persistence:
+  enabled: false
+postgresql:
+  enabled: false
+rabbitmq:
+  enabled: false

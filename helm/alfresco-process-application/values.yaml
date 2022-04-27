@@ -3,6 +3,8 @@
 # Declare variables to be passed into your templates.
 # README documentation generated automatically from this file via https://github.com/norwoodj/helm-docs
 
+common:
+  enabled: false
 # global -- for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md
 global:
   # global.registryPullSecrets -- Configure pull secrets for all deployments

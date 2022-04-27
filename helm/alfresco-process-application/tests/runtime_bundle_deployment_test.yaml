@@ -1,0 +1,24 @@
+suite: test runtime-bundle deployment
+templates:
+  - charts/runtime-bundle/templates/deployment.yaml
+tests:
+  - it: should be a deployment apps/v1
+    values:
+      - ./values/chart.yaml
+    asserts:
+      - isKind:
+          of: Deployment
+      - isAPIVersion:
+          of: apps/v1
+      - hasDocuments:
+          count: 1
+      - matchSnapshot:
+          path: spec
+  - it: should have extra init container
+    values:
+      - ./values/chart.yaml
+      - ./values/runtime_bundle_init_container.yaml
+    asserts:
+      - equal:
+          path: spec.template.spec.initContainers[1].name
+          value: init-runtime

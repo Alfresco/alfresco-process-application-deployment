@@ -15,6 +15,9 @@ dependencies:
   - name: common
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     version: 7.2.0
+  - name: common
+    repository: https://activiti.github.io/activiti-cloud-helm-charts
+    version: 7.2.0
     alias: activiti-cloud-query
     condition: application.activiti-cloud-query.enabled,activiti-cloud-query.enabled
   - name: postgresql

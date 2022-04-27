@@ -12,6 +12,7 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.2.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query(common) | 7.2.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle(common) | 7.2.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 7.2.0 |
@@ -30,7 +31,7 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-connector.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: {{ tpl .Values.global.applicationName $ | quote }}\n"` |  |
 | activiti-cloud-connector.image.pullPolicy | string | `"Always"` |  |
 | activiti-cloud-connector.image.repository | string | `"activiti/example-cloud-connector"` |  |
-| activiti-cloud-connector.image.tag | string | `"develop"` |  |
+| activiti-cloud-connector.image.tag | string | `"7.3.0-mock.1"` |  |
 | activiti-cloud-connector.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | activiti-cloud-connector.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
 | activiti-cloud-connector.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -107,6 +108,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-digital-workspace-app.nameOverride | string | `"digital-workspace-app"` |  |
 | alfresco-digital-workspace-app.service.envType | string | `"frontend"` |  |
 | alfresco-digital-workspace-app.service.name | string | `"adw-app"` |  |
+| common.enabled | bool | `false` |  |
 | global | object | `{"acs":{"enabled":false},"applicationName":"{{ .Release.Name }}","applicationVersion":"1","gateway":{"annotations":{},"domain":"","host":"{{ template \"common.gateway-domain\" . }}","http":false,"tlsacme":false},"kafka":{"brokers":"kafka","extraEnv":"- name: ACT_AUDIT_PRODUCER_TRANSACTION_ID_PREFIX\n  value: \"\"\n"},"keycloak":{"clientId":"activiti-keycloak","clientSecret":"","clientSecretName":"activiti-keycloak-client","host":"{{ template \"common.gateway-host\" . }}","realm":"alfresco","resource":"{{ .Release.Name }}","url":"","useExistingClientSecret":false},"messaging":{"broker":"rabbitmq","destinationIllegalCharsRegex":"[\\t\\s*#:]","destinationIllegalCharsReplacement":"-","destinationPrefix":"","destinationSeparator":"_","destinationTransformers":"toLowerCase,escapeIllegalChars","destinationTransformersEnabled":false,"destinations":{"asyncExecutorJobs":{"name":"asyncExecutorJobs"},"commandConsumer":{"name":"commandConsumer"},"commandResults":{"name":"commandResults"},"engineEvents":{"name":"engineEvents"},"integrationError":{"name":"integrationError"},"integrationResult":{"name":"integrationResult"},"messageEvents":{"name":"messageEvents"},"signalEvent":{"name":"signalEvent"}},"partitionCount":2,"partitioned":false},"rabbitmq":{"extraEnv":"","host":"rabbitmq","password":"guest","username":"guest"},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
 | global.acs.enabled | bool | `false` | enable support for ACS |
 | global.gateway.annotations | object | `{}` | Configure global annotations for all service ingresses |
@@ -173,8 +175,8 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.extraVolumeMounts | string | `"- name: {{ .Release.Name }}\n  mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'\n"` |  |
 | runtime-bundle.extraVolumes | string | `"- name: {{ .Release.Name }}\n  persistentVolumeClaim:\n    claimName: {{ .Release.Name }}\n"` |  |
 | runtime-bundle.image.pullPolicy | string | `"Always"` |  |
-| runtime-bundle.image.repository | string | `"quay.io/alfresco/alfresco-process-runtime-bundle-service"` |  |
-| runtime-bundle.image.tag | string | `"develop"` |  |
+| runtime-bundle.image.repository | string | `"activiti/example-runtime-bundle"` |  |
+| runtime-bundle.image.tag | string | `"7.3.0-mock.1"` |  |
 | runtime-bundle.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -200,6 +202,3 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.service.name | string | `"rb"` |  |
 | volumeinit.enabled | bool | `true` |  |
 | volumeinit.image | object | `{"pullPolicy":"Always","repository":"alfresco/example-application-project","tag":"latest"}` | REPLACE with your image containing project files |
-
-----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.7.0](https://github.com/norwoodj/helm-docs/releases/v1.7.0)

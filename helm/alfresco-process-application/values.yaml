@@ -79,7 +79,6 @@ global:
         name: integrationResult
       integrationError:
         name: integrationError
-
   rabbitmq:
     host: "rabbitmq"
     username: guest
@@ -93,7 +92,6 @@ global:
     extraEnv: |
       - name: ACT_AUDIT_PRODUCER_TRANSACTION_ID_PREFIX
         value: ""
-
 activiti-cloud-query:
   enabled: true
   nameOverride: activiti-cloud-query
@@ -112,8 +110,8 @@ activiti-cloud-query:
     role: consumer
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: develop
-    pullPolicy: Always
+    tag: 7.3.0
+    pullPolicy: IfNotPresent
   liquibase:
     enabled: true
   ingress:
@@ -184,8 +182,8 @@ runtime-bundle:
     role: producer
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: develop
-    pullPolicy: Always
+    tag: 7.3.0
+    pullPolicy: IfNotPresent
   ingress:
     enabled: true
     path: /{{ .Release.Name }}
@@ -259,8 +257,8 @@ activiti-cloud-connector:
   nameOverride: example-cloud-connector
   image:
     repository: activiti/example-cloud-connector
-    tag: develop
-    pullPolicy: Always
+    tag: 7.3.0
+    pullPolicy: IfNotPresent
   messaging:
     enabled: true
     role: connector
@@ -298,8 +296,8 @@ alfresco-digital-workspace-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
-    tag: develop
-    pullPolicy: Always
+    tag: 7.3.0
+    pullPolicy: IfNotPresent
   service:
     name: adw-app
     envType: frontend
@@ -324,8 +322,8 @@ alfresco-admin-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
-    pullPolicy: Always
+    tag: 7.3.0
+    pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -380,7 +378,7 @@ volumeinit:
   image:
     repository: alfresco/example-application-project
     tag: latest
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
 persistence:
   enabled: true
   storageClassName:

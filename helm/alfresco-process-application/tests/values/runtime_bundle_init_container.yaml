@@ -1,10 +1,12 @@
 runtime-bundle:
+  applicationVersion: 10
+  expectedProjectSizeInBytes: 100
   extraInitContainers: |-
     - name: init-runtime
       image: busybox:1.32.0
       imagePullPolicy: IfNotPresent
       env:
         - name: APPLICATION_VERSION
-          value: 1
+          value: {{ .Values.applicationVersion }}
         - name: EXPECTED_PROJECT_BYTE_SIZE
-          value: 0
+          value: {{ .Values.expectedProjectSizeInBytes }}

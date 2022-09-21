@@ -110,8 +110,8 @@ activiti-cloud-query:
     role: consumer
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: 7.5.1
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   liquibase:
     enabled: true
   ingress:
@@ -182,8 +182,8 @@ runtime-bundle:
     role: producer
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: 7.5.1
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   ingress:
     enabled: true
     path: /{{ .Release.Name }}
@@ -258,7 +258,7 @@ activiti-cloud-connector:
   image:
     repository: activiti/example-cloud-connector
     tag: 7.5.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   messaging:
     enabled: true
     role: connector
@@ -297,7 +297,7 @@ alfresco-digital-workspace-app:
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
     tag: 7.5.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     name: adw-app
     envType: frontend
@@ -323,7 +323,7 @@ alfresco-admin-app:
   image:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: 7.5.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -378,7 +378,7 @@ volumeinit:
   image:
     repository: alfresco/example-application-project
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 persistence:
   enabled: true
   storageClassName:

@@ -257,7 +257,7 @@ activiti-cloud-connector:
   nameOverride: example-cloud-connector
   image:
     repository: activiti/example-cloud-connector
-    tag: 7.5.0
+    tag: 7.5.1
     pullPolicy: IfNotPresent
   messaging:
     enabled: true
@@ -296,7 +296,7 @@ alfresco-digital-workspace-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
-    tag: 7.5.0
+    tag: 7.5.1
     pullPolicy: IfNotPresent
   service:
     name: adw-app
@@ -322,7 +322,7 @@ alfresco-admin-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.5.0
+    tag: 7.5.1
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH

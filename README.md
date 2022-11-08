@@ -1,6 +1,6 @@
 # alfresco-process-application-deployment
 
-[![Build Status](https://travis-ci.com/Alfresco/alfresco-process-application-deployment.svg?branch=develop)](https://travis-ci.com/Alfresco/alfresco-process-application-deployment)
+[![Build Status](https://github.com/Alfresco/alfresco-process-application-deployment/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/Alfresco/alfresco-process-application-deployment/actions/workflows/build.yml?query=branch%3Adevelop)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 Helm chart to install an AAE application.
@@ -327,10 +327,26 @@ subscription {
  }
 }
 ```
+
 ## CI/CD
 
-Running on Travis, requires the following environment variable to be set:
+Running on GH Actions, requires the following secrets to be set:
 
-| Name | Description |
-|------|-------------|
-| GITHUB_TOKEN | GitHub token to clone/push helm repo |
+| Name                          | Description                          |
+|-------------------------------|--------------------------------------|
+| BOT_GITHUB_TOKEN              | Token to launch other builds on GH   |
+| BOT_GITHUB_USERNAME           | Username to issue propagation PRs    |
+| RANCHER2_URL                  | Rancher URL to perform helm tests    |
+| RANCHER2_ACCESS_KEY           | Rancher access key                   |
+| RANCHER2_SECRET_KEY           | Rancher secret key                   |
+| SLACK_NOTIFICATION_BOT_TOKEN  | Token to notify slack on failure     |
+
+Dependabot secrets:
+
+| Name                          | Description                          |
+|-------------------------------|--------------------------------------|
+| BOT_GITHUB_TOKEN              | Token to launch other builds on GH   |
+| DEPENDABOT_GITHUB_TOKEN       | Token for automated dependabot PRs   |
+| RANCHER2_URL                  | Rancher URL to perform helm tests    |
+| RANCHER2_ACCESS_KEY           | Rancher access key                   |
+| RANCHER2_SECRET_KEY           | Rancher secret key                   |

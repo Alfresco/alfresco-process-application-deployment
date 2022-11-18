@@ -1,7 +1,7 @@
 apiVersion: v2
 name: alfresco-process-application
-version: 7.6.0
-appVersion: 7.6.0
+version: 7.6.1
+appVersion: 7.6.1
 kubeVersion: '>=1.15.0-0'
 description: A Helm chart for an Alfresco Activiti Enterprise application
 keywords:

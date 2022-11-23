@@ -12,11 +12,11 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query(common) | 7.6.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle(common) | 7.6.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 7.6.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.6.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-digital-workspace-app(common) | 7.6.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query(common) | 7.6.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle(common) | 7.6.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 7.6.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.6.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-digital-workspace-app(common) | 7.6.1 |
 | https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | kafka | 12.x.x |
 | https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | postgresql | 10.3.13 |
 | https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | rabbitmq | 8.20.5 |
@@ -47,7 +47,7 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"false\"\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  valueFrom:\n    secretKeyRef:\n      name: {{ tpl .Values.global.keycloak.clientSecretName $ }}\n      key: clientId\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  valueFrom:\n    secretKeyRef:\n      name: {{ tpl .Values.global.keycloak.clientSecretName $ }}\n      key: clientSecret\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: {{ tpl .Values.global.applicationName $ | quote }}\n- name: GRAPHIQL_GRAPHQL_WS_PATH\n  value: '/{{ .Release.Name }}/notifications/ws/graphql'\n- name: GRAPHIQL_GRAPHQL_WEB_PATH\n  value: '/{{ .Release.Name }}/notifications/graphql'\n"` |  |
 | activiti-cloud-query.image.pullPolicy | string | `"IfNotPresent"` |  |
 | activiti-cloud-query.image.repository | string | `"quay.io/alfresco/alfresco-process-query-service"` |  |
-| activiti-cloud-query.image.tag | string | `"7.6.1-alpha.3"` |  |
+| activiti-cloud-query.image.tag | string | `"7.6.1"` |  |
 | activiti-cloud-query.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/affinity" | string | `"cookie"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
@@ -174,7 +174,7 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.extraVolumes | string | `"- name: {{ .Release.Name }}\n  persistentVolumeClaim:\n    claimName: {{ .Release.Name }}\n"` |  |
 | runtime-bundle.image.pullPolicy | string | `"IfNotPresent"` |  |
 | runtime-bundle.image.repository | string | `"quay.io/alfresco/alfresco-process-runtime-bundle-service"` |  |
-| runtime-bundle.image.tag | string | `"7.6.1-alpha.3"` |  |
+| runtime-bundle.image.tag | string | `"7.6.1"` |  |
 | runtime-bundle.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |

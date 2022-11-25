@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - develop
-      # TODO: cleanup
-      - dev-igdianov-AAE-11372
   pull_request:
     branches:
       - develop

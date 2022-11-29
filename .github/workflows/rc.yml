@@ -15,6 +15,8 @@ env:
 jobs:
   prerelease:
     runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v3
 
@@ -22,7 +24,7 @@ jobs:
         name: Release and publish helm chart
         uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@v1.23.0
         with:
-          version: ${{ github.ref_name }}
+          version: ${{ env.VERSION }}
           chart-dir: ${{ env.CHART_DIR }}
           helm-repository: ${{ env.HELM_REPO }}
           helm-repository-branch: ${{ env.HELM_REPO_BRANCH }}
@@ -34,10 +36,9 @@ jobs:
 
       - name: Create prerelease
         env:
-          TAG: ${{ github.ref_name }}
           GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
         run: |
-          gh release create $TAG --prerelease -t $TAG
+          gh release create ${VERSION} --prerelease -t ${VERSION}
 
   notify:
     runs-on: ubuntu-latest

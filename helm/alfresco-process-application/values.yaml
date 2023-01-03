@@ -110,7 +110,7 @@ activiti-cloud-query:
     role: consumer
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: 7.8.0-alpha.10
+    tag: 7.8.0-rc.28
     pullPolicy: Always
   liquibase:
     enabled: true
@@ -182,7 +182,7 @@ runtime-bundle:
     role: producer
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: 7.8.0-alpha.10
+    tag: 7.8.0-rc.28
     pullPolicy: Always
   ingress:
     enabled: true
@@ -296,7 +296,7 @@ alfresco-digital-workspace-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
-    tag: develop-apa
+    tag: 7.8.0-rc.28
     pullPolicy: Always
   service:
     name: adw-app
@@ -322,7 +322,7 @@ alfresco-admin-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
+    tag: 7.8.0-rc.28
     pullPolicy: Always
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH

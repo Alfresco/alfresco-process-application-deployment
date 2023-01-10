@@ -110,8 +110,8 @@ activiti-cloud-query:
     role: consumer
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: 7.8.0-alpha.13
-    pullPolicy: Always
+    tag: 7.8.0-mock
+    pullPolicy: IfNotPresent
   liquibase:
     enabled: true
   ingress:
@@ -182,8 +182,8 @@ runtime-bundle:
     role: producer
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: 7.8.0-alpha.13
-    pullPolicy: Always
+    tag: 7.8.0-mock
+    pullPolicy: IfNotPresent
   ingress:
     enabled: true
     path: /{{ .Release.Name }}
@@ -258,7 +258,7 @@ activiti-cloud-connector:
   image:
     repository: activiti/example-cloud-connector
     tag: 7.7.0
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   messaging:
     enabled: true
     role: connector
@@ -296,8 +296,8 @@ alfresco-digital-workspace-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
-    tag: develop-apa
-    pullPolicy: Always
+    tag: 7.8.0-mock
+    pullPolicy: IfNotPresent
   service:
     name: adw-app
     envType: frontend
@@ -322,8 +322,8 @@ alfresco-admin-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
-    pullPolicy: Always
+    tag: 7.8.0-mock
+    pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -378,7 +378,7 @@ volumeinit:
   image:
     repository: alfresco/example-application-project
     tag: latest
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
 persistence:
   enabled: true
   storageClassName:

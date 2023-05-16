@@ -229,17 +229,17 @@ runtime-bundle:
           name: {{ tpl .Values.global.keycloak.clientSecretName $ }}
           key: clientSecret
     - name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX
-      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'
+      value: 'file:/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'
     - name: PROJECT_MANIFEST_FILE_PATH
-      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'
+      value: 'file:/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'
     - name: APPLICATION_VERSION
       value: "{{ .Values.global.applicationVersion }}"
     - name: ACT_RB_SERVICE_URL
       value: '{{ include "common.gateway-url" . }}/{{ .Release.Name }}/rb'
     - name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH
-      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'
+      value: 'file:/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'
     - name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH
-      value: 'file:/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'
+      value: 'file:/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'
     - name: CONTENT_SERVICE_ENABLED
       value: "{{ .Values.global.acs.enabled }}"
     - name: "APPLICATION_EMAIL_ENABLED"
@@ -250,7 +250,7 @@ runtime-bundle:
         claimName: {{ .Release.Name }}
   extraVolumeMounts: |
     - name: {{ .Release.Name }}
-      mountPath: '/root/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'
+      mountPath: '/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'
   affinity: {}
 activiti-cloud-connector:
   enabled: false

@@ -295,8 +295,8 @@ alfresco-digital-workspace-app:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
-    repository: quay.io/alfresco/alfresco-digital-workspace
-    tag: develop-apa
+    repository: quay.io/alfresco/alfresco-digital-workspace-apa
+    tag: develop
     pullPolicy: Always
   service:
     name: adw-app

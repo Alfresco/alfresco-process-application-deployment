@@ -98,8 +98,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-digital-workspace-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-digital-workspace-app.env.APP_CONFIG_PROVIDER | string | `"ALL"` |  |
 | alfresco-digital-workspace-app.image.pullPolicy | string | `"Always"` |  |
-| alfresco-digital-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
-| alfresco-digital-workspace-app.image.tag | string | `"develop-apa"` |  |
+| alfresco-digital-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace-apa"` |  |
+| alfresco-digital-workspace-app.image.tag | string | `"develop"` |  |
 | alfresco-digital-workspace-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-digital-workspace-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-digital-workspace-app.ingress.enabled | bool | `true` |  |

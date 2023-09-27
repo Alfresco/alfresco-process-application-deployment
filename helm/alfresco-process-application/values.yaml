@@ -296,7 +296,7 @@ alfresco-digital-workspace-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace-apa
-    tag: develop
+    tag: 7.12.0-beta.15
     pullPolicy: Always
   service:
     name: adw-app
@@ -322,7 +322,7 @@ alfresco-admin-app:
       nginx.ingress.kubernetes.io/enable-cors: "true"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
+    tag: 7.12.0-beta.15
     pullPolicy: Always
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH

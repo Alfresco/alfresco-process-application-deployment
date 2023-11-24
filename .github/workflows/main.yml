@@ -27,11 +27,11 @@ jobs:
       - name: Check dependabot build
         uses: Activiti/Activiti/.github/actions/check-ext-build@4db084fcbb13a288f3b66ac08fc50a5ab7f144ed # 8.0.0-alpha.10
       - name: Setup Helm Docs
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@8c2a3691aa49cd105f62c2983cda3089b82afe89 # v4.0.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
       - name: Setup Kubepug
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@8c2a3691aa49cd105f62c2983cda3089b82afe89 # v4.0.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
       - name: pre-commit
-        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@8c2a3691aa49cd105f62c2983cda3089b82afe89 # v4.0.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
         with:
           skip_checkout: true
       - name: Run Checkov
@@ -50,12 +50,12 @@ jobs:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
 
       - name: Build
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Setup Cluster
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@9cf7c9d178e9ab74bf533217febe4dafe73247f4 # v3.8.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
 
       - name: Compute Keycloak Client Secret
         id: compute-keycloak-secret
@@ -80,7 +80,7 @@ jobs:
 
       - name: Package Helm Chart
         id: package-helm-chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
@@ -94,19 +94,19 @@ jobs:
 
       - name: Parse next release
         id: helm-parse-next-release
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - id: calculate-next-internal-version
         name: Calculate next internal release
-        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
         with:
           next-version: ${{ steps.helm-parse-next-release.outputs.next-release }}
 
       - id: helm-release-and-publish
         name: Release and publish helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
         with:
           version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
           chart-dir: ${{ env.CHART_DIR }}
@@ -127,7 +127,7 @@ jobs:
       DEVELOPMENT_BRANCH: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
         with:
           version: ${{ env.VERSION }}
           auto-merge: 'true'
@@ -146,7 +146,7 @@ jobs:
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Slack Notification
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@54f23a67b733f4b39cc644064ecb794944116846 # v5.0.0
         with:
           channel-id: 'eng-hxp-studio-be-gh-notifs'
           token: ${{ secrets.SLACK_NOTIFICATION_BOT_TOKEN }}

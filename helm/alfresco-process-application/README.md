@@ -1,6 +1,6 @@
 # alfresco-process-application
 
-![Version: 7.14.0-alpha.89](https://img.shields.io/badge/Version-7.14.0--alpha.89-informational?style=flat-square) ![AppVersion: 7.14.0-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.14.0--SNAPSHOT-informational?style=flat-square)
+![Version: 7.14.0](https://img.shields.io/badge/Version-7.14.0-informational?style=flat-square) ![AppVersion: 7.14.0](https://img.shields.io/badge/AppVersion-7.14.0-informational?style=flat-square)
 
 A Helm chart for an Alfresco Activiti Enterprise application
 
@@ -12,11 +12,11 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query(common) | 8.2.0-alpha.4 |
-| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle(common) | 8.2.0-alpha.4 |
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 8.2.0-alpha.4 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.2.0-alpha.4 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-digital-workspace-app(common) | 8.2.0-alpha.4 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query(common) | 8.2.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle(common) | 8.2.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 8.2.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.2.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-digital-workspace-app(common) | 8.2.0 |
 | https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | kafka | 12.x.x |
 | https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | postgresql | 10.3.13 |
 | https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | rabbitmq | 8.20.5 |
@@ -28,9 +28,9 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-connector.affinity | object | `{}` |  |
 | activiti-cloud-connector.enabled | bool | `false` |  |
 | activiti-cloud-connector.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ tpl .Values.ingress.path . }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: {{ tpl .Values.global.applicationName $ | quote }}\n"` |  |
-| activiti-cloud-connector.image.pullPolicy | string | `"Always"` |  |
+| activiti-cloud-connector.image.pullPolicy | string | `"IfNotPresent"` |  |
 | activiti-cloud-connector.image.repository | string | `"activiti/example-cloud-connector"` |  |
-| activiti-cloud-connector.image.tag | string | `"7.10.0-alpha.24"` |  |
+| activiti-cloud-connector.image.tag | string | `"8.2.0"` |  |
 | activiti-cloud-connector.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | activiti-cloud-connector.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
 | activiti-cloud-connector.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -45,9 +45,9 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.db.ddlAuto | string | `"none"` | set to 'none' temporarily rather than default 'validate' that breaks |
 | activiti-cloud-query.enabled | bool | `true` |  |
 | activiti-cloud-query.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"false\"\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  valueFrom:\n    secretKeyRef:\n      name: {{ tpl .Values.global.keycloak.clientSecretName $ }}\n      key: clientId\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  valueFrom:\n    secretKeyRef:\n      name: {{ tpl .Values.global.keycloak.clientSecretName $ }}\n      key: clientSecret\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: {{ tpl .Values.global.applicationName $ | quote }}\n- name: GRAPHIQL_GRAPHQL_WS_PATH\n  value: '/{{ .Release.Name }}/notifications/ws/graphql'\n- name: GRAPHIQL_GRAPHQL_WEB_PATH\n  value: '/{{ .Release.Name }}/notifications/graphql'\n"` |  |
-| activiti-cloud-query.image.pullPolicy | string | `"Always"` |  |
+| activiti-cloud-query.image.pullPolicy | string | `"IfNotPresent"` |  |
 | activiti-cloud-query.image.repository | string | `"quay.io/alfresco/alfresco-process-query-service"` |  |
-| activiti-cloud-query.image.tag | string | `"7.14.0-alpha.85"` |  |
+| activiti-cloud-query.image.tag | string | `"7.14.0"` |  |
 | activiti-cloud-query.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/affinity" | string | `"cookie"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
@@ -80,9 +80,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-admin-app.extraEnv | string | `"{{- if not .Values.global.acs.enabled }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
-| alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
+| alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"develop"` |  |
+| alfresco-admin-app.image.tag | string | `"7.14.0"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-admin-app.ingress.enabled | bool | `true` |  |
@@ -97,9 +97,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-digital-workspace-app.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-digital-workspace-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-digital-workspace-app.env.APP_CONFIG_PROVIDER | string | `"ALL"` |  |
-| alfresco-digital-workspace-app.image.pullPolicy | string | `"Always"` |  |
+| alfresco-digital-workspace-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-digital-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace-apa"` |  |
-| alfresco-digital-workspace-app.image.tag | string | `"develop"` |  |
+| alfresco-digital-workspace-app.image.tag | string | `"7.14.0"` |  |
 | alfresco-digital-workspace-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-digital-workspace-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-digital-workspace-app.ingress.enabled | bool | `true` |  |
@@ -172,9 +172,9 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: {{ tpl .Values.global.applicationName $ | quote }}\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"true\"\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  valueFrom:\n    secretKeyRef:\n      name: {{ tpl .Values.global.keycloak.clientSecretName $ }}\n      key: clientId\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  valueFrom:\n    secretKeyRef:\n      name: {{ tpl .Values.global.keycloak.clientSecretName $ }}\n      key: clientSecret\n- name: SPRING_ACTIVITI_PROCESSDEFINITIONLOCATIONPREFIX\n  value: 'file:/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/processes/'\n- name: PROJECT_MANIFEST_FILE_PATH\n  value: 'file:/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/{{ .Values.projectName }}.json'\n- name: APPLICATION_VERSION\n  value: \"{{ .Values.global.applicationVersion }}\"\n- name: ACT_RB_SERVICE_URL\n  value: '{{ include \"common.gateway-url\" . }}/{{ .Release.Name }}/rb'\n- name: DMNCONFIGURATION_TABLESDEFINITIONSDIRECTORYPATH\n  value: 'file:/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/decision-tables/'\n- name: FORMCONFIGURATION_FORMSDEFINITIONSDIRECTORYPATH\n  value: 'file:/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/forms/'\n- name: CONTENT_SERVICE_ENABLED\n  value: \"{{ .Values.global.acs.enabled }}\"\n- name: \"APPLICATION_EMAIL_ENABLED\"\n  value: \"false\"\n"` |  |
 | runtime-bundle.extraVolumeMounts | string | `"- name: {{ .Release.Name }}\n  mountPath: '/home/alfresco/.activiti/project-release-volume/{{ .Values.global.applicationVersion }}/'\n"` |  |
 | runtime-bundle.extraVolumes | string | `"- name: {{ .Release.Name }}\n  persistentVolumeClaim:\n    claimName: {{ .Release.Name }}\n"` |  |
-| runtime-bundle.image.pullPolicy | string | `"Always"` |  |
+| runtime-bundle.image.pullPolicy | string | `"IfNotPresent"` |  |
 | runtime-bundle.image.repository | string | `"quay.io/alfresco/alfresco-process-runtime-bundle-service"` |  |
-| runtime-bundle.image.tag | string | `"7.14.0-alpha.85"` |  |
+| runtime-bundle.image.tag | string | `"7.14.0"` |  |
 | runtime-bundle.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -199,4 +199,4 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.resources.requests.memory | string | `"512Mi"` |  |
 | runtime-bundle.service.name | string | `"rb"` |  |
 | volumeinit.enabled | bool | `true` |  |
-| volumeinit.image | object | `{"pullPolicy":"Always","repository":"alfresco/example-application-project","tag":"latest"}` | REPLACE with your image containing project files |
+| volumeinit.image | object | `{"pullPolicy":"IfNotPresent","repository":"alfresco/example-application-project","tag":"latest"}` | REPLACE with your image containing project files |

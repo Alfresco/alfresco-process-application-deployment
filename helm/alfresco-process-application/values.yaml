@@ -110,7 +110,7 @@ activiti-cloud-query:
     role: consumer
   image:
     repository: quay.io/alfresco/alfresco-process-query-service
-    tag: 7.15.0-alpha.28
+    tag: 7.15.0-alpha.29
     pullPolicy: Always
   liquibase:
     enabled: true
@@ -182,7 +182,7 @@ runtime-bundle:
     role: producer
   image:
     repository: quay.io/alfresco/alfresco-process-runtime-bundle-service
-    tag: 7.15.0-alpha.28
+    tag: 7.15.0-alpha.29
     pullPolicy: Always
   ingress:
     enabled: true

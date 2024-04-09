@@ -39,7 +39,7 @@ jobs:
         with:
           framework: kubernetes
       - name: Ensure SHA pinned actions
-        uses: zgosalvez/github-actions-ensure-sha-pinned-actions@b1b635d24259e8a047a6ce7d6501ea432aa7a830 # v3.0.2
+        uses: zgosalvez/github-actions-ensure-sha-pinned-actions@19ebcb0babbd282ae1822a0b9c28f3f1f25cea45 # v3.0.4
 
   build:
     runs-on: ubuntu-latest

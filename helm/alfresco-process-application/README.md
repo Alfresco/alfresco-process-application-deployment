@@ -1,6 +1,6 @@
 # alfresco-process-application
 
-![Version: 7.18.0-alpha.15](https://img.shields.io/badge/Version-7.18.0--alpha.15-informational?style=flat-square) ![AppVersion: 7.18.0-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.18.0--SNAPSHOT-informational?style=flat-square)
+![Version: 7.18.0-rc.35](https://img.shields.io/badge/Version-7.18.0--rc.35-informational?style=flat-square) ![AppVersion: 7.18.0-rc.35](https://img.shields.io/badge/AppVersion-7.18.0--rc.35-informational?style=flat-square)
 
 A Helm chart for an Alfresco Activiti Enterprise application
 
@@ -47,7 +47,7 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: KEYCLOAK_USERESOURCEROLEMAPPINGS\n  value: \"false\"\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  valueFrom:\n    secretKeyRef:\n      name: {{ tpl .Values.global.keycloak.clientSecretName $ }}\n      key: clientId\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  valueFrom:\n    secretKeyRef:\n      name: {{ tpl .Values.global.keycloak.clientSecretName $ }}\n      key: clientSecret\n- name: ACTIVITI_CLOUD_APPLICATION_NAME\n  value: {{ tpl .Values.global.applicationName $ | quote }}\n- name: GRAPHIQL_GRAPHQL_WS_PATH\n  value: '/{{ .Release.Name }}/notifications/ws/graphql'\n- name: GRAPHIQL_GRAPHQL_WEB_PATH\n  value: '/{{ .Release.Name }}/notifications/graphql'\n"` |  |
 | activiti-cloud-query.image.pullPolicy | string | `"Always"` |  |
 | activiti-cloud-query.image.repository | string | `"quay.io/alfresco/alfresco-process-query-service"` |  |
-| activiti-cloud-query.image.tag | string | `"7.18.0-alpha.18"` |  |
+| activiti-cloud-query.image.tag | string | `"7.18.0-rc.35"` |  |
 | activiti-cloud-query.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/affinity" | string | `"cookie"` |  |
 | activiti-cloud-query.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
@@ -82,7 +82,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.extraEnv | string | `"{{- if not .Values.global.acs.enabled }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"develop"` |  |
+| alfresco-admin-app.image.tag | string | `"7.18.0-rc.35"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-admin-app.ingress.enabled | bool | `true` |  |
@@ -99,7 +99,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-digital-workspace-app.env.APP_CONFIG_PROVIDER | string | `"ALL"` |  |
 | alfresco-digital-workspace-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-digital-workspace-app.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace-apa"` |  |
-| alfresco-digital-workspace-app.image.tag | string | `"develop"` |  |
+| alfresco-digital-workspace-app.image.tag | string | `"7.18.0-rc.35"` |  |
 | alfresco-digital-workspace-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-digital-workspace-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-digital-workspace-app.ingress.enabled | bool | `true` |  |
@@ -174,7 +174,7 @@ Kubernetes: `>=1.15.0-0`
 | runtime-bundle.extraVolumes | string | `"- name: {{ .Release.Name }}\n  persistentVolumeClaim:\n    claimName: {{ .Release.Name }}\n"` |  |
 | runtime-bundle.image.pullPolicy | string | `"Always"` |  |
 | runtime-bundle.image.repository | string | `"quay.io/alfresco/alfresco-process-runtime-bundle-service"` |  |
-| runtime-bundle.image.tag | string | `"7.18.0-alpha.18"` |  |
+| runtime-bundle.image.tag | string | `"7.18.0-rc.35"` |  |
 | runtime-bundle.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"*"` |  |
 | runtime-bundle.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |

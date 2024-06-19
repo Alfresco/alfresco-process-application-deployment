@@ -14,7 +14,7 @@ icon: https://avatars0.githubusercontent.com/u/391127?s=200&v=4
 dependencies:
   - name: common
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 8.6.0-alpha.8
+    version: 8.6.0-alpha.9
     alias: activiti-cloud-query
     condition: application.activiti-cloud-query.enabled,activiti-cloud-query.enabled
   - name: postgresql
@@ -27,22 +27,22 @@ dependencies:
     condition: application.rabbitmq.enabled,rabbitmq.enabled
   - name: common
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 8.6.0-alpha.8
+    version: 8.6.0-alpha.9
     alias: runtime-bundle
     condition: application.runtime-bundle.enabled,runtime-bundle.enabled
   - name: common
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 8.6.0-alpha.8
+    version: 8.6.0-alpha.9
     alias: activiti-cloud-connector
     condition: application.activiti-cloud-connector.enabled,activiti-cloud-connector.enabled
   - name: common
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 8.6.0-alpha.8
+    version: 8.6.0-alpha.9
     alias: alfresco-admin-app
     condition: application.alfresco-admin-app.enabled,alfresco-admin-app.enabled
   - name: common
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-    version: 8.6.0-alpha.8
+    version: 8.6.0-alpha.9
     alias: alfresco-digital-workspace-app
     condition: application.alfresco-digital-workspace-app.enabled,alfresco-digital-workspace-app.enabled
   - name: kafka

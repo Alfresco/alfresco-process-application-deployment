@@ -47,5 +47,5 @@ jobs:
       - name: Slack Notification
         uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@61f10e5864c7208944c160b2565be7e93e95da12 # v6.0.0
         with:
-          channel-id: 'eng-hxp-studio-releases-gh-notifs'
+          channel-id: 'C04CARMB605' # eng-hxp-studio-releases-gh-notifs, to be renamed eng-automate-releases-gh-notifs
           token: ${{ secrets.SLACK_NOTIFICATION_BOT_TOKEN }}

@@ -19,10 +19,6 @@ env:
   HELM_REPO_BRANCH: master
   HELM_REPO_SUBFOLDER: incubator
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
   pre-checks:
     runs-on: ubuntu-latest

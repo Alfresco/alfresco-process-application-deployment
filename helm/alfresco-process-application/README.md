@@ -155,6 +155,7 @@ Kubernetes: `>=1.15.0-0`
 | rabbitmq.enabled | bool | `true` |  |
 | rabbitmq.extraPlugins | string | `""` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
+| rabbitmq.image.tag | string | `"3.13.7-debian-12-r4"` |  |
 | rabbitmq.ingress.enabled | bool | `false` |  |
 | rabbitmq.ingress.hostName | string | `"REPLACEME"` |  |
 | rabbitmq.ingress.path | string | `"/rabbitmq"` |  |

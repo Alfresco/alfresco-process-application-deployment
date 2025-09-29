@@ -27,7 +27,7 @@ jobs:
   pre-checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Check dependabot build
         uses: Activiti/Activiti/.github/actions/check-ext-build@d93095fd93ebed502ee1a7520afbf43cfcaf510a # 8.7.0
       - name: Setup Helm Docs
@@ -51,7 +51,7 @@ jobs:
     env:
       TARGET_CHARTS_PATH: charts
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Build
         uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@e6c249ac22c6e4d3b4932c16012d1450f8b0a12a # v9.0.1
@@ -94,7 +94,7 @@ jobs:
     outputs:
       version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Parse next release
         id: helm-parse-next-release
@@ -130,7 +130,7 @@ jobs:
       VERSION: ${{ needs.release.outputs.version }}
       DEVELOPMENT_BRANCH: ${{ github.ref_name }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@e6c249ac22c6e4d3b4932c16012d1450f8b0a12a # v9.0.1
         with:
           version: ${{ env.VERSION }}

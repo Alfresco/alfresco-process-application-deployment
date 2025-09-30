@@ -338,7 +338,7 @@ postgresql:
   enabled: true
   image:
     repository: bitnamilegacy/postgresql
-    tag: 13.3.0
+    tag: 11.22.0
   postgresqlPassword: password
   resources:
     requests:

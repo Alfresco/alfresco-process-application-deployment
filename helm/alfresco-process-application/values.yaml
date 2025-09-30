@@ -102,9 +102,6 @@ activiti-cloud-query:
     xms: 512m
   postgresql:
     enabled: true
-    image:
-      repository: bitnamilegacy/postgresql
-      tag: 11.22.0
   db:
     # activiti-cloud-query.db.ddlAuto -- set to 'none' temporarily rather than default 'validate' that breaks
     ddlAuto: none
@@ -340,6 +337,7 @@ alfresco-admin-app:
 postgresql:
   enabled: true
   image:
+    repository: bitnamilegacy/postgresql
     tag: 13.3.0
   postgresqlPassword: password
   resources:

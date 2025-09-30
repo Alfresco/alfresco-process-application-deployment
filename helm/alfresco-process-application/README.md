@@ -68,8 +68,6 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.messaging.role | string | `"consumer"` |  |
 | activiti-cloud-query.nameOverride | string | `"activiti-cloud-query"` |  |
 | activiti-cloud-query.postgresql.enabled | bool | `true` |  |
-| activiti-cloud-query.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
-| activiti-cloud-query.postgresql.image.tag | string | `"11.22.0"` |  |
 | activiti-cloud-query.readinessProbe.path | string | `"/actuator/health/readiness"` |  |
 | activiti-cloud-query.resources.limits.cpu | string | `"1.5"` |  |
 | activiti-cloud-query.resources.limits.memory | string | `"2048Mi"` |  |
@@ -149,6 +147,7 @@ Kubernetes: `>=1.15.0-0`
 | persistence.storageClassName | string | `nil` |  |
 | postgresql.commonAnnotations.application | string | `"activiti"` |  |
 | postgresql.enabled | bool | `true` |  |
+| postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | postgresql.image.tag | string | `"13.3.0"` |  |
 | postgresql.postgresqlPassword | string | `"password"` |  |
 | postgresql.resources.requests.cpu | string | `"350m"` |  |

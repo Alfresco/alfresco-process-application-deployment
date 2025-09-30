@@ -17,9 +17,9 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 8.8.0-alpha.12 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.8.0-alpha.12 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-digital-workspace-app(common) | 8.8.0-alpha.12 |
-| https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | kafka | 12.x.x |
-| https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | postgresql | 10.3.13 |
-| https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | rabbitmq | 8.20.5 |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | kafka | 12.x.x |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | postgresql | 15.5.11 |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | rabbitmq | 14.4.4 |
 
 ## Values
 
@@ -68,6 +68,8 @@ Kubernetes: `>=1.15.0-0`
 | activiti-cloud-query.messaging.role | string | `"consumer"` |  |
 | activiti-cloud-query.nameOverride | string | `"activiti-cloud-query"` |  |
 | activiti-cloud-query.postgresql.enabled | bool | `true` |  |
+| activiti-cloud-query.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
+| activiti-cloud-query.postgresql.image.tag | string | `"11.22.0"` |  |
 | activiti-cloud-query.readinessProbe.path | string | `"/actuator/health/readiness"` |  |
 | activiti-cloud-query.resources.limits.cpu | string | `"1.5"` |  |
 | activiti-cloud-query.resources.limits.memory | string | `"2048Mi"` |  |
@@ -135,6 +137,8 @@ Kubernetes: `>=1.15.0-0`
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
 | kafka.enabled | bool | `false` |  |
 | kafka.fullnameOverride | string | `"kafka"` |  |
+| kafka.image.repository | string | `"bitnamilegacy/kafka"` |  |
+| kafka.image.tag | string | `"2.8.1"` |  |
 | kafka.offsetsTopicReplicationFactor | int | `1` |  |
 | kafka.replicaCount | int | `1` |  |
 | kafka.zookeeper.fullnameOverride | string | `"zookeeper"` |  |
@@ -155,7 +159,7 @@ Kubernetes: `>=1.15.0-0`
 | rabbitmq.enabled | bool | `true` |  |
 | rabbitmq.extraPlugins | string | `""` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
-| rabbitmq.image.tag | string | `"3.13.7-debian-12-r4"` |  |
+| rabbitmq.image.repository | string | `"bitnamilegacy/rabbitmq"` |  |
 | rabbitmq.ingress.enabled | bool | `false` |  |
 | rabbitmq.ingress.hostName | string | `"REPLACEME"` |  |
 | rabbitmq.ingress.path | string | `"/rabbitmq"` |  |

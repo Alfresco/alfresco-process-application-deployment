@@ -148,7 +148,7 @@ Kubernetes: `>=1.15.0-0`
 | postgresql.commonAnnotations.application | string | `"activiti"` |  |
 | postgresql.enabled | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
-| postgresql.image.tag | string | `"13.3.0"` |  |
+| postgresql.image.tag | string | `"11.22.0"` |  |
 | postgresql.postgresqlPassword | string | `"password"` |  |
 | postgresql.resources.requests.cpu | string | `"350m"` |  |
 | postgresql.resources.requests.memory | string | `"512Mi"` |  |

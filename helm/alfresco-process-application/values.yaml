@@ -341,14 +341,7 @@ postgresql:
     tag: 11.22.0
   auth:
     username: alfresco
-    password: alfresco
-    postgresqlPassword: password
-    secretKeys:
-      userPasswordKey: postgresql-password
   database: postgres
-  postgresqlDataDir: /bitnami/postgresql/data
-  persistence:
-    mountPath: /bitnami/postgresql
   primary:
     extendedConfiguration: |
       max_connections = 300

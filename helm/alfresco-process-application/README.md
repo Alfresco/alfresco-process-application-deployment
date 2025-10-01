@@ -145,11 +145,13 @@ Kubernetes: `>=1.15.0-0`
 | persistence.baseSize | string | `"1Gi"` |  |
 | persistence.enabled | bool | `true` |  |
 | persistence.storageClassName | string | `nil` |  |
+| postgresql.auth.username | string | `"alfresco"` |  |
 | postgresql.commonAnnotations.application | string | `"activiti"` |  |
+| postgresql.database | string | `"postgres"` |  |
 | postgresql.enabled | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | postgresql.image.tag | string | `"11.22.0"` |  |
-| postgresql.postgresqlPassword | string | `"password"` |  |
+| postgresql.primary.extendedConfiguration | string | `"max_connections = 300\nlog_min_messages = LOG\n"` |  |
 | postgresql.resources.requests.cpu | string | `"350m"` |  |
 | postgresql.resources.requests.memory | string | `"512Mi"` |  |
 | rabbitmq.auth.erlangCookie | string | `"ylY79lOdNUWsJEwAGdVQnhjSazV4QZKO="` |  |

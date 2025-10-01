@@ -339,7 +339,13 @@ postgresql:
   image:
     repository: bitnamilegacy/postgresql
     tag: 11.22.0
-  postgresqlPassword: password
+  auth:
+    username: alfresco
+  database: postgres
+  primary:
+    extendedConfiguration: |
+      max_connections = 300
+      log_min_messages = LOG
   resources:
     requests:
       cpu: 350m

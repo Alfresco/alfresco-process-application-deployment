@@ -17,9 +17,9 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 8.7.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.7.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-digital-workspace-app(common) | 8.7.0 |
-| https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | kafka | 12.x.x |
-| https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | postgresql | 10.3.13 |
-| https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | rabbitmq | 8.20.5 |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | kafka | 12.x.x |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | postgresql | 15.5.11 |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | rabbitmq | 14.4.4 |
 
 ## Values
 
@@ -135,6 +135,8 @@ Kubernetes: `>=1.15.0-0`
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
 | kafka.enabled | bool | `false` |  |
 | kafka.fullnameOverride | string | `"kafka"` |  |
+| kafka.image.repository | string | `"bitnamilegacy/kafka"` |  |
+| kafka.image.tag | string | `"2.8.1"` |  |
 | kafka.offsetsTopicReplicationFactor | int | `1` |  |
 | kafka.replicaCount | int | `1` |  |
 | kafka.zookeeper.fullnameOverride | string | `"zookeeper"` |  |
@@ -143,10 +145,13 @@ Kubernetes: `>=1.15.0-0`
 | persistence.baseSize | string | `"1Gi"` |  |
 | persistence.enabled | bool | `true` |  |
 | persistence.storageClassName | string | `nil` |  |
+| postgresql.auth.username | string | `"alfresco"` |  |
 | postgresql.commonAnnotations.application | string | `"activiti"` |  |
+| postgresql.database | string | `"postgres"` |  |
 | postgresql.enabled | bool | `true` |  |
-| postgresql.image.tag | string | `"13.3.0"` |  |
-| postgresql.postgresqlPassword | string | `"password"` |  |
+| postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
+| postgresql.image.tag | string | `"11.22.0"` |  |
+| postgresql.primary.extendedConfiguration | string | `"max_connections = 300\nlog_min_messages = LOG\n"` |  |
 | postgresql.resources.requests.cpu | string | `"350m"` |  |
 | postgresql.resources.requests.memory | string | `"512Mi"` |  |
 | rabbitmq.auth.erlangCookie | string | `"ylY79lOdNUWsJEwAGdVQnhjSazV4QZKO="` |  |
@@ -155,6 +160,7 @@ Kubernetes: `>=1.15.0-0`
 | rabbitmq.enabled | bool | `true` |  |
 | rabbitmq.extraPlugins | string | `""` |  |
 | rabbitmq.fullnameOverride | string | `"rabbitmq"` |  |
+| rabbitmq.image.repository | string | `"bitnamilegacy/rabbitmq"` |  |
 | rabbitmq.ingress.enabled | bool | `false` |  |
 | rabbitmq.ingress.hostName | string | `"REPLACEME"` |  |
 | rabbitmq.ingress.path | string | `"/rabbitmq"` |  |

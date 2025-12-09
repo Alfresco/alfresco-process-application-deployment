@@ -337,8 +337,15 @@ alfresco-admin-app:
 postgresql:
   enabled: true
   image:
-    tag: 13.3.0
-  postgresqlPassword: password
+    repository: bitnamilegacy/postgresql
+    tag: 11.22.0
+  auth:
+    username: alfresco
+  database: postgres
+  primary:
+    extendedConfiguration: |
+      max_connections = 300
+      log_min_messages = LOG
   resources:
     requests:
       cpu: 350m
@@ -346,6 +353,8 @@ postgresql:
   commonAnnotations:
     application: activiti
 rabbitmq:
+  image:
+    repository: bitnamilegacy/rabbitmq
   enabled: true
   fullnameOverride: rabbitmq
   extraPlugins: ""
@@ -391,6 +400,9 @@ persistence:
 ## https://github.com/bitnami/charts/blob/master/bitnami/kafka/values.yaml
 ##
 kafka:
+  image:
+    repository: bitnamilegacy/kafka
+    tag: 2.8.1
   fullnameOverride: kafka
   enabled: false
   replicaCount: 1

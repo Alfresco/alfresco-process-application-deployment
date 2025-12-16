@@ -1,6 +1,6 @@
 # alfresco-process-application
 
-![Version: 7.19.5-SNAPSHOT](https://img.shields.io/badge/Version-7.19.5--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.19.5-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.19.5--SNAPSHOT-informational?style=flat-square)
+![Version: 7.19.6-SNAPSHOT](https://img.shields.io/badge/Version-7.19.6--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.19.6-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.19.6--SNAPSHOT-informational?style=flat-square)
 
 A Helm chart for an Alfresco Activiti Enterprise application
 
@@ -12,11 +12,11 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query(common) | 8.7.2 |
-| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle(common) | 8.7.2 |
-| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 8.7.2 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.7.2 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-digital-workspace-app(common) | 8.7.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-query(common) | 8.7.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | runtime-bundle(common) | 8.7.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | activiti-cloud-connector(common) | 8.7.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.7.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-digital-workspace-app(common) | 8.7.0 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | kafka | 12.x.x |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | postgresql | 15.5.11 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | rabbitmq | 14.4.4 |

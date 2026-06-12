@@ -132,7 +132,7 @@ jobs:
       DEVELOPMENT_BRANCH: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@162d01f0dd3d9ead7526be3b046743fae5afb2cd # v18.0.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@4e61fa01622e3f3a1898eb059d9a3af208897515 # v18.9.0
         with:
           version: ${{ env.VERSION }}
           auto-merge: 'true'
@@ -140,7 +140,10 @@ jobs:
           base-branch-name: ${{ env.DEVELOPMENT_BRANCH }}
           git-username: ${{ secrets.BOT_GITHUB_USERNAME }}
           git-token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          git-author-name: ${{ secrets.BOT_GITHUB_USERNAME }}
+          git-author-name: ${{ vars.HXPS_GIT_USERNAME }}
+          git-author-email: ${{ vars.HXPS_GIT_EMAIL }}
+          gpg-private-key: ${{ secrets.HXPS_GIT_COMMIT_SIGNING_PRIVATE_KEY }}
+          gpg-private-key-fingerprint: ${{ secrets.HXPS_GIT_COMMIT_SIGNING_FINGERPRINT }}
 
   notify:
     runs-on: ubuntu-latest

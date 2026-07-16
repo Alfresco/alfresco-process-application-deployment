@@ -9,7 +9,7 @@ jobs:
   versions-propagation-auto-merge:
     runs-on: ubuntu-latest
     steps:
-    - uses: Alfresco/alfresco-build-tools/.github/actions/automate-propagation@b42eaadc14488d930fe075b0b6efa5403a407ce3 # v18.16.0
+    - uses: Alfresco/alfresco-build-tools/.github/actions/automate-propagation@a8bc14631a9ce72275346e536607c4527591112a # v18.18.0
       with:
         auto-merge-token: ${{ secrets.BOT_GITHUB_TOKEN }}
         approval-token: ${{ secrets.GITHUB_TOKEN }}

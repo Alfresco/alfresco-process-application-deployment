@@ -1,17 +1,17 @@
 repos:
   - repo: https://github.com/norwoodj/helm-docs
-    rev: v1.10.0
+    rev: 88016b1dd49783a8bbb44d624742fa9554bfe86f # frozen: v1.10.0
     hooks:
       - id: helm-docs
   - repo: https://github.com/Alfresco/alfresco-build-tools
-    rev: v1.9.2
+    rev: cadf8df2dcaf9acfeefb817a221fbe668c9d1d23 # frozen: v1.9.2
     hooks:
       - id: helm-deps
       - id: helm-lint
       - id: kubepug-minimum
       - id: kubepug-recommended
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: 3298ddab3c13dd77d6ce1fc0baf97691430d84b0 # frozen: v4.3.0
     hooks:
       - id: check-yaml
         args: [--allow-multiple-documents]
@@ -24,7 +24,7 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.17.0
+    rev: 098aa5b45336ea3d50a31b093c3194f33b59307b # frozen: 0.17.0
     hooks:
       - id: check-github-workflows
       - id: check-jsonschema

@@ -24,7 +24,7 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 098aa5b45336ea3d50a31b093c3194f33b59307b # frozen: 0.17.0
+    rev: 12e63946db2c5cfcc9030fac21c3883ba88c6ed8 # frozen: 0.38.0
     hooks:
       - id: check-github-workflows
       - id: check-jsonschema

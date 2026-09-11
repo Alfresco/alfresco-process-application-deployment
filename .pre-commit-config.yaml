@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/norwoodj/helm-docs
-    rev: 88016b1dd49783a8bbb44d624742fa9554bfe86f # frozen: v1.10.0
+    rev: 37d3055fece566105cf8cff7c17b7b2355a01677 # frozen: v1.14.2
     hooks:
       - id: helm-docs
   - repo: https://github.com/Alfresco/alfresco-build-tools

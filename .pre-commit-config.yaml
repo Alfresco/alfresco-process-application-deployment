@@ -1,10 +1,10 @@
 repos:
   - repo: https://github.com/norwoodj/helm-docs
-    rev: 88016b1dd49783a8bbb44d624742fa9554bfe86f # frozen: v1.10.0
+    rev: 37d3055fece566105cf8cff7c17b7b2355a01677 # frozen: v1.14.2
     hooks:
       - id: helm-docs
   - repo: https://github.com/Alfresco/alfresco-build-tools
-    rev: cadf8df2dcaf9acfeefb817a221fbe668c9d1d23 # frozen: v1.9.2
+    rev: 0fa2704957dfff688af2371cc7a935de53d26610 # frozen: v19.1.0
     hooks:
       - id: helm-deps
       - id: helm-lint
@@ -24,7 +24,7 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 098aa5b45336ea3d50a31b093c3194f33b59307b # frozen: 0.17.0
+    rev: 12e63946db2c5cfcc9030fac21c3883ba88c6ed8 # frozen: 0.38.0
     hooks:
       - id: check-github-workflows
       - id: check-jsonschema

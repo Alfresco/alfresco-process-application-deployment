@@ -31,7 +31,7 @@ jobs:
       - name: Check dependabot build
         uses: Activiti/Activiti/.github/actions/check-ext-build@456be36569d3afea26c83755ee9e90f0697b5349 # 8.7.1
       - name: Setup Helm Docs
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@c388af5fcce6747d0059ae98db2857fc9e8a9387 # v18.28.2
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@d92786682ac60f54c36b3130fa6d86b599c503d5 # v19.3.0
       - name: Setup Kubepug
         uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@0fa2704957dfff688af2371cc7a935de53d26610 # v19.1.0
       - name: pre-commit

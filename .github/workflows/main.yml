@@ -35,7 +35,7 @@ jobs:
       - name: Setup Kubepug
         uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@f2ba011b2bd8bee8d7418b046541ce2f75d1fbed # v19.4.0
       - name: pre-commit
-        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@c388af5fcce6747d0059ae98db2857fc9e8a9387 # v18.28.2
+        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
         with:
           skip_checkout: true
       - name: Run Checkov

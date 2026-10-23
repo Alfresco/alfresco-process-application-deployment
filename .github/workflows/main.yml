@@ -132,7 +132,7 @@ jobs:
       DEVELOPMENT_BRANCH: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@c388af5fcce6747d0059ae98db2857fc9e8a9387 # v18.28.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
         with:
           version: ${{ env.VERSION }}
           auto-merge: 'true'
